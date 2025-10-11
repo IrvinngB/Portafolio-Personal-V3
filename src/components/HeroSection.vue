@@ -14,7 +14,7 @@
         <!-- Content -->
         <div class="hero-content text-center lg:text-left">
           <div class="mb-6">
-            <span class="inline-block px-4 py-2 rounded-full text-sm font-medium mb-4 dark:text-[#B4D333]" :style="{ backgroundColor: 'rgba(63, 163, 91, 0.1)', color: '#0A3D3D' }">
+            <span class="inline-block px-4 py-2 rounded-full text-sm font-medium mb-4 text-[#0A3D3D] dark:text-[#B4D333]" :style="{ backgroundColor: 'rgba(63, 163, 91, 0.1)' }">
               {{ t.about }}
             </span>
             <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">

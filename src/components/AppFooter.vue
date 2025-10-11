@@ -61,7 +61,8 @@
           <div class="text-gray-400 text-sm flex items-center gap-2">
             Hecho con
             <Heart class="h-4 w-4 text-red-400 animate-pulse" />
-            y ☕
+            y
+            <Coffee class="h-4 w-4 text-amber-400 animate-pulse" />
           </div>
           
           <!-- Tech Stack -->
@@ -92,7 +93,8 @@ import {
   Mail,
   Linkedin,
   Github,
-  Heart
+  Heart,
+  Coffee
 } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 
