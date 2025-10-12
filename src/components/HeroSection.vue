@@ -175,9 +175,15 @@ const { currentLanguage, t, cvData } = useLanguage()
 const svgRoot = ref<HTMLElement | null>(null)
 
 const cvPdfUrl = computed(() => {
-    return currentLanguage.value === 'es'
-        ? '/src/assets/files/CV_ES.pdf'
-        : '/src/assets/files/CV_INGLES.pdf'
+  // Use Vite's asset URL resolution so the PDFs are bundled and the href
+  // points to the correct location in production.
+  const relativePath = currentLanguage.value === 'es'
+    ? '../assets/files/CV_ES.pdf'
+    : '../assets/files/CV_INGLES.pdf'
+
+  // new URL(..., import.meta.url).href is the recommended way in Vite to
+  // reference static assets from JS/TS files inside src/.
+  return new URL(relativePath, import.meta.url).href
 })
 
 const scrollToContact = () => {
