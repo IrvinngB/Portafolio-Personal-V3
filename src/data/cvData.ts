@@ -71,6 +71,7 @@ export const cvDataES: CVData = {
   ]
 };
 
+// data en ingles
 export const cvDataEN: CVData = {
   name: "Irvin Benitez",
   title: "Software Developer",
