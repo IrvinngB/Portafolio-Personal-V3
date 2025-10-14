@@ -1,6 +1,7 @@
 
 
 **CV EN ESPAÑOL**
+TAN TAN CHULERIA
 
 **Irvin Benitez**
 Desarrollador de Software
