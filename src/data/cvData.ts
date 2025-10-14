@@ -28,13 +28,13 @@ export const cvDataES: CVData = {
       title: "Chatbot de WhatsApp Impulsado con Inteligencia Artificial",
       description: "Desarrollo de un bot personalizado de WhatsApp con respuestas inteligentes y adaptadas, utilizando la API de Gemini AI. Integración de funciones avanzadas para ofrecer atención al cliente eficiente y personalizada, con capacidad de procesamiento de lenguaje natural y respuestas contextuales.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
-      image: "/src/assets/images/project1.jpg"
+      image: "/proyectos/Chatbot.png"
     },
     {
       title: "Página Web para Empresa de Diseño Gráfico",
       description: "Creación de una página web completa para una empresa de diseño gráfico, utilizando PHP y MySQL. Incluye funcionalidades como sistema de inicio de sesión y registro de usuarios, gestión de servicios y portafolio, y un panel de administración completo para manejar contenido, usuarios y servicios ofrecidos.",
       technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-      image: "/src/assets/images/project2.jpg"
+      image: "/proyectos/Webside.png"
     }
   ],
   education: [
@@ -93,7 +93,7 @@ export const cvDataEN: CVData = {
       title: "AI-Powered WhatsApp Chatbot",
       description: "Development of a custom WhatsApp bot with intelligent and adaptive responses, using the Gemini AI API. Integration of advanced features to provide efficient and personalized customer service, with natural language processing capabilities and contextual responses.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
-      image: "/src/assets/images/project1.jpg"
+      image: "/proyectos/Chatbot.png"
     },
     {
       title: "Website for Graphic Design Company",
