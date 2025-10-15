@@ -21,6 +21,12 @@ export const cvDataES: CVData = {
       company: "Universidad Tecnológica de Panamá",
       duration: "Febrero – Marzo 2025",
       description: "Plataforma web de gestión de mantenimiento con Flask, Vue.js y MariaDB. Gestión de solicitudes, mantenimientos preventivos y control de inventario."
+    },
+    {
+      position: "Desarrollador Freelance",
+      company: "Independiente",
+      duration: "2024 – Presente",
+      description: "Desarrollo de proyectos personalizados utilizando tecnologías modernas como Vue.js, React, Laravel, PHP, entre otras. Colaboro con clientes en la creación de soluciones web completas, desde el diseño hasta la implementación y mantenimiento."
     }
   ],
   projects: [
@@ -28,13 +34,13 @@ export const cvDataES: CVData = {
       title: "Chatbot de WhatsApp Impulsado con Inteligencia Artificial",
       description: "Desarrollo de un bot personalizado de WhatsApp con respuestas inteligentes y adaptadas, utilizando la API de Gemini AI. Integración de funciones avanzadas para ofrecer atención al cliente eficiente y personalizada, con capacidad de procesamiento de lenguaje natural y respuestas contextuales.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
-      image: "/src/assets/images/project1.jpg"
+      image: "./proyectos/Chatbot.png"
     },
     {
       title: "Página Web para Empresa de Diseño Gráfico",
       description: "Creación de una página web completa para una empresa de diseño gráfico, utilizando PHP y MySQL. Incluye funcionalidades como sistema de inicio de sesión y registro de usuarios, gestión de servicios y portafolio, y un panel de administración completo para manejar contenido, usuarios y servicios ofrecidos.",
       technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-      image: "/src/assets/images/project2.jpg"
+      image: "./proyectos/Webside.jpg"
     }
   ],
   education: [
@@ -65,6 +71,7 @@ export const cvDataES: CVData = {
   ]
 };
 
+// data en ingles
 export const cvDataEN: CVData = {
   name: "Irvin Benitez",
   title: "Software Developer",
@@ -86,6 +93,12 @@ export const cvDataEN: CVData = {
       company: "Technological University of Panama", 
       duration: "February – March 2025",
       description: "Web maintenance management platform with Flask, Vue.js, and MariaDB. Request management, preventive maintenance, and inventory control."
+    },
+    {
+      position: "Freelance Developer",
+      company: "Independent",
+      duration: "2024 – Present",
+      description: "Development of custom projects using modern technologies such as Vue.js, React, Laravel, PHP, among others. Collaborate with clients in creating complete web solutions, from design to implementation and maintenance."
     }
   ],
   projects: [
@@ -93,7 +106,7 @@ export const cvDataEN: CVData = {
       title: "AI-Powered WhatsApp Chatbot",
       description: "Development of a custom WhatsApp bot with intelligent and adaptive responses, using the Gemini AI API. Integration of advanced features to provide efficient and personalized customer service, with natural language processing capabilities and contextual responses.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
-      image: "/src/assets/images/project1.jpg"
+      image: "./proyectos/Chatbot.png"
     },
     {
       title: "Website for Graphic Design Company",
