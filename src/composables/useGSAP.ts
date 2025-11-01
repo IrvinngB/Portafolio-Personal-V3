@@ -34,16 +34,16 @@ export function useGSAP() {
     gsap.utils.toArray('.section').forEach((section: any) => {
       gsap.fromTo(section, {
         opacity: 0,
-        y: 100
+        y: 60
       }, {
         opacity: 1,
         y: 0,
-        duration: 1,
+        duration: 1.2,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: section,
-          start: 'top 80%',
-          end: 'bottom 20%',
+          start: 'top 85%',
+          end: 'bottom 15%',
           toggleActions: 'play none none reverse'
         }
       })
@@ -53,18 +53,18 @@ export function useGSAP() {
     gsap.utils.toArray('.card').forEach((card: any, index: number) => {
       gsap.fromTo(card, {
         opacity: 0,
-        y: 50,
-        scale: 0.9
+        y: 40,
+        scale: 0.95
       }, {
         opacity: 1,
         y: 0,
         scale: 1,
-        duration: 0.8,
-        delay: index * 0.1,
+        duration: 0.9,
+        delay: index * 0.08,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: card,
-          start: 'top 85%',
+          start: 'top 90%',
           toggleActions: 'play none none reverse'
         }
       })
@@ -74,16 +74,60 @@ export function useGSAP() {
     gsap.utils.toArray('.skill-item').forEach((skill: any, index: number) => {
       gsap.fromTo(skill, {
         opacity: 0,
-        x: -50
+        x: -30,
+        scale: 0.9
       }, {
         opacity: 1,
         x: 0,
-        duration: 0.6,
-        delay: index * 0.05,
-        ease: 'power2.out',
+        scale: 1,
+        duration: 0.7,
+        delay: index * 0.04,
+        ease: 'back.out(1.7)',
         scrollTrigger: {
           trigger: skill,
+          start: 'top 95%',
+          toggleActions: 'play none none reverse'
+        }
+      })
+    })
+
+    // Education specific animations
+    gsap.utils.toArray('.education-card').forEach((card: any, index: number) => {
+      gsap.fromTo(card, {
+        opacity: 0,
+        x: index % 2 === 0 ? -60 : 60,
+        rotationY: index % 2 === 0 ? -15 : 15
+      }, {
+        opacity: 1,
+        x: 0,
+        rotationY: 0,
+        duration: 1,
+        delay: index * 0.15,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: card,
           start: 'top 90%',
+          toggleActions: 'play none none reverse'
+        }
+      })
+    })
+
+    // Interpersonal skills enhanced animation
+    gsap.utils.toArray('.interpersonal-skill').forEach((skill: any, index: number) => {
+      gsap.fromTo(skill, {
+        opacity: 0,
+        scale: 0.8,
+        rotation: -10
+      }, {
+        opacity: 1,
+        scale: 1,
+        rotation: 0,
+        duration: 0.8,
+        delay: index * 0.1,
+        ease: 'elastic.out(1, 0.5)',
+        scrollTrigger: {
+          trigger: skill,
+          start: 'top 95%',
           toggleActions: 'play none none reverse'
         }
       })

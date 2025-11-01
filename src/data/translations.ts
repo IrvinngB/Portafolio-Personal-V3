@@ -31,6 +31,15 @@ export const translations = {
     methodologies: "Metodologías",
     languages: "Idiomas",
 
+    // Education
+    academicExcellence: "Excelencia Académica",
+    academicExcellenceDesc: "Comprometido con el aprendizaje continuo y la excelencia",
+    activeLearning: "Aprendizaje Activo",
+    activeLearningDesc: "Siempre actualizándome con las últimas tecnologías",
+    teamwork: "Trabajo en Equipo",
+    teamworkDesc: "Experiencia colaborando en proyectos académicos",
+    inProgress: "En Progreso",
+
     // Contact
     getInTouch: "Ponte en Contacto",
     contactDescription: "Estoy siempre abierto a nuevas oportunidades y colaboraciones.",
@@ -73,6 +82,15 @@ export const translations = {
     design: "Design",
     methodologies: "Methodologies",
     languages: "Languages",
+
+    // Education
+    academicExcellence: "Academic Excellence",
+    academicExcellenceDesc: "Committed to continuous learning and excellence",
+    activeLearning: "Active Learning",
+    activeLearningDesc: "Always updating with the latest technologies",
+    teamwork: "Teamwork",
+    teamworkDesc: "Experience collaborating on academic projects",
+    inProgress: "In Progress",
 
     // Contact
     getInTouch: "Get In Touch",

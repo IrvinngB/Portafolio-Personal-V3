@@ -12,7 +12,7 @@
         <div
           v-for="(education, index) in cvData.education"
           :key="index"
-          class="card bg-gray-50 dark:bg-[#1f2937] rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 mb-8"
+          class="card education-card bg-gray-50 dark:bg-[#1f2937] rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 mb-8"
         >
           <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div class="flex items-start md:items-center mb-4 md:mb-0">
@@ -36,7 +36,7 @@
             
             <!-- Progress indicator for current studies -->
             <div v-if="education.duration.includes('2026')" class="flex flex-col items-end">
-              <span class="text-sm font-medium mb-2 dark:text-[#B4D333]" :style="{ color: '#3FA35B' }">En Progreso</span>
+              <span class="text-sm font-medium mb-2 dark:text-[#B4D333]" :style="{ color: '#3FA35B' }">{{ t.inProgress }}</span>
               <div class="w-32 bg-gray-200 dark:bg-gray-600 rounded-full h-2">
                 <div class="h-2 rounded-full" :style="{ width: getProgressPercentage(education.duration) + '%', backgroundColor: '#3FA35B' }"></div>
               </div>
@@ -47,22 +47,22 @@
 
         <!-- Additional Education Info -->
         <div class="grid md:grid-cols-3 gap-6 mt-12">
-          <div class="card text-center rounded-xl p-6 dark:bg-[#0A3D3D]/20" :style="{ backgroundColor: 'rgba(63, 163, 91, 0.1)' }">
+          <div class="card education-card text-center rounded-xl p-6 dark:bg-[#0A3D3D]/20" :style="{ backgroundColor: 'rgba(63, 163, 91, 0.1)' }">
             <Award class="h-12 w-12 mx-auto mb-4 dark:text-[#B4D333]" :style="{ color: '#3FA35B' }" />
-            <h4 class="font-bold text-gray-900 dark:text-white mb-2">Excelencia Académica</h4>
-            <p class="text-sm text-gray-600 dark:text-gray-300">Comprometido con el aprendizaje continuo y la excelencia</p>
+            <h4 class="font-bold text-gray-900 dark:text-white mb-2">{{ t.academicExcellence }}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">{{ t.academicExcellenceDesc }}</p>
           </div>
           
-          <div class="card text-center rounded-xl p-6 dark:bg-[#0A3D3D]/20" :style="{ backgroundColor: 'rgba(180, 211, 51, 0.1)' }">
+          <div class="card education-card text-center rounded-xl p-6 dark:bg-[#0A3D3D]/20" :style="{ backgroundColor: 'rgba(180, 211, 51, 0.1)' }">
             <BookOpen class="h-12 w-12 mx-auto mb-4 dark:text-[#C5D946]" :style="{ color: '#B4D333' }" />
-            <h4 class="font-bold text-gray-900 dark:text-white mb-2">Aprendizaje Activo</h4>
-            <p class="text-sm text-gray-600 dark:text-gray-300">Siempre actualizándome con las últimas tecnologías</p>
+            <h4 class="font-bold text-gray-900 dark:text-white mb-2">{{ t.activeLearning }}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">{{ t.activeLearningDesc }}</p>
           </div>
           
-          <div class="card text-center rounded-xl p-6 dark:bg-[#0A3D3D]/20" :style="{ backgroundColor: 'rgba(197, 217, 70, 0.1)' }">
+          <div class="card education-card text-center rounded-xl p-6 dark:bg-[#0A3D3D]/20" :style="{ backgroundColor: 'rgba(197, 217, 70, 0.1)' }">
             <Users class="h-12 w-12 mx-auto mb-4 dark:text-[#C5D946]" :style="{ color: '#C5D946' }" />
-            <h4 class="font-bold text-gray-900 dark:text-white mb-2">Trabajo en Equipo</h4>
-            <p class="text-sm text-gray-600 dark:text-gray-300">Experiencia colaborando en proyectos académicos</p>
+            <h4 class="font-bold text-gray-900 dark:text-white mb-2">{{ t.teamwork }}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-300">{{ t.teamworkDesc }}</p>
           </div>
         </div>
       </div>
@@ -73,8 +73,12 @@
 <script setup lang="ts">
 import { GraduationCap, School, Calendar, Award, BookOpen, Users } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
+import { useGSAP } from '../composables/useGSAP'
 
 const { t, cvData } = useLanguage()
+
+// Initialize animations
+useGSAP()
 
 const getProgressPercentage = (duration: string): number => {
   // Extract start and end dates from duration string

@@ -1,100 +1,153 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Monitor, Server, Database, Wrench, BarChart3, Palette, Settings, Globe2, Heart } from 'lucide-vue-next'
+import { Code2, Server, Database, Wrench } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
+import { useGSAP } from '../composables/useGSAP'
 
-const skillCategories = computed(() => {
-  const { t, cvData } = useLanguage()
+// Initialize animations
+useGSAP()
+
+const { t, cvData, currentLanguage } = useLanguage()
+
+const technicalSkills = computed(() => {
   const skills = cvData.value?.technicalSkills
   if (!skills) return []
   
   return [
-    { title: t.value.frontend, icon: Monitor, skills: skills.frontend || [] },
-    { title: t.value.backend, icon: Server, skills: skills.backend || [] },
-    { title: t.value.databases, icon: Database, skills: skills.databases || [] },
-    { title: t.value.tools, icon: Wrench, skills: skills.tools || [] },
-    { title: t.value.dataAnalysis, icon: BarChart3, skills: skills.dataAnalysis || [] },
-    { title: t.value.design, icon: Palette, skills: skills.design || [] },
-    { title: t.value.methodologies, icon: Settings, skills: skills.methodologies || [] },
-    { title: t.value.languages, icon: Globe2, skills: skills.languages || [] }
-  ]
+    { 
+      title: t.value.frontend, 
+      icon: Code2, 
+      skills: skills.frontend || [],
+      color: '#3FA35B'
+    },
+    { 
+      title: t.value.backend, 
+      icon: Server, 
+      skills: skills.backend || [],
+      color: '#B4D333'
+    },
+    { 
+      title: t.value.databases, 
+      icon: Database, 
+      skills: skills.databases || [],
+      color: '#C5D946'
+    },
+    { 
+      title: t.value.tools, 
+      icon: Wrench, 
+      skills: [...(skills.tools || []), ...(skills.design || []), ...(skills.methodologies || [])],
+      color: '#3FA35B'
+    }
+  ].filter(category => category.skills.length > 0)
 })
 
-const interpersonalSkillsData = computed(() => useLanguage().cvData.value?.interpersonalSkills ?? [])
+const getDescription = (categoryTitle: string) => {
+  const descriptions = {
+    es: {
+      [t.value.frontend]: "Me encanta crear interfaces interactivas y llevar ideas a la vida en el navegador.",
+      [t.value.backend]: "Disfruto construyendo la lógica del servidor y arquitecturas robustas.",
+      [t.value.databases]: "Experto en diseño y optimización de bases de datos eficientes.",
+      [t.value.tools]: "Domino herramientas modernas para desarrollo y diseño profesional."
+    },
+    en: {
+      [t.value.frontend]: "I love creating interactive interfaces and bringing ideas to life in the browser.",
+      [t.value.backend]: "I enjoy building server logic and robust architectures.",
+      [t.value.databases]: "Expert in designing and optimizing efficient databases.",
+      [t.value.tools]: "I master modern tools for professional development and design."
+    }
+  }
+  
+  return descriptions[currentLanguage.value as keyof typeof descriptions][categoryTitle] || ''
+}
+
+const getCategoryLabel = (categoryTitle: string) => {
+  const labels = {
+    es: {
+      [t.value.frontend]: "Tecnologías que uso",
+      [t.value.backend]: "Lenguajes que domino", 
+      [t.value.databases]: "Bases de datos",
+      [t.value.tools]: "Herramientas favoritas"
+    },
+    en: {
+      [t.value.frontend]: "Technologies I use",
+      [t.value.backend]: "Languages I master",
+      [t.value.databases]: "Databases",
+      [t.value.tools]: "Favorite tools"
+    }
+  }
+  
+  return labels[currentLanguage.value as keyof typeof labels][categoryTitle] || ''
+}
+
+const getMoreText = () => {
+  return currentLanguage.value === 'es' ? 'más' : 'more'
+}
 </script>
 
 <template>
   <section id="skills" class="section py-20 bg-gray-50 dark:bg-[#0A3D3D]">
     <div class="container mx-auto px-6">
+      <!-- Section Header -->
       <div class="text-center mb-16">
         <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          {{ useLanguage().t.value.technicalSkills }}
+          {{ t.technicalSkills }}
         </h2>
-        <div class="w-24 h-1 mx-auto" style="background-color: #3FA35B;"></div>
+        <div class="w-24 h-1 mx-auto bg-[#3FA35B]"></div>
       </div>
 
-      <div class="max-w-5xl mx-auto mb-16">
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Technical Skills -->
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <article
-            v-for="(category, categoryKey) in skillCategories.slice(0, 6)"
-            :key="categoryKey"
-            class="card bg-white dark:bg-[#1f2937] rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            v-for="category in technicalSkills"
+            :key="category.title"
+            class="card bg-white dark:bg-[#1f2937] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 text-center"
           >
-            <div class="flex items-center mb-4">
-              <div class="p-2 rounded-lg mr-3 dark:bg-[#0A3D3D]/50" :style="{ backgroundColor: 'rgba(63, 163, 91, 0.1)' }">
-                <component :is="category.icon" class="h-5 w-5 dark:text-[#B4D333]" :style="{ color: '#3FA35B' }" aria-hidden="true" />
+            <!-- Icon Circle -->
+            <div class="flex justify-center mb-6">
+              <div 
+                class="w-20 h-20 rounded-full flex items-center justify-center shadow-lg"
+                :style="{ backgroundColor: category.color }"
+              >
+                <component 
+                  :is="category.icon" 
+                  class="h-10 w-10 text-white" 
+                />
               </div>
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                {{ category.title }}
-              </h3>
             </div>
-            <div class="flex flex-wrap gap-2">
-              <span
-                v-for="skill in category.skills.slice(0, 5)"
-                :key="skill"
-                class="skill-item px-3 py-1 text-sm rounded-full font-medium transition-all duration-200 cursor-default skill-tag"
-              >
-                {{ skill }}
-              </span>
-              <span 
-                v-if="category.skills.length > 5" 
-                class="px-3 py-1 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-sm rounded-full font-medium"
-              >
-                +{{ category.skills.length - 5 }}
-              </span>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      <div class="max-w-5xl mx-auto">
-        <h3 class="text-2xl font-bold text-gray-900 dark:text-white text-center mb-8">
-          {{ useLanguage().t.value.interpersonalSkills }}
-        </h3>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <article class="card bg-white dark:bg-[#1f2937] rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div class="flex items-center mb-4">
-              <div class="p-2 rounded-lg mr-3 dark:bg-[#0A3D3D]/50" :style="{ backgroundColor: 'rgba(180, 211, 51, 0.1)' }">
-                <Heart class="h-5 w-5 dark:text-[#C5D946]" :style="{ color: '#B4D333' }" aria-hidden="true" />
+            
+            <!-- Title -->
+            <h4 class="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              {{ category.title }}
+            </h4>
+            
+            <!-- Description -->
+            <p class="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              {{ getDescription(category.title) }}
+            </p>
+            
+            <!-- Skills List -->
+            <div class="space-y-3">
+              <div class="text-left">
+                <h5 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
+                  {{ getCategoryLabel(category.title) }}:
+                </h5>
+                <div class="space-y-1">
+                  <div
+                    v-for="skill in category.skills.slice(0, 8)"
+                    :key="skill"
+                    class="text-sm text-gray-700 dark:text-gray-300 py-1"
+                  >
+                    {{ skill }}
+                  </div>
+                  <div 
+                    v-if="category.skills.length > 8" 
+                    class="text-xs text-gray-500 dark:text-gray-400 pt-2"
+                  >
+                    +{{ category.skills.length - 8 }} {{ getMoreText() }}
+                  </div>
+                </div>
               </div>
-              <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                {{ useLanguage().t.value.interpersonalSkills }}
-              </h3>
-            </div>
-            <div class="flex flex-wrap gap-2">
-              <span
-                v-for="skill in interpersonalSkillsData.slice(0, 5)"
-                :key="skill"
-                class="skill-item px-3 py-1 text-sm rounded-full font-medium transition-all duration-200 cursor-default interpersonal-tag"
-              >
-                {{ skill }}
-              </span>
-              <span 
-                v-if="interpersonalSkillsData.length > 5" 
-                class="px-3 py-1 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-sm rounded-full font-medium"
-              >
-                +{{ interpersonalSkillsData.length - 5 }}
-              </span>
             </div>
           </article>
         </div>
@@ -104,25 +157,38 @@ const interpersonalSkillsData = computed(() => useLanguage().cvData.value?.inter
 </template>
 
 <style scoped>
-.skill-tag {
-  background-color: rgba(63, 163, 91, 0.15);
-  color: #ffffff;
-  font-weight: 600;
+.card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.skill-tag:hover {
-  background-color: rgba(63, 163, 91, 0.3);
-  transform: translateY(-1px);
+.dark .card {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.interpersonal-tag {
-  background-color: rgba(180, 211, 51, 0.15);
-  color: #ffffff;
-  font-weight: 600;
+.card:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) scale(1.02);
 }
 
-.interpersonal-tag:hover {
-  background-color: rgba(180, 211, 51, 0.3);
-  transform: translateY(-1px);
+.dark .card:hover {
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* Icon circle gradient effect */
+.card .w-20 {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.card:hover .w-20 {
+  transform: scale(1.1);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Smooth transitions */
+* {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
