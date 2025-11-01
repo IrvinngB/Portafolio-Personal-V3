@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import HeroSection from './components/HeroSection.vue'
 import ExperienceSection from './components/ExperienceSection.vue'
@@ -8,24 +8,46 @@ import SkillsSection from './components/SkillsSection.vue'
 import EducationSection from './components/EducationSection.vue'
 import ContactSection from './components/ContactSection.vue'
 import AppFooter from './components/AppFooter.vue'
+import EasterEgg from './components/EasterEgg.vue'
 import { useGSAP } from './composables/useGSAP'
 
-
-// Initialize GSAP animations
+// Custom hooks should be called at the very top level
 useGSAP()
 
+// Lifecycle hooks should be right after custom hooks
 onMounted(() => {
-  // Smooth scrolling for the entire page
   document.documentElement.style.scrollBehavior = 'smooth'
+  window.addEventListener('keydown', handleKeyPress)
 })
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeyPress)
+})
+
+// State declarations AFTER all hooks
+const showEasterEgg = ref(false)
+const konamiCode = ref<string[]>([])
+const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
+
+// Handle keypress for Easter egg
+const handleKeyPress = (event: KeyboardEvent) => {
+  konamiCode.value.push(event.key)
+  if (konamiCode.value.length > konamiSequence.length) {
+    konamiCode.value.shift()
+  }
+  
+  if (konamiCode.value.join(',') === konamiSequence.join(',')) {
+    showEasterEgg.value = true
+    konamiCode.value = []
+  }
+}
 </script>
 
 <template>
   <div class="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
     <AppHeader />
-    <main>
+    <main role="main">
       <HeroSection />
-
       <ExperienceSection />
       <ProjectsSection />
       <SkillsSection />
@@ -33,11 +55,11 @@ onMounted(() => {
       <ContactSection />
     </main>
     <AppFooter />
+    <EasterEgg v-if="showEasterEgg" @close="showEasterEgg = false" />
   </div>
 </template>
 
 <style>
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -59,14 +81,12 @@ onMounted(() => {
   background-color: #2563eb;
 }
 
-/* Smooth transitions */
 * {
   transition-property: color, background-color, border-color;
   transition-duration: 200ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Loading animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -82,7 +102,6 @@ onMounted(() => {
   animation: fadeIn 0.6s ease-out;
 }
 
-/* Ensure smooth scrolling */
 html {
   scroll-behavior: smooth;
 }
