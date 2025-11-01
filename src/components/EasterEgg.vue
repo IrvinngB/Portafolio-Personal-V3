@@ -18,18 +18,21 @@
         
         <div class="text-center">
           <h2 class="text-3xl font-bold text-green-400 mb-4 font-mono" style="text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);">
-            SISTEMA DESBLOQUEADO
+            ¡ACCESO CONCEDIDO!
           </h2>
           <p class="text-green-300 mb-4 font-mono text-sm leading-relaxed">
-            Felicidades por encontrar el easter egg 🎮<br>
-            Tu desarrollo frontend es tan fluido como mis animaciones con GSAP.<br>
+            ¡Hey! Encontraste mi easter egg secreto<br>
+            Veo que te gusta explorar tanto como a mí programar.<br>
             <br>
-            <span class="text-green-400">Status: ALL SYSTEMS OPERATIONAL ✓</span><br>
-            <span class="text-green-400">Optimization: {{ optimizationLevel }}%</span>
+            Soy Irvin, un desarrollador que ama crear experiencias<br>
+            digitales increíbles con código limpio y animaciones fluidas ✨<br>
+            <br>
+            <span class="text-green-400">Curiosidad Level: {{ optimizationLevel }}% ✓</span><br>
+            <span class="text-green-400">Easter Eggs Found: 1/1 </span>
           </p>
           
           <div class="grid grid-cols-3 gap-2 mb-6">
-            <div v-for="item in ['Lazy Load', 'Memoized', 'Optimized']" :key="item" 
+            <div v-for="item in ['Curioso', 'Explorador', 'Genial']" :key="item" 
               class="bg-green-400/20 border border-green-400 rounded px-2 py-1 text-xs text-green-300">
               {{ item }}
             </div>
