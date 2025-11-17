@@ -133,16 +133,28 @@ export function useGSAP() {
       })
     })
 
-    // Floating animation for hero image
-    gsap.to('.hero-image', {
+    // Floating animation for hero image - solo si está visible
+    const heroFloatAnimation = gsap.to('.hero-image', {
       y: -20,
       duration: 2,
       ease: 'power2.inOut',
       yoyo: true,
-      repeat: -1
+      repeat: -1,
+      paused: true
     })
 
-    // Parallax effect for background elements
+    // Controlar animación flotante basado en visibilidad
+    ScrollTrigger.create({
+      trigger: '.hero-image',
+      start: 'top bottom',
+      end: 'bottom top',
+      onEnter: () => heroFloatAnimation.play(),
+      onLeave: () => heroFloatAnimation.pause(),
+      onEnterBack: () => heroFloatAnimation.play(),
+      onLeaveBack: () => heroFloatAnimation.pause()
+    })
+
+    // Parallax effect para elementos de fondo - optimizado
     gsap.utils.toArray('.parallax').forEach((element: any) => {
       gsap.to(element, {
         yPercent: -50,
@@ -151,7 +163,7 @@ export function useGSAP() {
           trigger: element,
           start: 'top bottom',
           end: 'bottom top',
-          scrub: true
+          scrub: 1
         }
       })
     })

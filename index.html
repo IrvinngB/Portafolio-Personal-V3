@@ -1,14 +1,31 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Irvin Benitez - Portfolio</title>
-    <!-- Tailwind CDN for quick prototyping (replace with proper build-time Tailwind in production) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Irvin Benitez - Full Stack Developer especializado en Vue.js, Node.js y arquitecturas escalables. Portafolio profesional." />
+    <meta name="theme-color" content="#3FA35B" />
+    <title>Irvin Benitez - Full Stack Developer | Portafolio</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/files/CV_ES.pdf" as="fetch" crossorigin />
+    
+    <!-- Preconnect to external domains if needed -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   </head>
-  <body class="antialiased bg-white text-slate-800">
+  <body class="antialiased">
+    <noscript>
+      <div style="text-align: center; padding: 40px; font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+        <h1 style="color: #3FA35B; margin-bottom: 20px;">JavaScript Requerido</h1>
+        <p style="margin-bottom: 20px;">Este portafolio requiere JavaScript para funcionar correctamente.</p>
+        <p style="margin-bottom: 20px;">Por favor, activa JavaScript en tu navegador para ver el contenido completo.</p>
+        <p>Mientras tanto, puedes descargar mi CV:</p>
+        <a href="/files/CV_ES.pdf" download style="display: inline-block; margin-top: 20px; padding: 12px 24px; background-color: #3FA35B; color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">
+          📄 Descargar CV (PDF)
+        </a>
+      </div>
+    </noscript>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

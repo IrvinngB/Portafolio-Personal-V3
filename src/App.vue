@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import HeroSection from './components/HeroSection.vue'
-import ExperienceSection from './components/ExperienceSection.vue'
-import ProjectsSection from './components/ProjectsSection.vue'
-import SkillsSection from './components/SkillsSection.vue'
-import EducationSection from './components/EducationSection.vue'
-import ContactSection from './components/ContactSection.vue'
-import AppFooter from './components/AppFooter.vue'
-import EasterEgg from './components/EasterEgg.vue'
 import { useGSAP } from './composables/useGSAP'
+
+const AboutMeSection = defineAsyncComponent(() => import('./components/AboutMeSection.vue'))
+const ExperienceSection = defineAsyncComponent(() => import('./components/ExperienceSection.vue'))
+const ProjectsSection = defineAsyncComponent(() => import('./components/ProjectsSection.vue'))
+const SkillsSection = defineAsyncComponent(() => import('./components/SkillsSection.vue'))
+const EducationSection = defineAsyncComponent(() => import('./components/EducationSection.vue'))
+const CertificationsSection = defineAsyncComponent(() => import('./components/CertificationsSection.vue'))
+const WhyHireMeSection = defineAsyncComponent(() => import('./components/WhyHireMeSection.vue'))
+const ContactSection = defineAsyncComponent(() => import('./components/ContactSection.vue'))
+const AppFooter = defineAsyncComponent(() => import('./components/AppFooter.vue'))
+const EasterEgg = defineAsyncComponent(() => import('./components/EasterEgg.vue'))
 
 // Custom hooks should be called at the very top level
 useGSAP()
@@ -46,12 +50,15 @@ const handleKeyPress = (event: KeyboardEvent) => {
 <template>
   <div class="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
     <AppHeader />
-    <main role="main">
+    <main role="main" id="main-content">
       <HeroSection />
+      <AboutMeSection />
       <ExperienceSection />
       <ProjectsSection />
       <SkillsSection />
       <EducationSection />
+    
+      <WhyHireMeSection />
       <ContactSection />
     </main>
     <AppFooter />

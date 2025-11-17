@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { Globe, Menu, X, ChevronRight } from 'lucide-vue-next'
+import { Globe, Menu, X, ChevronRight, Sun, Moon } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 const activeIndex = ref(0)
+const isDark = ref(false)
 
 const { currentLanguage, toggleLanguage, t, cvData } = useLanguage()
 
@@ -63,8 +64,18 @@ const handleScroll = () => {
   activeIndex.value = 0
 }
 
+const toggleDarkMode = () => {
+  isDark.value = !isDark.value
+  document.documentElement.classList.toggle('dark')
+  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+}
+
 onMounted(() => {
-  document.documentElement.classList.add('dark')
+  const savedTheme = localStorage.getItem('theme')
+  isDark.value = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  if (isDark.value) {
+    document.documentElement.classList.add('dark')
+  }
   window.addEventListener('scroll', handleScroll, { passive: true })
   handleScroll()
 })
@@ -75,6 +86,14 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <!-- Skip to main content link -->
+  <a 
+    href="#main-content" 
+    class="sr-only focus:not-sr-only"
+  >
+    {{ currentLanguage === 'es' ? 'Saltar al contenido principal' : 'Skip to main content' }}
+  </a>
+
   <header 
     :class="[
       'fixed top-0 left-0 w-full z-50 transition-all duration-300',
@@ -139,6 +158,21 @@ onUnmounted(() => {
             <span class="text-sm font-medium text-[#B4D333] group-hover:text-[#C5D946]">
               {{ currentLanguage.toUpperCase() }}
             </span>
+          </button>
+
+          <button
+            @click="toggleDarkMode"
+            class="relative w-14 h-7 rounded-full transition-all duration-300 focus:outline-none focus-ring"
+            :class="isDark ? 'bg-[#3FA35B]' : 'bg-gray-300'"
+            :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+          >
+            <div 
+              class="absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-300 flex items-center justify-center"
+              :class="isDark ? 'translate-x-7' : 'translate-x-0'"
+            >
+              <Moon v-if="isDark" class="w-4 h-4 text-[#3FA35B]" />
+              <Sun v-else class="w-4 h-4 text-gray-600" />
+            </div>
           </button>
 
           <button

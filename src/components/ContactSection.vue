@@ -26,17 +26,17 @@ const contactEmail = computed(() => {
       </div>
 
       <div class="max-w-4xl mx-auto">
-        <article class="card bg-white/10 backdrop-blur-sm rounded-2xl p-8">
+        <article class="card bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
           <h3 class="text-2xl font-bold mb-6">{{ useLanguage().t.value.contactInfo }}</h3>
           
           <div class="grid md:grid-cols-2 gap-4">
             <a
               :href="`mailto:${contactEmail}`"
-              class="flex items-center gap-4 p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all duration-300 transform hover:scale-105 group focus:outline-none focus-ring"
+              class="flex items-center gap-4 p-5 bg-white/10 rounded-xl hover:bg-white/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 group focus:outline-none focus-ring border border-white/10"
               :aria-label="`Email: ${contactEmail}`"
             >
-              <div class="p-3 bg-white/20 rounded-full group-hover:bg-white/30 transition-colors">
-                <Mail class="h-6 w-6" aria-hidden="true" />
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#3FA35B] to-[#0A3D3D] flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <Mail class="h-7 w-7 text-white" aria-hidden="true" strokeWidth="2.5" />
               </div>
               <div>
                 <div class="font-medium">Email</div>
@@ -49,11 +49,11 @@ const contactEmail = computed(() => {
               :href="useLanguage().cvData.value.linkedin"
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center gap-4 p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all duration-300 transform hover:scale-105 group focus:outline-none focus-ring"
+              class="flex items-center gap-4 p-5 bg-white/10 rounded-xl hover:bg-white/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 group focus:outline-none focus-ring border border-white/10"
               :aria-label="`LinkedIn profile of ${useLanguage().cvData.value?.name}`"
             >
-              <div class="p-3 bg-white/20 rounded-full group-hover:bg-white/30 transition-colors">
-                <Linkedin class="h-6 w-6" aria-hidden="true" />
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0A3D3D] to-[#3FA35B] flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <Linkedin class="h-7 w-7 text-white" aria-hidden="true" strokeWidth="2.5" />
               </div>
               <div>
                 <div class="font-medium">LinkedIn</div>
@@ -65,11 +65,11 @@ const contactEmail = computed(() => {
               href="https://github.com/IrvinngB"
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center gap-4 p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all duration-300 transform hover:scale-105 group focus:outline-none focus-ring"
+              class="flex items-center gap-4 p-5 bg-white/10 rounded-xl hover:bg-white/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 group focus:outline-none focus-ring border border-white/10"
               aria-label="GitHub profile"
             >
-              <div class="p-3 bg-white/20 rounded-full group-hover:bg-white/30 transition-colors">
-                <Github class="h-6 w-6" aria-hidden="true" />
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#B4D333] to-[#C5D946] flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <Github class="h-7 w-7 text-white" aria-hidden="true" strokeWidth="2.5" />
               </div>
               <div>
                 <div class="font-medium">GitHub</div>
@@ -81,11 +81,11 @@ const contactEmail = computed(() => {
               href="https://www.instagram.com/_irvin.gg/?igsh=dm9waHk2bmdzYmYy"
               target="_blank"
               rel="noopener noreferrer"
-              class="flex items-center gap-4 p-4 bg-white/10 rounded-xl hover:bg-white/20 transition-all duration-300 transform hover:scale-105 group focus:outline-none focus-ring"
+              class="flex items-center gap-4 p-5 bg-white/10 rounded-xl hover:bg-white/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 group focus:outline-none focus-ring border border-white/10"
               aria-label="Instagram profile @_irvin.gg"
             >
-              <div class="p-3 bg-white/20 rounded-full group-hover:bg-white/30 transition-colors">
-                <Instagram class="h-6 w-6" aria-hidden="true" />
+              <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#C5D946] to-[#3FA35B] flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <Instagram class="h-7 w-7 text-white" aria-hidden="true" strokeWidth="2.5" />
               </div>
               <div>
                 <div class="font-medium">Instagram</div>

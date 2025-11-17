@@ -1,5 +1,8 @@
 <template>
-  <section class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D] relative overflow-hidden pt-20">
+  <section 
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D] relative overflow-hidden pt-20"
+    aria-label="Hero section - Introduction"
+  >
     <!-- Background Elements -->
     <div class="absolute inset-0 overflow-hidden">
       <div class="parallax absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl" style="background-color: rgba(63, 163, 91, 0.1);"></div>
@@ -13,19 +16,60 @@
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <!-- Content -->
         <div class="hero-content text-center lg:text-left">
-          <div class="mb-6">
-            <span class="inline-block px-4 py-2 rounded-full text-sm font-medium mb-4 text-[#0A3D3D] dark:text-[#B4D333]" :style="{ backgroundColor: 'rgba(63, 163, 91, 0.1)' }">
-              {{ t.about }}
-            </span>
-            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
+          <div class="mb-8">
+            <!-- Saludo inicial -->
+            <div class="flex items-center gap-2 justify-center lg:justify-start mb-3">
+              <div 
+                class="w-10 h-10 rounded-full bg-gradient-to-br from-[#3FA35B] to-[#B4D333] flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform"
+                role="img"
+                aria-label="Sparkles icon"
+              >
+                <Sparkles class="w-5 h-5 text-white" aria-hidden="true" />
+              </div>
+              <p class="text-lg font-semibold text-[#3FA35B] dark:text-[#B4D333] animate-fade-in">
+                {{ currentLanguage === 'es' ? 'Hola, soy' : 'Hi, I\'m' }}
+              </p>
+            </div>
+            
+            <!-- Nombre más grande -->
+            <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 dark:text-white mb-4 leading-tight tracking-tight">
               {{ cvData.name }}
             </h1>
-            <h2 class="text-xl md:text-2xl font-medium mb-6 dark:text-[#B4D333]" :style="{ color: '#3FA35B' }">
-              {{ cvData.title }}
+            
+            <!-- Propuesta de valor impactante -->
+            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#3FA35B] dark:text-[#B4D333] mb-6 leading-tight">
+              {{ currentLanguage === 'es' 
+                ? 'Construyo experiencias web que ' 
+                : 'I build web experiences that ' }}
+              <span class="relative inline-block">
+                <span class="relative z-10">{{ currentLanguage === 'es' ? 'importan' : 'matter' }}</span>
+                <span class="absolute bottom-1 left-0 w-full h-3 bg-[#B4D333] opacity-30 -z-0"></span>
+              </span>
             </h2>
-            <p class="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
-              {{ cvData.professionalProfile }}
+            
+            <!-- Descripción mejorada -->
+            <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl mb-8">
+              {{ cvData.title }}. 
+              {{ currentLanguage === 'es' 
+                ? 'Especializado en Vue.js, Node.js y arquitecturas escalables. Transformo ideas en productos digitales de alto rendimiento.' 
+                : 'Specialized in Vue.js, Node.js and scalable architectures. I transform ideas into high-performance digital products.' }}
             </p>
+            
+            <!-- Métricas impactantes -->
+            <div class="flex flex-wrap gap-6 justify-center lg:justify-start mb-8">
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">10+</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Proyectos' : 'Projects' }}</div>
+              </div>
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">2</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Años Exp.' : 'Years Exp.' }}</div>
+              </div>
+              <div class="text-center">
+                <div class="text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">90+</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">Lighthouse</div>
+              </div>
+            </div>
           </div>
 
           <!-- CTA Buttons -->
@@ -33,6 +77,7 @@
             <button
               @click="scrollToContact"
               class="px-8 py-4 text-white rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg cta-primary"
+              aria-label="{{ currentLanguage === 'es' ? 'Ir a sección de contacto' : 'Go to contact section' }}"
             >
               {{ t.getInTouch }}
             </button>
@@ -40,8 +85,9 @@
               :href="cvPdfUrl"
               download
               class="px-8 py-4 border-2 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 cta-secondary"
+              :aria-label="`${t.downloadCV} - PDF file`"
             >
-              <Download class="h-5 w-5" />
+              <Download class="h-5 w-5" aria-hidden="true" />
               {{ t.downloadCV }}
             </a>
           </div>
@@ -51,20 +97,26 @@
             <a
               :href="`mailto:${cvData.email}`"
               class="flex items-center gap-2 text-gray-600 dark:text-gray-300 transition-colors contact-link"
+              :aria-label="`Send email to ${cvData.email}`"
             >
-              <Mail class="h-5 w-5" />
-              {{ cvData.email }}
+              <Mail class="h-5 w-5" aria-hidden="true" />
+              <span>{{ cvData.email }}</span>
             </a>
             <a
               :href="`tel:${cvData.phone}`"
               class="flex items-center gap-2 text-gray-600 dark:text-gray-300 transition-colors contact-link"
+              :aria-label="`Call phone number ${cvData.phone}`"
             >
-              <Phone class="h-5 w-5" />
-              {{ cvData.phone }}
+              <Phone class="h-5 w-5" aria-hidden="true" />
+              <span>{{ cvData.phone }}</span>
             </a>
-            <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-              <MapPin class="h-5 w-5" />
-              {{ cvData.location }}
+            <div 
+              class="flex items-center gap-2 text-gray-600 dark:text-gray-300"
+              role="text"
+              :aria-label="`Location: ${cvData.location}`"
+            >
+              <MapPin class="h-5 w-5" aria-hidden="true" />
+              <span>{{ cvData.location }}</span>
             </div>
           </div>
         </div>
@@ -157,8 +209,12 @@
       </div>
 
       <!-- Scroll Indicator -->
-      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <ChevronDown class="h-8 w-8 text-gray-400" />
+      <div 
+        class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
+        role="img"
+        aria-label="Scroll down indicator"
+      >
+        <ChevronDown class="h-8 w-8 text-gray-400" aria-hidden="true" />
       </div>
     </div>
   </section>
@@ -166,7 +222,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { Download, Mail, Phone, MapPin, ChevronDown } from 'lucide-vue-next'
+import { Download, Mail, Phone, MapPin, ChevronDown, Sparkles } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { initHeroAnimation } from '../composables/useHeroAnimation'
 

@@ -12,24 +12,28 @@
         <div
           v-for="(education, index) in cvData.education"
           :key="index"
-          class="card education-card bg-gray-50 dark:bg-[#1f2937] rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 mb-8"
+          class="card education-card group bg-gray-50 dark:bg-[#1f2937] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 mb-8 border border-gray-100 dark:border-gray-700"
         >
           <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div class="flex items-start md:items-center mb-4 md:mb-0">
-              <div class="p-4 rounded-xl mr-4 flex-shrink-0 dark:bg-[#0A3D3D]/50" :style="{ backgroundColor: 'rgba(63, 163, 91, 0.1)' }">
-                <GraduationCap class="h-8 w-8 dark:text-[#B4D333]" :style="{ color: '#3FA35B' }" />
+              <div class="w-16 h-16 rounded-2xl mr-4 flex-shrink-0 bg-gradient-to-br from-[#3FA35B] to-[#0A3D3D] flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <GraduationCap class="h-8 w-8 text-white" strokeWidth="2.5" />
               </div>
               <div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[#3FA35B] dark:group-hover:text-[#B4D333] transition-colors">
                   {{ education.degree }}
                 </h3>
-                <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-2">
-                  <School class="h-4 w-4" />
-                  <span>{{ education.institution }}</span>
+                <div class="flex items-center gap-2 mb-2">
+                  <div class="w-7 h-7 rounded-lg bg-[#3FA35B]/10 dark:bg-[#B4D333]/10 flex items-center justify-center">
+                    <School class="h-4 w-4 text-[#3FA35B] dark:text-[#B4D333]" />
+                  </div>
+                  <span class="text-gray-700 dark:text-gray-300 font-medium">{{ education.institution }}</span>
                 </div>
-                <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-                  <Calendar class="h-4 w-4" />
-                  <span class="text-sm">{{ education.duration }}</span>
+                <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                  <div class="w-7 h-7 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                    <Calendar class="h-4 w-4" />
+                  </div>
+                  <span class="text-sm font-medium">{{ education.duration }}</span>
                 </div>
               </div>
             </div>
@@ -47,20 +51,26 @@
 
         <!-- Additional Education Info -->
         <div class="grid md:grid-cols-3 gap-6 mt-12">
-          <div class="card education-card text-center rounded-xl p-6 dark:bg-[#0A3D3D]/20" :style="{ backgroundColor: 'rgba(63, 163, 91, 0.1)' }">
-            <Award class="h-12 w-12 mx-auto mb-4 dark:text-[#B4D333]" :style="{ color: '#3FA35B' }" />
+          <div class="card education-card group text-center rounded-xl p-6 bg-white dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-[#3FA35B] to-[#B4D333] flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+              <Award class="h-8 w-8 text-white" strokeWidth="2.5" />
+            </div>
             <h4 class="font-bold text-gray-900 dark:text-white mb-2">{{ t.academicExcellence }}</h4>
             <p class="text-sm text-gray-600 dark:text-gray-300">{{ t.academicExcellenceDesc }}</p>
           </div>
           
-          <div class="card education-card text-center rounded-xl p-6 dark:bg-[#0A3D3D]/20" :style="{ backgroundColor: 'rgba(180, 211, 51, 0.1)' }">
-            <BookOpen class="h-12 w-12 mx-auto mb-4 dark:text-[#C5D946]" :style="{ color: '#B4D333' }" />
+          <div class="card education-card group text-center rounded-xl p-6 bg-white dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-[#B4D333] to-[#C5D946] flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+              <BookOpen class="h-8 w-8 text-white" strokeWidth="2.5" />
+            </div>
             <h4 class="font-bold text-gray-900 dark:text-white mb-2">{{ t.activeLearning }}</h4>
             <p class="text-sm text-gray-600 dark:text-gray-300">{{ t.activeLearningDesc }}</p>
           </div>
           
-          <div class="card education-card text-center rounded-xl p-6 dark:bg-[#0A3D3D]/20" :style="{ backgroundColor: 'rgba(197, 217, 70, 0.1)' }">
-            <Users class="h-12 w-12 mx-auto mb-4 dark:text-[#C5D946]" :style="{ color: '#C5D946' }" />
+          <div class="card education-card group text-center rounded-xl p-6 bg-white dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-[#C5D946] to-[#3FA35B] flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+              <Users class="h-8 w-8 text-white" strokeWidth="2.5" />
+            </div>
             <h4 class="font-bold text-gray-900 dark:text-white mb-2">{{ t.teamwork }}</h4>
             <p class="text-sm text-gray-600 dark:text-gray-300">{{ t.teamworkDesc }}</p>
           </div>

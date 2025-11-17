@@ -25,27 +25,31 @@ const { t, cvData } = useLanguage()
               :key="index"
               class="card relative"
             >
-              <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-8 h-8 rounded-full border-4 border-white dark:border-[#0A3D3D] shadow-lg flex items-center justify-center" style="background-color: #3FA35B;">
-                <Briefcase class="h-4 w-4 text-white" aria-hidden="true" />
+              <div class="absolute left-0 md:left-1/2 transform md:-translate-x-1/2 w-12 h-12 rounded-2xl border-4 border-white dark:border-[#0A3D3D] shadow-2xl flex items-center justify-center bg-gradient-to-br from-[#3FA35B] to-[#0A3D3D] hover:scale-110 transition-transform duration-300" style="transform-style: preserve-3d;">
+                <Briefcase class="h-6 w-6 text-white" aria-hidden="true" strokeWidth="2.5" />
               </div>
 
               <div class="ml-12 md:ml-0 md:grid md:grid-cols-2 md:gap-8">
                 <div :class="index % 2 === 0 ? 'md:text-right md:pr-8' : 'md:col-start-2 md:pl-8'">
-                  <div class="bg-white dark:bg-[#1f2937] rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <div class="bg-white dark:bg-[#1f2937] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 dark:border-gray-700">
                     <div class="mb-4">
                       <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
                         {{ experience.position }}
                       </h3>
-                      <div class="flex items-center gap-2 mb-2 dark:text-[#B4D333]" :style="{ color: '#3FA35B' }">
-                        <Building class="h-4 w-4" aria-hidden="true" />
-                        <span class="font-medium">{{ experience.company }}</span>
+                      <div class="flex items-center gap-2 mb-2">
+                        <div class="w-8 h-8 rounded-lg bg-[#3FA35B]/10 dark:bg-[#B4D333]/10 flex items-center justify-center">
+                          <Building class="h-4 w-4 text-[#3FA35B] dark:text-[#B4D333]" aria-hidden="true" />
+                        </div>
+                        <span class="font-medium text-[#3FA35B] dark:text-[#B4D333]">{{ experience.company }}</span>
                       </div>
-                      <div class="flex items-center gap-2 text-gray-500 dark:text-gray-400">
-                        <Calendar class="h-4 w-4" aria-hidden="true" />
-                        <time class="text-sm">{{ experience.duration }}</time>
+                      <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                        <div class="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                          <Calendar class="h-4 w-4" aria-hidden="true" />
+                        </div>
+                        <time class="text-sm font-medium">{{ experience.duration }}</time>
                       </div>
                     </div>
-                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                    <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-base">
                       {{ experience.description }}
                     </p>
                   </div>
