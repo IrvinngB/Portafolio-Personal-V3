@@ -123,17 +123,17 @@
             <!-- Tecnologías -->
             <div class="flex flex-wrap gap-2 mb-4">
               <span
-                v-for="tech in project.technologies.slice(0, 3)"
+                v-for="tech in (project.technologies || []).slice(0, 3)"
                 :key="tech"
                 class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs rounded-md font-medium"
               >
                 {{ tech }}
               </span>
               <span 
-                v-if="project.technologies.length > 3" 
+                v-if="(project.technologies || []).length > 3" 
                 class="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 text-xs rounded-md font-medium"
               >
-                +{{ project.technologies.length - 3 }}
+                +{{ (project.technologies || []).length - 3 }}
               </span>
             </div>
 

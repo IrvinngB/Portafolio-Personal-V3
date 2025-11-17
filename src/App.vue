@@ -9,7 +9,6 @@ const ExperienceSection = defineAsyncComponent(() => import('./components/Experi
 const ProjectsSection = defineAsyncComponent(() => import('./components/ProjectsSection.vue'))
 const SkillsSection = defineAsyncComponent(() => import('./components/SkillsSection.vue'))
 const EducationSection = defineAsyncComponent(() => import('./components/EducationSection.vue'))
-const CertificationsSection = defineAsyncComponent(() => import('./components/CertificationsSection.vue'))
 const WhyHireMeSection = defineAsyncComponent(() => import('./components/WhyHireMeSection.vue'))
 const ContactSection = defineAsyncComponent(() => import('./components/ContactSection.vue'))
 const AppFooter = defineAsyncComponent(() => import('./components/AppFooter.vue'))

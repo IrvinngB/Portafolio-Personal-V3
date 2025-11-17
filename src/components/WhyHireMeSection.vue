@@ -129,7 +129,7 @@
 </template>
 
 <script setup lang="ts">
-import { Zap, Target, MessageSquare, Mail } from 'lucide-vue-next'
+import { Zap, Target, MessageSquare } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useGSAP } from '../composables/useGSAP'
 
