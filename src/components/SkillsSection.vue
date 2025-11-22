@@ -1,83 +1,61 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { Code2, Server, Database, Wrench } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useGSAP } from '../composables/useGSAP'
 
+const container = ref(null)
+
 // Initialize animations
-useGSAP()
+useGSAP(container)
 
 const { t, cvData, currentLanguage } = useLanguage()
 
 const technicalSkills = computed(() => {
   const skills = cvData.value?.technicalSkills
-  if (!skills) return []
+  const details = cvData.value?.skillsDetails
+  
+  if (!skills || !details) return []
   
   return [
     { 
+      key: 'frontend',
       title: t.value.frontend, 
       icon: Code2, 
       skills: skills.frontend || [],
-      color: '#3FA35B'
+      color: '#3FA35B',
+      description: details.descriptions.frontend,
+      label: details.labels.frontend
     },
     { 
+      key: 'backend',
       title: t.value.backend, 
       icon: Server, 
       skills: skills.backend || [],
-      color: '#B4D333'
+      color: '#B4D333',
+      description: details.descriptions.backend,
+      label: details.labels.backend
     },
     { 
+      key: 'databases',
       title: t.value.databases, 
       icon: Database, 
       skills: skills.databases || [],
-      color: '#C5D946'
+      color: '#C5D946',
+      description: details.descriptions.databases,
+      label: details.labels.databases
     },
     { 
+      key: 'tools',
       title: t.value.tools, 
       icon: Wrench, 
       skills: [...(skills.tools || []), ...(skills.design || []), ...(skills.methodologies || [])],
-      color: '#3FA35B'
+      color: '#3FA35B',
+      description: details.descriptions.tools,
+      label: details.labels.tools
     }
   ].filter(category => category.skills.length > 0)
 })
-
-const getDescription = (categoryTitle: string) => {
-  const descriptions = {
-    es: {
-      [t.value.frontend]: "Me encanta crear interfaces interactivas y llevar ideas a la vida en el navegador.",
-      [t.value.backend]: "Disfruto construyendo la lógica del servidor y arquitecturas robustas.",
-      [t.value.databases]: "Experto en diseño y optimización de bases de datos eficientes.",
-      [t.value.tools]: "Domino herramientas modernas para desarrollo y diseño profesional."
-    },
-    en: {
-      [t.value.frontend]: "I love creating interactive interfaces and bringing ideas to life in the browser.",
-      [t.value.backend]: "I enjoy building server logic and robust architectures.",
-      [t.value.databases]: "Expert in designing and optimizing efficient databases.",
-      [t.value.tools]: "I master modern tools for professional development and design."
-    }
-  }
-  
-  return descriptions[currentLanguage.value as keyof typeof descriptions][categoryTitle] || ''
-}
-
-const getCategoryLabel = (categoryTitle: string) => {
-  const labels = {
-    es: {
-      [t.value.frontend]: "Tecnologías que uso",
-      [t.value.backend]: "Lenguajes que domino", 
-      [t.value.databases]: "Bases de datos",
-      [t.value.tools]: "Herramientas favoritas"
-    },
-    en: {
-      [t.value.frontend]: "Technologies I use",
-      [t.value.backend]: "Languages I master",
-      [t.value.databases]: "Databases",
-      [t.value.tools]: "Favorite tools"
-    }
-  }
-  
-  return labels[currentLanguage.value as keyof typeof labels][categoryTitle] || ''
-}
 
 const getMoreText = () => {
   return currentLanguage.value === 'es' ? 'más' : 'more'
@@ -85,7 +63,7 @@ const getMoreText = () => {
 </script>
 
 <template>
-  <section id="skills" class="section py-20 bg-gray-50 dark:bg-[#0A3D3D]">
+  <section id="skills" ref="container" class="section py-20 bg-gray-50 dark:bg-[#0A3D3D]">
     <div class="container mx-auto px-6">
       <!-- Section Header -->
       <div class="text-center mb-16">
@@ -126,14 +104,14 @@ const getMoreText = () => {
             
             <!-- Description -->
             <p class="text-sm text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
-              {{ getDescription(category.title) }}
+              {{ category.description }}
             </p>
             
             <!-- Skills List -->
             <div class="space-y-3">
               <div class="text-left">
                 <h5 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">
-                  {{ getCategoryLabel(category.title) }}:
+                  {{ category.label }}:
                 </h5>
                 <div class="space-y-1">
                   <div

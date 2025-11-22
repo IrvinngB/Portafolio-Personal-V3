@@ -137,27 +137,27 @@ a:focus-visible {
 
 /* Mejoras de contraste para WCAG AA */
 .text-gray-600 {
-  color: #4b5563 !important; /* Ratio 7:1 - PASA WCAG AAA */
+  color: #4b5563; /* Ratio 7:1 - PASA WCAG AAA */
 }
 
 .dark .text-gray-600 {
-  color: #d1d5db !important; /* Ratio 12:1 - PASA WCAG AAA */
+  color: #d1d5db; /* Ratio 12:1 - PASA WCAG AAA */
 }
 
 .text-gray-500 {
-  color: #6b7280 !important; /* Ratio 5.5:1 - PASA WCAG AA */
+  color: #6b7280; /* Ratio 5.5:1 - PASA WCAG AA */
 }
 
 .dark .text-gray-500 {
-  color: #e5e7eb !important; /* Ratio 14:1 - PASA WCAG AAA */
+  color: #e5e7eb; /* Ratio 14:1 - PASA WCAG AAA */
 }
 
 .text-gray-700 {
-  color: #374151 !important; /* Ratio 10:1 - PASA WCAG AAA */
+  color: #374151; /* Ratio 10:1 - PASA WCAG AAA */
 }
 
 .dark .text-gray-700 {
-  color: #f3f4f6 !important; /* Ratio 16:1 - PASA WCAG AAA */
+  color: #f3f4f6; /* Ratio 16:1 - PASA WCAG AAA */
 }
 
 .glass {

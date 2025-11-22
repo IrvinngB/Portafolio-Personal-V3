@@ -1,5 +1,5 @@
 <template>
-  <section id="education" class="section py-20 bg-white dark:bg-[#0A3D3D]">
+  <section id="education" ref="container" class="section py-20 bg-white dark:bg-[#0A3D3D]">
     <div class="container mx-auto px-6">
       <div class="text-center mb-16">
         <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
@@ -81,14 +81,16 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { GraduationCap, School, Calendar, Award, BookOpen, Users } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useGSAP } from '../composables/useGSAP'
 
 const { t, cvData } = useLanguage()
+const container = ref(null)
 
 // Initialize animations
-useGSAP()
+useGSAP(container)
 
 const getProgressPercentage = (duration: string): number => {
   // Extract start and end dates from duration string

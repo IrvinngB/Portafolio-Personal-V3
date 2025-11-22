@@ -66,8 +66,8 @@
                 <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Años Exp.' : 'Years Exp.' }}</div>
               </div>
               <div class="text-center">
-                <div class="text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">90+</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">Lighthouse</div>
+                <div class="text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">500+</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Contribuciones' : 'Contributions' }}</div>
               </div>
             </div>
           </div>

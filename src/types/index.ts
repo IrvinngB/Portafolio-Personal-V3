@@ -12,6 +12,32 @@ export interface CVData {
   education: Education[];
   technicalSkills: TechnicalSkills;
   interpersonalSkills: string[];
+  aboutMe?: {
+    description: string[];
+    motivation: {
+      title: string;
+      description: string;
+    };
+    values: {
+      title: string;
+      description: string;
+      icon: string;
+    }[];
+  };
+  skillsDetails?: {
+    descriptions: {
+      frontend: string;
+      backend: string;
+      databases: string;
+      tools: string;
+    };
+    labels: {
+      frontend: string;
+      backend: string;
+      databases: string;
+      tools: string;
+    };
+  };
 }
 
 export interface WorkExperience {

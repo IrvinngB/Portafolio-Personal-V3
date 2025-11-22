@@ -1,6 +1,7 @@
 <template>
   <section 
     id="projects" 
+    ref="container"
     class="section py-20 bg-white dark:bg-[#0A3D3D] overflow-hidden"
     aria-labelledby="projects-heading"
   >
@@ -104,21 +105,7 @@
               {{ project.description }}
             </p>
 
-            <!-- Métricas compactas -->
-            <div class="grid grid-cols-3 gap-2 mb-4">
-              <div class="text-center p-2 bg-[#3FA35B]/5 dark:bg-[#3FA35B]/10 rounded-lg">
-                <div class="text-lg font-bold text-[#3FA35B] dark:text-[#B4D333]">60%</div>
-                <div class="text-xs text-gray-600 dark:text-gray-400">{{ currentLanguage === 'es' ? 'Más rápido' : 'Faster' }}</div>
-              </div>
-              <div class="text-center p-2 bg-[#3FA35B]/5 dark:bg-[#3FA35B]/10 rounded-lg">
-                <div class="text-lg font-bold text-[#3FA35B] dark:text-[#B4D333]">95+</div>
-                <div class="text-xs text-gray-600 dark:text-gray-400">Lighthouse</div>
-              </div>
-              <div class="text-center p-2 bg-[#3FA35B]/5 dark:bg-[#3FA35B]/10 rounded-lg">
-                <div class="text-lg font-bold text-[#3FA35B] dark:text-[#B4D333]">40%</div>
-                <div class="text-xs text-gray-600 dark:text-gray-400">{{ currentLanguage === 'es' ? 'Conversión' : 'Conversion' }}</div>
-              </div>
-            </div>
+
 
             <!-- Tecnologías -->
             <div class="flex flex-wrap gap-2 mb-4">
@@ -158,15 +145,12 @@
       </div>
 
       <!-- Estadísticas generales -->
-      <div class="mt-20 grid md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+      <div class="mt-20 grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
         <div class="text-center p-6 bg-gradient-to-br from-[#3FA35B]/10 to-[#B4D333]/10 rounded-2xl border border-[#3FA35B]/20">
           <div class="text-4xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-2">{{ cvData.projects.length }}+</div>
           <div class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ currentLanguage === 'es' ? 'Proyectos' : 'Projects' }}</div>
         </div>
-        <div class="text-center p-6 bg-gradient-to-br from-[#B4D333]/10 to-[#C5D946]/10 rounded-2xl border border-[#B4D333]/20">
-          <div class="text-4xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-2">90+</div>
-          <div class="text-sm font-semibold text-gray-700 dark:text-gray-300">Lighthouse</div>
-        </div>
+
         <div class="text-center p-6 bg-gradient-to-br from-[#C5D946]/10 to-[#3FA35B]/10 rounded-2xl border border-[#C5D946]/20">
           <div class="text-4xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-2">100%</div>
           <div class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ currentLanguage === 'es' ? 'Satisfacción' : 'Satisfaction' }}</div>
@@ -190,8 +174,9 @@ import { useGSAP } from '../composables/useGSAP'
 
 const { t, cvData, currentLanguage } = useLanguage()
 const selectedFilter = ref('all')
+const container = ref(null)
 
-useGSAP()
+useGSAP(container)
 
 const uniqueTechnologies = computed(() => {
   const allTechs = cvData.value.projects.flatMap(p => p.technologies || [])
