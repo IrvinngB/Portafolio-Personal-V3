@@ -1,6 +1,6 @@
 # 📋 Documentación del Portfolio - Irvin Benitez
 
-## 🎯 Descripción General
+## 🎯 Descripción General   
 
 Este portfolio es una aplicación web moderna desarrollada con Vue.js 3, TypeScript y Tailwind CSS que presenta el perfil profesional, experiencia, proyectos y habilidades de Irvin Benitez como desarrollador Full-Stack.
 
