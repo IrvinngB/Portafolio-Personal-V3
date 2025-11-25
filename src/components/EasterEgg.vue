@@ -15,7 +15,7 @@
         <div class="matrix-rain mb-6">
           <div v-for="i in 12" :key="i" class="matrix-char">{{ getRandomChar() }}</div>
         </div>
-        
+         
         <div class="text-center">
           <h2 class="text-3xl font-bold text-green-400 mb-4 font-mono" style="text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);">
             ¡ACCESO CONCEDIDO!
