@@ -6,9 +6,9 @@ import { useGSAP } from '../composables/useGSAP'
 
 const container = ref(null)
 
-// Initialize animations
+// Initialize animations.
 useGSAP(container)
-
+ 
 const { t, cvData, currentLanguage } = useLanguage()
 
 const technicalSkills = computed(() => {
