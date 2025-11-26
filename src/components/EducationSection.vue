@@ -5,7 +5,7 @@
         <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
           {{ t.education }}
         </h2>
-        <div class="w-24 h-1 mx-auto" style="background-color: #3FA35B;"></div>
+        <div class="w-24 h-1 mx-auto" style="background-color: #3FA35B;"> </div>
       </div>
 
       <div class="max-w-4xl mx-auto">
