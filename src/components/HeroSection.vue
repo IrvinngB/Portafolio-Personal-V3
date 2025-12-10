@@ -12,8 +12,8 @@
       <div class="absolute bottom-32 left-32 w-1.5 h-1.5 rounded-full animate-pulse" style="background-color: #C5D946; animation-delay: 2s;"></div>
     </div>
 
-    <div class="container mx-auto px-6 relative z-10">
-      <div class="grid lg:grid-cols-2 gap-12 items-center">
+    <div class="container mx-auto px-4 sm:px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <!-- Content -->
         <div class="hero-content text-center lg:text-left">
           <div class="mb-8">
@@ -32,12 +32,12 @@
             </div>
             
             <!-- Nombre más grande -->
-            <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 dark:text-white mb-4 leading-tight tracking-tight">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-gray-900 dark:text-white mb-4 leading-tight tracking-tight">
               {{ cvData.name }}
             </h1>
             
             <!-- Propuesta de valor impactante -->
-            <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-[#3FA35B] dark:text-[#B4D333] mb-6 leading-tight">
+            <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#3FA35B] dark:text-[#B4D333] mb-6 leading-tight">
               {{ currentLanguage === 'es' 
                 ? 'Construyo experiencias web que ' 
                 : 'I build web experiences that ' }}
@@ -48,7 +48,7 @@
             </h2>
             
             <!-- Descripción mejorada -->
-            <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl mb-8">
+            <p class="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
               {{ cvData.title }}. 
               {{ currentLanguage === 'es' 
                 ? 'Especializado en Vue.js, Node.js y arquitecturas escalables. Transformo ideas en productos digitales de alto rendimiento.' 
@@ -56,27 +56,27 @@
             </p>
             
             <!-- Métricas impactantes -->
-            <div class="flex flex-wrap gap-6 justify-center lg:justify-start mb-8">
+            <div class="flex flex-wrap gap-4 sm:gap-6 justify-center lg:justify-start mb-8">
               <div class="text-center">
-                <div class="text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">10+</div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">10+</div>
                 <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Proyectos' : 'Projects' }}</div>
               </div>
               <div class="text-center">
-                <div class="text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">2</div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">2</div>
                 <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Años Exp.' : 'Years Exp.' }}</div>
               </div>
               <div class="text-center">
-                <div class="text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">500+</div>
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">500+</div>
                 <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Contribuciones' : 'Contributions' }}</div>
               </div>
             </div>
           </div>
 
           <!-- CTA Buttons -->
-          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
             <button
               @click="scrollToContact"
-              class="px-8 py-4 text-white rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg cta-primary"
+              class="px-6 sm:px-8 py-3 sm:py-4 text-white rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg cta-primary text-sm sm:text-base"
               aria-label="{{ currentLanguage === 'es' ? 'Ir a sección de contacto' : 'Go to contact section' }}"
             >
               {{ t.getInTouch }}
@@ -84,7 +84,7 @@
             <a
               :href="cvPdfUrl"
               download
-              class="px-8 py-4 border-2 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 cta-secondary"
+              class="px-6 sm:px-8 py-3 sm:py-4 border-2 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 cta-secondary text-sm sm:text-base"
               :aria-label="`${t.downloadCV} - PDF file`"
             >
               <Download class="h-5 w-5" aria-hidden="true" />
@@ -93,7 +93,7 @@
           </div>
 
           <!-- Contact Info -->
-          <div class="flex flex-col sm:flex-row gap-6 mt-8 justify-center lg:justify-start">
+          <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 md:gap-6 mt-6 sm:mt-8 justify-center lg:justify-start text-sm sm:text-base">
             <a
               :href="`mailto:${cvData.email}`"
               class="flex items-center gap-2 text-gray-600 dark:text-gray-300 transition-colors contact-link"
@@ -122,9 +122,9 @@
         </div>
 
         <!-- Profile Image -->
-        <div class="hero-image flex justify-center lg:justify-end">
+        <div class="hero-image flex justify-center lg:justify-end mt-8 lg:mt-0">
           <div class="relative">
-            <div class="w-80 h-80 rounded-full p-1" style="background: linear-gradient(135deg, #3FA35B 0%, #B4D333 100%);">
+            <div class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 rounded-full p-1" style="background: linear-gradient(135deg, #3FA35B 0%, #B4D333 100%);">
               <!-- inner container becomes transparent and full-size so SVG can fill the whole radius -->
               <div class="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
                 <!-- ring wrapper: creates a thin border/background between outer gradient and the avatar (WhatsApp-style) -->

@@ -5,15 +5,15 @@
     class="section py-20 bg-white dark:bg-[#0A3D3D] overflow-hidden"
     aria-labelledby="projects-heading"
   >
-    <div class="container mx-auto px-6">
+    <div class="container mx-auto px-4 sm:px-6">
       <div class="text-center mb-16">
         <h2 
           id="projects-heading"
-          class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+          class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
         >
           {{ t.featuredProjects }}
         </h2>
-        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8">
+        <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8 px-2">
           {{ currentLanguage === 'es' 
             ? 'Proyectos que combinan diseño, rendimiento y experiencia de usuario' 
             : 'Projects that combine design, performance and user experience' }}
@@ -22,11 +22,11 @@
       </div>
 
       <!-- Filtros de Tecnología -->
-      <div class="flex flex-wrap justify-center gap-3 mb-12">
+      <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-12 px-2">
         <button
           @click="selectedFilter = 'all'"
           :class="[
-            'px-6 py-2.5 rounded-full font-medium transition-all duration-300 transform hover:scale-105',
+            'px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-medium transition-all duration-300 transform hover:scale-105 text-sm sm:text-base',
             selectedFilter === 'all'
               ? 'bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white shadow-lg'
               : 'bg-gray-100 dark:bg-[#1f2937] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
@@ -39,7 +39,7 @@
           :key="tech"
           @click="selectedFilter = tech"
           :class="[
-            'px-6 py-2.5 rounded-full font-medium transition-all duration-300 transform hover:scale-105',
+            'px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-medium transition-all duration-300 transform hover:scale-105 text-sm sm:text-base',
             selectedFilter === tech
               ? 'bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white shadow-lg'
               : 'bg-gray-100 dark:bg-[#1f2937] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
@@ -50,7 +50,7 @@
       </div>
 
       <!-- Grid de Proyectos -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
         <article
           v-for="(project, index) in filteredProjects"
           :key="index"
@@ -58,7 +58,7 @@
           :class="{ 'stagger-item': true }"
         >
           <!-- Imagen o Placeholder -->
-          <div class="relative h-56 overflow-hidden">
+          <div class="relative h-44 sm:h-52 lg:h-56 overflow-hidden">
             <ProjectPlaceholder 
               :title="project.title"
               :technologies="project.technologies || []"
@@ -96,8 +96,8 @@
           </div>
 
           <!-- Contenido -->
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-[#3FA35B] dark:group-hover:text-[#B4D333] transition-colors">
+          <div class="p-4 sm:p-6">
+            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 group-hover:text-[#3FA35B] dark:group-hover:text-[#B4D333] transition-colors line-clamp-2">
               {{ project.title }}
             </h3>
             
@@ -188,16 +188,16 @@
       >
         <div 
           v-if="isModalOpen && selectedProject" 
-          class="fixed inset-0 z-50 flex items-center justify-center p-4"
+          class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
           @click.self="closeModal"
         >
           <!-- Backdrop -->
           <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
           
           <!-- Modal content -->
-          <div class="relative bg-white dark:bg-[#1f2937] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+          <div class="relative bg-white dark:bg-[#1f2937] rounded-xl sm:rounded-2xl max-w-2xl w-full max-h-[85vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl">
             <!-- Header con imagen -->
-            <div class="relative h-48">
+            <div class="relative h-36 sm:h-48">
               <ProjectPlaceholder 
                 :title="selectedProject.title"
                 :technologies="selectedProject.technologies || []"
@@ -214,25 +214,25 @@
             </div>
 
             <!-- Contenido -->
-            <div class="p-6">
-              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            <div class="p-4 sm:p-6">
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
                 {{ selectedProject.title }}
               </h3>
               
-              <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+              <p class="text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">
                 {{ selectedProject.description }}
               </p>
 
               <!-- Tecnologías -->
-              <div class="mb-6">
-                <h4 class="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wide">
+              <div class="mb-4 sm:mb-6">
+                <h4 class="text-xs sm:text-sm font-semibold text-gray-500 dark:text-gray-400 mb-2 sm:mb-3 uppercase tracking-wide">
                   {{ currentLanguage === 'es' ? 'Tecnologías' : 'Technologies' }}
                 </h4>
                 <div class="flex flex-wrap gap-2">
                   <span
                     v-for="tech in selectedProject.technologies"
                     :key="tech"
-                    class="px-3 py-1.5 bg-[#3FA35B]/10 dark:bg-[#3FA35B]/20 text-[#3FA35B] dark:text-[#B4D333] text-sm rounded-lg font-medium"
+                    class="px-2 sm:px-3 py-1 sm:py-1.5 bg-[#3FA35B]/10 dark:bg-[#3FA35B]/20 text-[#3FA35B] dark:text-[#B4D333] text-xs sm:text-sm rounded-lg font-medium"
                   >
                     {{ tech }}
                   </span>
@@ -240,23 +240,23 @@
               </div>
 
               <!-- Botones -->
-              <div class="flex gap-3">
+              <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <a 
                   :href="selectedProject.url || '#'"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="flex-1 px-6 py-3 bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white rounded-xl font-medium hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                  class="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white rounded-xl font-medium hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
-                  <ExternalLink class="w-5 h-5" />
+                  <ExternalLink class="w-4 h-4 sm:w-5 sm:h-5" />
                   {{ currentLanguage === 'es' ? 'Ver Proyecto' : 'View Project' }}
                 </a>
                 <a 
                   :href="selectedProject.github || '#'"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2"
+                  class="px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
-                  <Github class="w-5 h-5" />
+                  <Github class="w-4 h-4 sm:w-5 sm:h-5" />
                   GitHub
                 </a>
               </div>

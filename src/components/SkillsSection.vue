@@ -64,10 +64,10 @@ const getMoreText = () => {
 
 <template>
   <section id="skills" ref="container" class="section py-20 bg-gray-50 dark:bg-[#0A3D3D]">
-    <div class="container mx-auto px-6">
+    <div class="container mx-auto px-4 sm:px-6">
       <!-- Section Header -->
       <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
           {{ t.technicalSkills }}
         </h2>
         <div class="w-24 h-1 mx-auto bg-[#3FA35B]"></div>
@@ -75,22 +75,22 @@ const getMoreText = () => {
 
       <!-- Technical Skills -->
       <div class="max-w-6xl mx-auto">
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 lg:gap-8">
           <article
             v-for="category in technicalSkills"
             :key="category.title"
-            class="card group bg-white dark:bg-[#1f2937] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 text-center border border-gray-100 dark:border-gray-700 hover:border-[#3FA35B]/30"
+            class="card group bg-white dark:bg-[#1f2937] rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-3 text-center border border-gray-100 dark:border-gray-700 hover:border-[#3FA35B]/30"
           >
             <!-- Icon Circle 3D -->
-            <div class="flex justify-center mb-6">
+            <div class="flex justify-center mb-3 sm:mb-6">
               <div class="icon-3d-container">
                 <div 
-                  class="w-24 h-24 rounded-2xl flex items-center justify-center shadow-2xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300"
+                  class="w-14 h-14 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-xl sm:rounded-2xl flex items-center justify-center shadow-2xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300"
                   :style="{ background: `linear-gradient(135deg, ${category.color} 0%, #0A3D3D 100%)` }"
                 >
                   <component 
                     :is="category.icon" 
-                    class="h-12 w-12 text-white" 
+                    class="h-7 w-7 sm:h-10 sm:w-10 lg:h-12 lg:w-12 text-white" 
                     strokeWidth="2.5"
                   />
                 </div>
@@ -98,12 +98,12 @@ const getMoreText = () => {
             </div>
             
             <!-- Title -->
-            <h4 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-[#3FA35B] dark:group-hover:text-[#B4D333] transition-colors">
+            <h4 class="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-4 group-hover:text-[#3FA35B] dark:group-hover:text-[#B4D333] transition-colors">
               {{ category.title }}
             </h4>
             
             <!-- Description -->
-            <p class="text-sm text-gray-700 dark:text-gray-300 mb-6 leading-relaxed">
+            <p class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mb-3 sm:mb-6 leading-relaxed hidden sm:block">
               {{ category.description }}
             </p>
             
