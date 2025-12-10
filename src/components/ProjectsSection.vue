@@ -57,15 +57,15 @@
           class="project-card group bg-gray-50 dark:bg-[#1f2937] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-100 dark:border-gray-700"
           :class="{ 'stagger-item': true }"
         >
-          <!-- Imagen con overlay -->
+          <!-- Imagen o Placeholder -->
           <div class="relative h-56 overflow-hidden">
-            <img 
-              :src="project.image" 
-              :alt="`Screenshot of ${project.title} project`"
-              loading="lazy"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            <ProjectPlaceholder 
+              :title="project.title"
+              :technologies="project.technologies || []"
+              :index="index"
+              class="w-full h-full group-hover:scale-105 transition-transform duration-500"
             />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             
             <!-- Badge de número -->
             <div class="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white font-bold shadow-lg">
@@ -126,19 +126,25 @@
 
             <!-- Botones de acción -->
             <div class="flex gap-2">
-              <button 
+              <a 
+                :href="project.url || '#'"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white rounded-lg font-medium text-sm hover:shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2"
                 :aria-label="`View ${project.title} live demo`"
               >
                 <ExternalLink class="w-4 h-4" />
-                {{ currentLanguage === 'es' ? 'Ver Demo' : 'View Demo' }}
-              </button>
-              <button 
-                class="px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all transform hover:scale-105"
-                :aria-label="`View ${project.title} code`"
+                {{ currentLanguage === 'es' ? 'Ver Proyecto' : 'View Project' }}
+              </a>
+              <a 
+                :href="project.github || '#'"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all transform hover:scale-105 flex items-center justify-center"
+                :aria-label="`View ${project.title} code on GitHub`"
               >
                 <Github class="w-4 h-4" />
-              </button>
+              </a>
             </div>
           </div>
         </article>
@@ -171,6 +177,7 @@ import { ref, computed } from 'vue'
 import { ExternalLink, Github } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useGSAP } from '../composables/useGSAP'
+import ProjectPlaceholder from './ProjectPlaceholder.vue'
 
 const { t, cvData, currentLanguage } = useLanguage()
 const selectedFilter = ref('all')

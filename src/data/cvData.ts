@@ -31,16 +31,27 @@ export const cvDataES: CVData = {
   ],
   projects: [
     {
-      title: "Chatbot de WhatsApp Impulsado con Inteligencia Artificial",
-      description: "Desarrollo de un bot personalizado de WhatsApp con respuestas inteligentes y adaptadas, utilizando la API de Gemini AI. Integración de funciones avanzadas para ofrecer atención al cliente eficiente y personalizada, con capacidad de procesamiento de lenguaje natural y respuestas contextuales.",
+      title: "Chatbot de WhatsApp con IA (VentiBot)",
+      description: "Bot personalizado de WhatsApp con respuestas inteligentes usando Gemini AI. Procesamiento de lenguaje natural, respuestas contextuales y atención al cliente automatizada 24/7.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
-      image: "./proyectos/Chatbot.png"
+      image: "/proyectos/Chatbot.png",
+      github: "https://github.com/IrvinngB/JIC-VentiBot",
+      url: "https://github.com/IrvinngB/JIC-VentiBot"
     },
     {
-      title: "Página Web para Empresa de Diseño Gráfico",
-      description: "Creación de una página web completa para una empresa de diseño gráfico, utilizando PHP y MySQL. Incluye funcionalidades como sistema de inicio de sesión y registro de usuarios, gestión de servicios y portafolio, y un panel de administración completo para manejar contenido, usuarios y servicios ofrecidos.",
+      title: "Sistema IoT de Alerta para Canaletas",
+      description: "Canaleta inteligente IoT con ESP32, sensores de temperatura y ultrasonido para detectar desbordes en edificios residenciales. Envía notificaciones automáticas por WhatsApp cuando detecta niveles críticos de agua.",
+      technologies: ["ESP32", "IoT", "MicroPython", "WhatsApp API", "Sensores"],
+      image: "/proyectos/IoT.png",
+      github: "https://github.com/IrvinngB/alerta-microcotrolador",
+      url: "https://github.com/IrvinngB/alerta-microcotrolador"
+    },
+    {
+      title: "Web para Empresa de Diseño Gráfico",
+      description: "Sitio web profesional con sistema de login, gestión de portafolio, panel de administración y contenido dinámico. Landing page moderna optimizada para conversiones.",
       technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-      image: "./proyectos/Webside.jpg"
+      github: "https://github.com/IrvinngB/Pagina-Aterrizaje",
+      url: "https://github.com/IrvinngB/Pagina-Aterrizaje"
     }
   ],
   education: [
@@ -144,16 +155,25 @@ export const cvDataEN: CVData = {
   ],
   projects: [
     {
-      title: "AI-Powered WhatsApp Chatbot",
-      description: "Development of a custom WhatsApp bot with intelligent and adaptive responses, using the Gemini AI API. Integration of advanced features to provide efficient and personalized customer service, with natural language processing capabilities and contextual responses.",
+      title: "AI-Powered WhatsApp Chatbot (VentiBot)",
+      description: "Custom WhatsApp bot with intelligent responses using Gemini AI. Natural language processing, contextual responses and 24/7 automated customer service.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
-      image: "./proyectos/Chatbot.png"
+      github: "https://github.com/IrvinngB/JIC-VentiBot",
+      url: "https://github.com/IrvinngB/JIC-VentiBot"
     },
     {
-      title: "Website for Graphic Design Company",
-      description: "Creation of a complete website for a graphic design company, using PHP and MySQL. Includes functionalities such as user login and registration system, service and portfolio management, and a comprehensive administration panel to manage content, users, and offered services.",
+      title: "IoT Gutter Alert System",
+      description: "Smart IoT gutter with ESP32, temperature and ultrasonic sensors to detect overflows in residential buildings. Sends automatic WhatsApp notifications when critical water levels are detected.",
+      technologies: ["ESP32", "IoT", "MicroPython", "WhatsApp API", "Sensors"],
+      github: "https://github.com/IrvinngB/alerta-microcotrolador",
+      url: "https://github.com/IrvinngB/alerta-microcotrolador"
+    },
+    {
+      title: "Graphic Design Company Website",
+      description: "Professional website with login system, portfolio management, admin panel and dynamic content. Modern landing page optimized for conversions.",
       technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-      image: "/src/assets/images/project2.jpg"
+      github: "https://github.com/IrvinngB/Pagina-Aterrizaje",
+      url: "https://github.com/IrvinngB/Pagina-Aterrizaje"
     }
   ],
   education: [

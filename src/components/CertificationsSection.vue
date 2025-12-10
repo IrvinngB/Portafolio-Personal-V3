@@ -7,6 +7,19 @@
         </h2>
         <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
           {{ currentLanguage === 'es' 
+            ? 'Credenciales y logros que validan mi experiencia profesional' 
+            : 'Credentials and achievements that validate my professional experience' }}
+        </p>
+        <div class="w-24 h-1 mx-auto mt-4 bg-gradient-to-r from-[#3FA35B] to-[#B4D333]"></div>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <!-- Certificación 1 -->
+        <article class="cert-card group bg-white dark:bg-[#1f2937] rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#3FA35B] to-[#0A3D3D] flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 flex-shrink-0">
+              <Award class="w-8 h-8 text-white" strokeWidth="2.5" />
+            </div>
             <div class="flex-1">
               <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-1 group-hover:text-[#3FA35B] dark:group-hover:text-[#B4D333] transition-colors">
                 Vue.js Certified Developer
@@ -122,7 +135,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { Award, Shield, Code, ExternalLink, Github, CheckCircle, Zap } from 'lucide-vue-next'
+import { Award, Shield, Code, ExternalLink, Github, CheckCircle } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useGSAP } from '../composables/useGSAP'
 

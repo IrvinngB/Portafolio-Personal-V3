@@ -52,6 +52,8 @@ export interface Project {
   description: string;
   technologies?: string[];
   image?: string;
+  url?: string;
+  github?: string;
 }
 
 export interface Education {
