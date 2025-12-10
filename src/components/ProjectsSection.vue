@@ -101,9 +101,16 @@
               {{ project.title }}
             </h3>
             
-            <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+            <p class="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-2">
               {{ project.description }}
             </p>
+            <button 
+              @click="openModal(project)"
+              class="text-[#3FA35B] dark:text-[#B4D333] text-xs font-medium hover:underline mb-3 flex items-center gap-1"
+            >
+              {{ currentLanguage === 'es' ? 'Ver más' : 'Read more' }}
+              <ChevronRight class="w-3 h-3" />
+            </button>
 
 
 
@@ -167,14 +174,104 @@
         </div>
       </div>
 
-    
     </div>
+
+    <!-- Modal de proyecto -->
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition-opacity duration-300"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity duration-200"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div 
+          v-if="isModalOpen && selectedProject" 
+          class="fixed inset-0 z-50 flex items-center justify-center p-4"
+          @click.self="closeModal"
+        >
+          <!-- Backdrop -->
+          <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+          
+          <!-- Modal content -->
+          <div class="relative bg-white dark:bg-[#1f2937] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <!-- Header con imagen -->
+            <div class="relative h-48">
+              <ProjectPlaceholder 
+                :title="selectedProject.title"
+                :technologies="selectedProject.technologies || []"
+                :index="0"
+                class="w-full h-full rounded-t-2xl"
+              />
+              <button 
+                @click="closeModal"
+                class="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+                aria-label="Close modal"
+              >
+                <X class="w-5 h-5 text-white" />
+              </button>
+            </div>
+
+            <!-- Contenido -->
+            <div class="p-6">
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                {{ selectedProject.title }}
+              </h3>
+              
+              <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                {{ selectedProject.description }}
+              </p>
+
+              <!-- Tecnologías -->
+              <div class="mb-6">
+                <h4 class="text-sm font-semibold text-gray-500 dark:text-gray-400 mb-3 uppercase tracking-wide">
+                  {{ currentLanguage === 'es' ? 'Tecnologías' : 'Technologies' }}
+                </h4>
+                <div class="flex flex-wrap gap-2">
+                  <span
+                    v-for="tech in selectedProject.technologies"
+                    :key="tech"
+                    class="px-3 py-1.5 bg-[#3FA35B]/10 dark:bg-[#3FA35B]/20 text-[#3FA35B] dark:text-[#B4D333] text-sm rounded-lg font-medium"
+                  >
+                    {{ tech }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Botones -->
+              <div class="flex gap-3">
+                <a 
+                  :href="selectedProject.url || '#'"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex-1 px-6 py-3 bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white rounded-xl font-medium hover:shadow-lg transition-all flex items-center justify-center gap-2"
+                >
+                  <ExternalLink class="w-5 h-5" />
+                  {{ currentLanguage === 'es' ? 'Ver Proyecto' : 'View Project' }}
+                </a>
+                <a 
+                  :href="selectedProject.github || '#'"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2"
+                >
+                  <Github class="w-5 h-5" />
+                  GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { ExternalLink, Github } from 'lucide-vue-next'
+import { ExternalLink, Github, ChevronRight, X } from 'lucide-vue-next'
+import type { Project } from '../types'
 import { useLanguage } from '../composables/useLanguage'
 import { useGSAP } from '../composables/useGSAP'
 import ProjectPlaceholder from './ProjectPlaceholder.vue'
@@ -182,6 +279,20 @@ import ProjectPlaceholder from './ProjectPlaceholder.vue'
 const { t, cvData, currentLanguage } = useLanguage()
 const selectedFilter = ref('all')
 const container = ref(null)
+const selectedProject = ref<Project | null>(null)
+const isModalOpen = ref(false)
+
+const openModal = (project: Project) => {
+  selectedProject.value = project
+  isModalOpen.value = true
+  document.body.style.overflow = 'hidden'
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+  selectedProject.value = null
+  document.body.style.overflow = ''
+}
 
 useGSAP(container)
 

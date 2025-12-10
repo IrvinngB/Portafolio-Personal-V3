@@ -27,14 +27,16 @@ const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
 
-const scrollToSection = (event: Event) => {
+const scrollToSection = (event: Event, href?: string) => {
   event.preventDefault()
-  const target = event.target as HTMLAnchorElement
-  const href = target.getAttribute('href')
-  if (href && href.trim()) {
-    const element = document.querySelector(href)
+  const targetHref = href || (event.currentTarget as HTMLAnchorElement)?.getAttribute('href')
+  if (targetHref && targetHref.trim()) {
+    const element = document.querySelector(targetHref)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      const headerOffset = 80
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.scrollY - headerOffset
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
     }
   }
 }
