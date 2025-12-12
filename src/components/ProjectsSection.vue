@@ -79,19 +79,27 @@
             </div>
 
             <!-- Quick actions overlay -->
-            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-              <button 
+            <div v-if="project.url || project.github" class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
+              <a 
+                v-if="project.url"
+                :href="project.url"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all transform hover:scale-110"
                 :aria-label="`View ${project.title} demo`"
               >
                 <ExternalLink class="w-5 h-5 text-white" />
-              </button>
-              <button 
+              </a>
+              <a 
+                v-if="project.github"
+                :href="project.github"
+                target="_blank"
+                rel="noopener noreferrer"
                 class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center hover:bg-white/30 transition-all transform hover:scale-110"
                 :aria-label="`View ${project.title} code`"
               >
                 <Github class="w-5 h-5 text-white" />
-              </button>
+              </a>
             </div>
           </div>
 
@@ -134,23 +142,32 @@
             <!-- Botones de acción -->
             <div class="flex gap-2">
               <a 
-                :href="project.url || '#'"
+                v-if="project.url"
+                :href="project.url"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white rounded-lg font-medium text-sm hover:shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2"
+                :class="[
+                  'px-4 py-2.5 bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white rounded-lg font-medium text-sm hover:shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2',
+                  !project.github ? 'flex-1' : 'flex-1'
+                ]"
                 :aria-label="`View ${project.title} live demo`"
               >
                 <ExternalLink class="w-4 h-4" />
                 {{ currentLanguage === 'es' ? 'Ver Proyecto' : 'View Project' }}
               </a>
               <a 
-                :href="project.github || '#'"
+                v-if="project.github"
+                :href="project.github"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="px-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all transform hover:scale-105 flex items-center justify-center"
+                :class="[
+                  'border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-all transform hover:scale-105 flex items-center justify-center gap-2',
+                  !project.url ? 'flex-1 px-4 py-2.5' : 'px-4 py-2.5'
+                ]"
                 :aria-label="`View ${project.title} code on GitHub`"
               >
                 <Github class="w-4 h-4" />
+                <span v-if="!project.url">GitHub</span>
               </a>
             </div>
           </div>
@@ -205,11 +222,13 @@
                 class="w-full h-full rounded-t-2xl"
               />
               <button 
-                @click="closeModal"
-                class="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center transition-colors"
+                @click.stop="closeModal"
+                @touchend.stop.prevent="closeModal"
+                class="absolute top-2 right-2 sm:top-4 sm:right-4 w-11 h-11 min-w-[44px] min-h-[44px] bg-black/60 hover:bg-black/80 active:bg-black/90 rounded-full flex items-center justify-center transition-colors touch-manipulation cursor-pointer z-10"
                 aria-label="Close modal"
+                type="button"
               >
-                <X class="w-5 h-5 text-white" />
+                <X class="w-6 h-6 text-white pointer-events-none" />
               </button>
             </div>
 
@@ -242,7 +261,8 @@
               <!-- Botones -->
               <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <a 
-                  :href="selectedProject.url || '#'"
+                  v-if="selectedProject.url"
+                  :href="selectedProject.url"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white rounded-xl font-medium hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
@@ -251,10 +271,14 @@
                   {{ currentLanguage === 'es' ? 'Ver Proyecto' : 'View Project' }}
                 </a>
                 <a 
-                  :href="selectedProject.github || '#'"
+                  v-if="selectedProject.github"
+                  :href="selectedProject.github"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
+                  :class="[
+                    'px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2 text-sm sm:text-base',
+                    !selectedProject.url ? 'flex-1' : ''
+                  ]"
                 >
                   <Github class="w-4 h-4 sm:w-5 sm:h-5" />
                   GitHub
@@ -322,21 +346,24 @@ const filteredProjects = computed(() => {
   content: '';
   position: absolute;
   top: 0;
-  left: -100%;
+  left: 0;
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(63, 163, 91, 0.1), transparent);
-  transition: left 0.5s;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
   z-index: 1;
+  will-change: transform;
 }
 
 .project-card:hover::before {
-  left: 100%;
+  transform: translateX(100%);
 }
 
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

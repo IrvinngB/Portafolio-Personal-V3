@@ -1,9 +1,9 @@
 <template>
   <section id="why-hire-me" ref="container" class="section py-20 relative overflow-hidden bg-gradient-to-br from-green-50 to-white dark:from-[#3FA35B] dark:to-[#0A3D3D]">
     <!-- Background decorativo -->
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute top-20 left-20 w-64 h-64 rounded-full bg-[#3FA35B] dark:bg-white blur-3xl"></div>
-      <div class="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-[#B4D333] blur-3xl"></div>
+    <div class="absolute inset-0 opacity-10 pointer-events-none" style="contain: paint;">
+      <div class="absolute top-20 left-20 w-64 h-64 rounded-full bg-[#3FA35B] dark:bg-white blur-xl"></div>
+      <div class="absolute bottom-20 right-20 w-96 h-96 rounded-full bg-[#B4D333] blur-xl"></div>
     </div>
 
     <div class="container mx-auto px-6 relative z-10">

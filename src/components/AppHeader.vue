@@ -50,20 +50,26 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+// Throttle para optimizar el scroll
+let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 const handleScroll = () => {
-  isScrolled.value = window.scrollY > 50
-  for (let i = sections.value.length - 1; i >= 0; i--) {
-    const selector = sections.value[i]
-    if (!selector) continue
-    const el = document.querySelector(selector) as HTMLElement | null
-    if (!el) continue
-    const rect = el.getBoundingClientRect()
-    if (rect.top <= 120) {
-      activeIndex.value = i
-      return
+  if (scrollTimeout) return
+  scrollTimeout = setTimeout(() => {
+    scrollTimeout = null
+    isScrolled.value = window.scrollY > 50
+    for (let i = sections.value.length - 1; i >= 0; i--) {
+      const selector = sections.value[i]
+      if (!selector) continue
+      const el = document.querySelector(selector) as HTMLElement | null
+      if (!el) continue
+      const rect = el.getBoundingClientRect()
+      if (rect.top <= 120) {
+        activeIndex.value = i
+        return
+      }
     }
-  }
-  activeIndex.value = 0
+    activeIndex.value = 0
+  }, 50)
 }
 
 const toggleDarkMode = () => {
@@ -223,9 +229,10 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* Header con GPU acceleration */
 header {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  transform: translateZ(0);
+  will-change: background-color, padding;
 }
 
 .nav-link {
@@ -233,7 +240,9 @@ header {
   overflow: hidden;
   font-weight: 600;
   letter-spacing: -0.025em;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.3s ease,
+              color 0.3s ease;
 }
 
 .nav-link:hover {
@@ -243,7 +252,9 @@ header {
 .mobile-nav-link {
   border-radius: 12px;
   font-weight: 500;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease,
+              background-color 0.2s ease,
+              color 0.2s ease;
 }
 
 .mobile-nav-link:hover {
@@ -251,7 +262,7 @@ header {
 }
 
 .v-enter-active, .v-leave-active {
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .v-enter-from, .v-leave-to {
@@ -259,12 +270,7 @@ header {
   transform: translateY(-10px);
 }
 
-button:focus, a:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-  border-radius: 8px;
-}
-
+/* Focus styles - solo para elementos sin .focus-ring */
 .focus-ring:focus {
   outline: 2px solid #3FA35B;
   outline-offset: 2px;

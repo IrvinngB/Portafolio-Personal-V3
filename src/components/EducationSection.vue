@@ -93,7 +93,6 @@ const container = ref(null)
 useGSAP(container)
 
 const getProgressPercentage = (duration: string): number => {
-  // Extract start and end dates from duration string
   const match = duration.match(/(\w+)\s+(\d{4})\s*[–-]\s*(\w+)\s+(\d{4})/)
   if (!match) return 0
   
@@ -102,7 +101,6 @@ const getProgressPercentage = (duration: string): number => {
   const endMonth = match[3]
   const endYear = parseInt(match[4] ?? '0')
   
-  // Convert months to numbers (rough approximation)
   const monthMap: Record<string, number> = {
     'Enero': 1, 'January': 1, 'Marzo': 3, 'March': 3,
     'Abril': 4, 'April': 4, 'Mayo': 5, 'May': 5,
@@ -126,3 +124,41 @@ const getProgressPercentage = (duration: string): number => {
   return Math.round(percentage)
 }
 </script>
+
+<style scoped>
+.education-card {
+  position: relative;
+  overflow: hidden;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.education-card:hover {
+  will-change: transform;
+}
+
+/* Efecto shine igual que AboutMeSection */
+.education-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(63, 163, 91, 0.1), transparent);
+  transition: transform 0.5s ease;
+  z-index: 1;
+  transform: translateZ(0);
+}
+
+.education-card:hover::before {
+  transform: translateX(200%);
+}
+
+/* Optimizar iconos con animación fluida */
+.education-card .w-16 {
+  transform: translateZ(0);
+  transition: transform 0.3s ease;
+}
+</style>
