@@ -1,7 +1,15 @@
-import gsap from "gsap";
-import { CustomEase, CustomWiggle } from "gsap/all";
+let gsap: any
+let CustomEase: any
+let CustomWiggle: any
 
-gsap.registerPlugin(CustomEase, CustomWiggle);
+if (import.meta.client) {
+    const gsapModule = await import('gsap')
+    const allModule = await import('gsap/all')
+    gsap = gsapModule.default
+    CustomEase = allModule.CustomEase
+    CustomWiggle = allModule.CustomWiggle
+    gsap.registerPlugin(CustomEase, CustomWiggle)
+}
 
 export function initHeroAnimation(root?: HTMLElement | null): () => void {
     const meTl = gsap.timeline({
@@ -339,7 +347,7 @@ export function initHeroAnimation(root?: HTMLElement | null): () => void {
         });
         // Enhanced hair animation - follows head movement naturally
         const headVerticalMovement = yLow / 30; // How much the head moves vertically
-        
+
         if (dom.hairLeft) {
             gsap.to(dom.hairLeft, {
                 duration: 1.0,

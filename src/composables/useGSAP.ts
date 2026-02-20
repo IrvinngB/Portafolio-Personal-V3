@@ -1,8 +1,16 @@
 import { onMounted, onUnmounted, ref } from 'vue'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-gsap.registerPlugin(ScrollTrigger)
+let gsap: any
+let ScrollTrigger: any
+
+if (import.meta.client) {
+  const gsapModule = await import('gsap')
+  const scrollModule = await import('gsap/ScrollTrigger')
+  gsap = gsapModule.gsap
+  ScrollTrigger = scrollModule.ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger)
+  gsap.config({ nullTargetWarn: false })
+}
 
 export function useGSAP(scope?: any) {
   const timeline = ref<gsap.core.Timeline | null>(null)

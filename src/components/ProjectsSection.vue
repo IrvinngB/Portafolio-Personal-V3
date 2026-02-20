@@ -212,7 +212,14 @@
           <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
           
           <!-- Modal content -->
-          <div class="relative bg-white dark:bg-[#1f2937] rounded-xl sm:rounded-2xl max-w-2xl w-full max-h-[85vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl">
+          <div 
+            class="relative bg-white dark:bg-[#1f2937] rounded-xl sm:rounded-2xl max-w-2xl w-full max-h-[85vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+            ref="modalContent"
+            tabindex="-1"
+          >
             <!-- Header con imagen -->
             <div class="relative h-36 sm:h-48">
               <ProjectPlaceholder 
@@ -234,7 +241,7 @@
 
             <!-- Contenido -->
             <div class="p-4 sm:p-6">
-              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+              <h3 id="modal-title" class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
                 {{ selectedProject.title }}
               </h3>
               
@@ -293,7 +300,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue'
 import { ExternalLink, Github, ChevronRight, X } from 'lucide-vue-next'
 import type { Project } from '../types'
 import { useLanguage } from '../composables/useLanguage'
@@ -305,11 +312,32 @@ const selectedFilter = ref('all')
 const container = ref(null)
 const selectedProject = ref<Project | null>(null)
 const isModalOpen = ref(false)
+const modalContent = ref<HTMLElement | null>(null)
 
-const openModal = (project: Project) => {
+const handleEscape = (e: KeyboardEvent) => {
+  if (e.key === 'Escape' && isModalOpen.value) {
+    closeModal()
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleEscape)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('keydown', handleEscape)
+})
+
+const openModal = async (project: Project) => {
   selectedProject.value = project
   isModalOpen.value = true
   document.body.style.overflow = 'hidden'
+  
+  // Basic focus management: set focus to modal
+  await nextTick()
+  if (modalContent.value) {
+    modalContent.value.focus()
+  }
 }
 
 const closeModal = () => {
