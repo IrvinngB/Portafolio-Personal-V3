@@ -1,20 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
-import AppHeader from './components/AppHeader.vue'
-import HeroSection from './components/HeroSection.vue'
-import { useGSAP } from './composables/useGSAP'
-
-const AboutMeSection = defineAsyncComponent(() => import('./components/AboutMeSection.vue'))
-const ExperienceSection = defineAsyncComponent(() => import('./components/ExperienceSection.vue'))
-const ProjectsSection = defineAsyncComponent(() => import('./components/ProjectsSection.vue'))
-const SkillsSection = defineAsyncComponent(() => import('./components/SkillsSection.vue'))
-const EducationSection = defineAsyncComponent(() => import('./components/EducationSection.vue'))
-const WhyHireMeSection = defineAsyncComponent(() => import('./components/WhyHireMeSection.vue'))
-const ContactSection = defineAsyncComponent(() => import('./components/ContactSection.vue'))
-const AppFooter = defineAsyncComponent(() => import('./components/AppFooter.vue'))
-const EasterEgg = defineAsyncComponent(() => import('./components/EasterEgg.vue'))
-
-// Custom hooks should be called at the very top level
+// Custom hooks and utilities are auto-imported in Nuxt 3 (including components and GSAP)
 useGSAP()
 
 // Lifecycle hooks should be right after custom hooks
@@ -51,17 +36,17 @@ const handleKeyPress = (event: KeyboardEvent) => {
     <AppHeader />
     <main role="main" id="main-content">
       <HeroSection />
-      <AboutMeSection />
-      <ExperienceSection />
-      <ProjectsSection />
-      <SkillsSection />
-      <EducationSection />
+      <LazyAboutMeSection />
+      <LazyExperienceSection />
+      <LazyProjectsSection />
+      <LazySkillsSection />
+      <LazyEducationSection />
     
-      <WhyHireMeSection />
-      <ContactSection />
+      <LazyWhyHireMeSection />
+      <LazyContactSection />
     </main>
     <AppFooter />
-    <EasterEgg v-if="showEasterEgg" @close="showEasterEgg = false" />
+    <LazyEasterEgg v-if="showEasterEgg" @close="showEasterEgg = false" />
   </div>
 </template>
 
@@ -87,11 +72,6 @@ const handleKeyPress = (event: KeyboardEvent) => {
   background-color: #2563eb;
 }
 
-* {
-  transition-property: color, background-color, border-color;
-  transition-duration: 200ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-}
 
 @keyframes fadeIn {
   from {
