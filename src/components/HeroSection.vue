@@ -243,8 +243,8 @@ const scrollToContact = () => {
 
 let stopAnimation: (() => void) | undefined
 
-onMounted(() => {
-  stopAnimation = initHeroAnimation(svgRoot.value ?? undefined)
+onMounted(async () => {
+  stopAnimation = await initHeroAnimation(svgRoot.value ?? undefined)
 })
 
 onUnmounted(() => {

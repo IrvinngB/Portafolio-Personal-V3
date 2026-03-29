@@ -1,9 +1,24 @@
-import gsap from "gsap";
-import { CustomEase, CustomWiggle } from "gsap/all";
+const isClient = typeof window !== 'undefined'
 
-gsap.registerPlugin(CustomEase, CustomWiggle);
+let gsapInstance: any = null
+let CustomEasePlugin: any = null
+let CustomWigglePlugin: any = null
 
-export function initHeroAnimation(root?: HTMLElement | null): () => void {
+const initPlugins = async () => {
+  if (!isClient || gsapInstance) return
+  const gsapModule = await import('gsap')
+  const allPlugins = await import('gsap/all')
+  gsapInstance = gsapModule.gsap || gsapModule.default
+  CustomEasePlugin = allPlugins.CustomEase
+  CustomWigglePlugin = allPlugins.CustomWiggle
+  gsapInstance.registerPlugin(CustomEasePlugin, CustomWigglePlugin)
+}
+
+export async function initHeroAnimation(root?: HTMLElement | null): Promise<() => void> {
+  if (!isClient) return () => {}
+  await initPlugins()
+  const gsap = gsapInstance
+
     const meTl = gsap.timeline({
         onComplete: addMouseEvent,
         delay: 1,
@@ -131,11 +146,11 @@ export function initHeroAnimation(root?: HTMLElement | null): () => void {
             0.15
         );
 
-    CustomWiggle.create("myWiggle", {
+    CustomWigglePlugin.create("myWiggle", {
         wiggles: 6,
         type: "ease-out",
     });
-    CustomWiggle.create("lessWiggle", {
+    CustomWigglePlugin.create("lessWiggle", {
         wiggles: 4,
         type: "ease-in-out",
     });
