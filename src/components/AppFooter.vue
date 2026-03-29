@@ -1,21 +1,34 @@
 <template>
-  <footer class="bg-gray-900 dark:bg-[#0A3D3D] text-white py-12 relative overflow-hidden">
-    <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div class="absolute -top-20 -right-20 w-40 h-40 bg-[#3FA35B]/10 rounded-full blur-3xl animate-float"></div>
-      <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-[#B4D333]/10 rounded-full blur-3xl animate-float-delayed"></div>
+  <footer class="relative overflow-hidden bg-white dark:bg-[#141c2c] border-t border-gray-100 dark:border-gray-800 pt-16 pb-8 mt-10">
+    <!-- Background dots -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      <div class="absolute -top-20 -right-20 w-40 h-40 bg-primary/10 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-20 -left-20 w-40 h-40 bg-primary-light/10 rounded-full blur-3xl"></div>
+      <div class="absolute top-8 left-24 w-1.5 h-1.5 rounded-full animate-pulse bg-primary"></div>
+      <div class="absolute bottom-12 right-20 w-1 h-1 rounded-full animate-pulse bg-primary-light" style="animation-delay: 1.4s;"></div>
     </div>
 
     <div class="container mx-auto px-4 sm:px-6 relative z-10">
-      <div class="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
+      <!-- Top Row: Brand + Social -->
+      <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+        <!-- Brand identity -->
         <div class="text-center md:text-left">
-          <h3 class="text-xl sm:text-2xl font-bold mb-2">{{ cvData?.name }}</h3>
-          <p class="text-gray-400 text-sm">{{ cvData?.title }}</p>
+          <div class="flex items-center gap-3 justify-center md:justify-start mb-2">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg">
+              <span class="text-white font-bold text-lg">IB</span>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ cvData?.name }}</h3>
+              <p class="text-xs text-gray-500 dark:text-gray-400 -mt-0.5 font-medium">{{ cvData?.title }}</p>
+            </div>
+          </div>
         </div>
 
-        <div class="flex items-center gap-3 sm:gap-4">
+        <!-- Social links — premium circles -->
+        <div class="flex items-center gap-3">
           <a
             :href="`mailto:${cvData?.email}`"
-            class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#3FA35B] transition-all duration-300 transform hover:scale-110"
+            class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark text-gray-600 dark:text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 border border-gray-200 dark:border-white/10 hover:border-transparent hover:shadow-lg"
             aria-label="Email"
           >
             <Mail class="h-5 w-5" />
@@ -24,25 +37,25 @@
             :href="cvData?.linkedin"
             target="_blank"
             rel="noopener noreferrer"
-            class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#3FA35B] transition-all duration-300 transform hover:scale-110"
+            class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark text-gray-600 dark:text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 border border-gray-200 dark:border-white/10 hover:border-transparent hover:shadow-lg"
             aria-label="LinkedIn"
           >
             <Linkedin class="h-5 w-5" />
           </a>
           <a
-            href="https://github.com/IrvinngB"
+            :href="cvData?.github"
             target="_blank"
             rel="noopener noreferrer"
-            class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#3FA35B] transition-all duration-300 transform hover:scale-110"
+            class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark text-gray-600 dark:text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 border border-gray-200 dark:border-white/10 hover:border-transparent hover:shadow-lg"
             aria-label="GitHub"
           >
             <Github class="h-5 w-5" />
           </a>
           <a
-            href="https://www.instagram.com/_irvin.gg/"
+            :href="cvData?.instagram"
             target="_blank"
             rel="noopener noreferrer"
-            class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#3FA35B] transition-all duration-300 transform hover:scale-110"
+            class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark text-gray-600 dark:text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 border border-gray-200 dark:border-white/10 hover:border-transparent hover:shadow-lg"
             aria-label="Instagram"
           >
             <Instagram class="h-5 w-5" />
@@ -50,47 +63,50 @@
         </div>
       </div>
 
-      <div class="border-t border-white/10 mt-8 pt-8 text-center">
-        <p class="text-gray-400 text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
-          <span> {{ currentYear }} {{ cvData?.name }}.</span>
-          <span class="flex items-center gap-1">
-            Made with <Heart class="h-4 w-4 text-red-500 inline" /> and <Coffee class="h-4 w-4 text-amber-500 inline" />
-          </span>
-        </p>
+      <!-- Divider -->
+      <div class="border-t border-gray-200 dark:border-white/10 mt-10 pt-6">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
+            &copy; {{ currentYear }} {{ cvData?.name }}.
+            {{ currentLanguage === 'es' ? 'Todos los derechos reservados.' : 'All rights reserved.' }}
+          </p>
+          <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm flex items-center gap-1.5">
+            {{ currentLanguage === 'es' ? 'Diseñado y construido con' : 'Designed & built with' }}
+            <Heart class="h-3.5 w-3.5 text-primary" />
+            {{ currentLanguage === 'es' ? 'por' : 'by' }}
+            <span class="font-semibold text-gray-700 dark:text-gray-200">{{ cvData?.name?.split(' ')[0] }}</span>
+          </p>
+        </div>
       </div>
     </div>
 
-    <button
-      @click="scrollToTop"
-      class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 p-2.5 sm:p-3 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200 z-50 opacity-80 hover:opacity-100 scroll-top-btn"
-      aria-label="Scroll to top"
-    >
-      <ChevronRight class="h-5 w-5 -rotate-90" />
-    </button>
+    <!-- Scroll to top button -->
+    <div class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50">
+      <button
+        @click="scrollToTop"
+        class="p-3 premium-card bg-gray-50 dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary-light rounded-2xl shadow-lg flex items-center justify-center group focus:outline-none"
+        aria-label="Scroll to top"
+      >
+        <ChevronUp class="h-6 w-6 transform group-hover:-translate-y-1 transition-transform duration-300" strokeWidth="2.5" />
+      </button>
+    </div>
   </footer>
 </template>
 
 <script setup lang="ts">
-
-
-import { 
-  ChevronRight,
+import {
+  ChevronUp,
   Instagram,
   Mail,
   Linkedin,
   Github,
-  Heart,
-  Coffee
+  Heart
 } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 
-const { cvData } = useLanguage()
+const { cvData, currentLanguage } = useLanguage()
 
 const currentYear = new Date().getFullYear()
-
-
-
-
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -99,43 +115,3 @@ const scrollToTop = () => {
   })
 }
 </script>
-
-<style scoped>
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-@keyframes float-delayed {
-  0%, 100% {
-    transform: translateY(0px) translateX(0px);
-  }
-  25% {
-    transform: translateY(-10px) translateX(5px);
-  }
-  75% {
-    transform: translateY(10px) translateX(-5px);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-float-delayed {
-  animation: float-delayed 8s ease-in-out infinite;
-  animation-delay: 2s;
-}
-
-.scroll-top-btn {
-  background-color: #3FA35B;
-}
-
-.scroll-top-btn:hover {
-  background-color: #0A3D3D;
-}
-</style>
