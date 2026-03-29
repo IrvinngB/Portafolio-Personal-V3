@@ -2,23 +2,35 @@
   <section 
     id="projects" 
     ref="container"
-    class="section py-20 bg-white dark:bg-[#0A3D3D] overflow-hidden"
+    class="section py-20 relative overflow-hidden bg-transparent"
     aria-labelledby="projects-heading"
   >
-    <div class="container mx-auto px-4 sm:px-6">
-      <div class="text-center mb-16">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="parallax absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-30 bg-primary/20"></div>
+      <div class="parallax absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl opacity-30 bg-primary-light/20"></div>
+    </div>
+
+    <div class="container mx-auto px-4 sm:px-6 relative z-10">
+      <div class="text-center mb-16 relative">
+        <div class="flex items-center gap-2 justify-center mb-4">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
+            <Sparkles class="w-5 h-5 text-white" aria-hidden="true" />
+          </div>
+        </div>
         <h2 
           id="projects-heading"
-          class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4"
+          class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tight"
         >
-          {{ t.featuredProjects }}
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
+            {{ t.featuredProjects }}
+          </span>
         </h2>
-        <p class="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8 px-2">
+        <p class="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-8 px-2 leading-relaxed">
           {{ currentLanguage === 'es' 
             ? 'Proyectos que combinan diseño, rendimiento y experiencia de usuario' 
             : 'Projects that combine design, performance and user experience' }}
         </p>
-        <div class="w-24 h-1 mx-auto bg-gradient-to-r from-[#3FA35B] to-[#B4D333]"></div>
       </div>
 
       <!-- Filtros de Tecnología -->
@@ -28,7 +40,7 @@
           :class="[
             'px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-medium transition-all duration-300 transform hover:scale-105 text-sm sm:text-base',
             selectedFilter === 'all'
-              ? 'bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white shadow-lg'
+              ? 'bg-gradient-to-r from-primary to-primary-light text-white shadow-lg'
               : 'bg-gray-100 dark:bg-[#1f2937] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
           ]"
         >
@@ -41,7 +53,7 @@
           :class="[
             'px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-medium transition-all duration-300 transform hover:scale-105 text-sm sm:text-base',
             selectedFilter === tech
-              ? 'bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white shadow-lg'
+              ? 'bg-gradient-to-r from-primary to-primary-light text-white shadow-lg'
               : 'bg-gray-100 dark:bg-[#1f2937] text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
           ]"
         >
@@ -54,7 +66,7 @@
         <article
           v-for="(project, index) in filteredProjects"
           :key="index"
-          class="project-card group bg-gray-50 dark:bg-[#1f2937] rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-100 dark:border-gray-700"
+          class="premium-card project-card group bg-gray-50 dark:bg-[#1f2937] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-100 dark:border-gray-700"
           :class="{ 'stagger-item': true }"
         >
           <!-- Imagen o Placeholder -->
@@ -73,9 +85,20 @@
             </div>
 
             <!-- Status badge -->
-            <div class="absolute top-4 left-4 px-3 py-1 bg-[#3FA35B] text-white text-xs font-bold rounded-full flex items-center gap-1">
-              <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-              {{ currentLanguage === 'es' ? 'Activo' : 'Live' }}
+            <div class="absolute top-4 left-4 px-3 py-1 text-white text-xs font-bold rounded-full flex items-center gap-1"
+              :class="{
+                'bg-primary': project.status === 'active',
+                'bg-gray-500': project.status === 'completed',
+                'bg-gray-400': project.status === 'archived'
+              }"
+            >
+              <span v-if="project.status === 'active'" class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+              {{ project.status === 'active'
+                ? (currentLanguage === 'es' ? 'Activo' : 'Live')
+                : project.status === 'completed'
+                  ? (currentLanguage === 'es' ? 'Completado' : 'Completed')
+                  : (currentLanguage === 'es' ? 'Archivado' : 'Archived')
+              }}
             </div>
 
             <!-- Quick actions overlay -->
@@ -105,7 +128,7 @@
 
           <!-- Contenido -->
           <div class="p-4 sm:p-6">
-            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 group-hover:text-[#3FA35B] dark:group-hover:text-[#B4D333] transition-colors line-clamp-2">
+            <h3 class="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 group-hover:text-primary dark:group-hover:text-primary-light transition-colors line-clamp-2">
               {{ project.title }}
             </h3>
             
@@ -114,7 +137,7 @@
             </p>
             <button 
               @click="openModal(project)"
-              class="text-[#3FA35B] dark:text-[#B4D333] text-xs font-medium hover:underline mb-3 flex items-center gap-1"
+              class="text-primary dark:text-primary-light text-xs font-medium hover:underline mb-3 flex items-center gap-1"
             >
               {{ currentLanguage === 'es' ? 'Ver más' : 'Read more' }}
               <ChevronRight class="w-3 h-3" />
@@ -147,8 +170,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 :class="[
-                  'px-4 py-2.5 bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white rounded-lg font-medium text-sm hover:shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2',
-                  !project.github ? 'flex-1' : 'flex-1'
+                  'px-4 py-2.5 bg-gradient-to-r from-primary to-primary-light text-white rounded-lg font-medium text-sm hover:shadow-lg transition-all transform hover:scale-105 flex items-center justify-center gap-2 flex-1'
                 ]"
                 :aria-label="`View ${project.title} live demo`"
               >
@@ -172,23 +194,6 @@
             </div>
           </div>
         </article>
-      </div>
-
-      <!-- Estadísticas generales -->
-      <div class="mt-20 grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-        <div class="text-center p-6 bg-gradient-to-br from-[#3FA35B]/10 to-[#B4D333]/10 rounded-2xl border border-[#3FA35B]/20">
-          <div class="text-4xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-2">{{ cvData.projects.length }}+</div>
-          <div class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ currentLanguage === 'es' ? 'Proyectos' : 'Projects' }}</div>
-        </div>
-
-        <div class="text-center p-6 bg-gradient-to-br from-[#C5D946]/10 to-[#3FA35B]/10 rounded-2xl border border-[#C5D946]/20">
-          <div class="text-4xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-2">100%</div>
-          <div class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ currentLanguage === 'es' ? 'Satisfacción' : 'Satisfaction' }}</div>
-        </div>
-        <div class="text-center p-6 bg-gradient-to-br from-[#3FA35B]/10 to-[#0A3D3D]/10 rounded-2xl border border-[#3FA35B]/20">
-          <div class="text-4xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-2">2+</div>
-          <div class="text-sm font-semibold text-gray-700 dark:text-gray-300">{{ currentLanguage === 'es' ? 'Años Exp.' : 'Years Exp.' }}</div>
-        </div>
       </div>
 
     </div>
@@ -251,7 +256,7 @@
                   <span
                     v-for="tech in selectedProject.technologies"
                     :key="tech"
-                    class="px-2 sm:px-3 py-1 sm:py-1.5 bg-[#3FA35B]/10 dark:bg-[#3FA35B]/20 text-[#3FA35B] dark:text-[#B4D333] text-xs sm:text-sm rounded-lg font-medium"
+                    class="px-2 sm:px-3 py-1 sm:py-1.5 bg-primary/10 dark:bg-primary/20 text-primary dark:text-primary-light text-xs sm:text-sm rounded-lg font-medium"
                   >
                     {{ tech }}
                   </span>
@@ -265,7 +270,7 @@
                   :href="selectedProject.url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-[#3FA35B] to-[#B4D333] text-white rounded-xl font-medium hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
+                  class="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-primary to-primary-light text-white rounded-xl font-medium hover:shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
                 >
                   <ExternalLink class="w-4 h-4 sm:w-5 sm:h-5" />
                   {{ currentLanguage === 'es' ? 'Ver Proyecto' : 'View Project' }}
@@ -294,7 +299,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { ExternalLink, Github, ChevronRight, X } from 'lucide-vue-next'
+import { ExternalLink, Github, ChevronRight, X, Sparkles } from 'lucide-vue-next'
 import type { Project } from '../types'
 import { useLanguage } from '../composables/useLanguage'
 import { useGSAP } from '../composables/useGSAP'
@@ -349,7 +354,7 @@ const filteredProjects = computed(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(63, 163, 91, 0.1), transparent);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--color-primary) 10%, transparent), transparent);
   transform: translateX(-100%);
   transition: transform 0.5s ease;
   z-index: 1;

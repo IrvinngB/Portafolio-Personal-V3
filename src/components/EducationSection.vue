@@ -1,31 +1,43 @@
 <template>
-  <section id="education" ref="container" class="section py-20 bg-white dark:bg-[#0A3D3D]">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          {{ t.education }}
+  <section id="education" ref="container" class="section py-20 relative overflow-hidden bg-transparent">
+    <!-- Background Elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="parallax absolute top-10 left-10 w-80 h-80 rounded-full blur-3xl opacity-40 bg-primary/20"></div>
+      <div class="parallax absolute bottom-10 right-10 w-80 h-80 rounded-full blur-3xl opacity-40 bg-primary-light/20"></div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="text-center mb-16 relative">
+        <div class="flex items-center gap-2 justify-center mb-4">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
+            <Sparkles class="w-5 h-5 text-white" aria-hidden="true" />
+          </div>
+        </div>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
+            {{ t.education }}
+          </span>
         </h2>
-        <div class="w-24 h-1 mx-auto" style="background-color: #3FA35B;"> </div>
       </div>
 
       <div class="max-w-4xl mx-auto">
         <div
           v-for="(education, index) in cvData.education"
           :key="index"
-          class="card education-card group bg-gray-50 dark:bg-[#1f2937] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 mb-8 border border-gray-100 dark:border-gray-700"
+          class="card premium-card group bg-gray-50 dark:bg-[#1f2937] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 mb-8 border border-gray-100 dark:border-gray-700"
         >
           <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div class="flex items-start md:items-center mb-4 md:mb-0">
-              <div class="w-16 h-16 rounded-2xl mr-4 flex-shrink-0 bg-gradient-to-br from-[#3FA35B] to-[#0A3D3D] flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+              <div class="w-16 h-16 rounded-2xl mr-4 flex-shrink-0 bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                 <GraduationCap class="h-8 w-8 text-white" strokeWidth="2.5" />
               </div>
               <div>
-                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-[#3FA35B] dark:group-hover:text-[#B4D333] transition-colors">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
                   {{ education.degree }}
                 </h3>
                 <div class="flex items-center gap-2 mb-2">
-                  <div class="w-7 h-7 rounded-lg bg-[#3FA35B]/10 dark:bg-[#B4D333]/10 flex items-center justify-center">
-                    <School class="h-4 w-4 text-[#3FA35B] dark:text-[#B4D333]" />
+                  <div class="w-7 h-7 rounded-lg bg-primary/10 dark:bg-primary-light/10 flex items-center justify-center">
+                    <School class="h-4 w-4 text-primary dark:text-primary-light" />
                   </div>
                   <span class="text-gray-700 dark:text-gray-300 font-medium">{{ education.institution }}</span>
                 </div>
@@ -40,9 +52,9 @@
             
             <!-- Progress indicator for current studies -->
             <div v-if="education.duration.includes('2026')" class="flex flex-col items-end">
-              <span class="text-sm font-medium mb-2 dark:text-[#B4D333]" :style="{ color: '#3FA35B' }">{{ t.inProgress }}</span>
+              <span class="text-sm font-medium mb-2 text-primary dark:text-primary-light">{{ t.inProgress }}</span>
               <div class="w-32 bg-gray-200 dark:bg-gray-600 rounded-full h-2">
-                <div class="h-2 rounded-full" :style="{ width: getProgressPercentage(education.duration) + '%', backgroundColor: '#3FA35B' }"></div>
+                <div class="h-2 rounded-full" :style="{ width: getProgressPercentage(education.duration) + '%', backgroundColor: 'var(--color-primary)' }"></div>
               </div>
               <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ getProgressPercentage(education.duration) }}%</span>
             </div>
@@ -51,24 +63,24 @@
 
         <!-- Additional Education Info -->
         <div class="grid md:grid-cols-3 gap-6 mt-12">
-          <div class="card education-card group text-center rounded-xl p-6 bg-white dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
-            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-[#3FA35B] to-[#B4D333] flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+          <div class="card premium-card group text-center rounded-xl p-6 bg-gray-50 dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
               <Award class="h-8 w-8 text-white" strokeWidth="2.5" />
             </div>
             <h4 class="font-bold text-gray-900 dark:text-white mb-2">{{ t.academicExcellence }}</h4>
             <p class="text-sm text-gray-600 dark:text-gray-300">{{ t.academicExcellenceDesc }}</p>
           </div>
           
-          <div class="card education-card group text-center rounded-xl p-6 bg-white dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
-            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-[#B4D333] to-[#C5D946] flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+          <div class="card premium-card group text-center rounded-xl p-6 bg-gray-50 dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-primary-light to-primary-accent flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
               <BookOpen class="h-8 w-8 text-white" strokeWidth="2.5" />
             </div>
             <h4 class="font-bold text-gray-900 dark:text-white mb-2">{{ t.activeLearning }}</h4>
             <p class="text-sm text-gray-600 dark:text-gray-300">{{ t.activeLearningDesc }}</p>
           </div>
           
-          <div class="card education-card group text-center rounded-xl p-6 bg-white dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300">
-            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-[#C5D946] to-[#3FA35B] flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+          <div class="card premium-card group text-center rounded-xl p-6 bg-gray-50 dark:bg-[#1f2937] border border-gray-100 dark:border-gray-700 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+            <div class="w-16 h-16 rounded-2xl mx-auto mb-4 bg-gradient-to-br from-primary-accent to-primary flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
               <Users class="h-8 w-8 text-white" strokeWidth="2.5" />
             </div>
             <h4 class="font-bold text-gray-900 dark:text-white mb-2">{{ t.teamwork }}</h4>
@@ -82,7 +94,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { GraduationCap, School, Calendar, Award, BookOpen, Users } from 'lucide-vue-next'
+import { GraduationCap, School, Calendar, Award, BookOpen, Users, Sparkles } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useGSAP } from '../composables/useGSAP'
 
@@ -124,41 +136,4 @@ const getProgressPercentage = (duration: string): number => {
   return Math.round(percentage)
 }
 </script>
-
-<style scoped>
-.education-card {
-  position: relative;
-  overflow: hidden;
-  /* GPU acceleration */
-  transform: translateZ(0);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.education-card:hover {
-  will-change: transform;
-}
-
-/* Efecto shine igual que AboutMeSection */
-.education-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(63, 163, 91, 0.1), transparent);
-  transition: transform 0.5s ease;
-  z-index: 1;
-  transform: translateZ(0);
-}
-
-.education-card:hover::before {
-  transform: translateX(200%);
-}
-
-/* Optimizar iconos con animación fluida */
-.education-card .w-16 {
-  transform: translateZ(0);
-  transition: transform 0.3s ease;
-}
-</style>
+

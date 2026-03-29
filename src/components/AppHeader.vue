@@ -2,12 +2,13 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { Globe, Menu, X, ChevronRight, Sun, Moon } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
+import { useDarkMode } from '../composables/useDarkMode'
 
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 const activeIndex = ref(0)
-const isDark = ref(false)
 
+const { isDark, toggleDarkMode } = useDarkMode()
 const { currentLanguage, toggleLanguage, t, cvData } = useLanguage()
 
 const displayName = computed(() => cvData.value?.name ?? 'Portfolio')
@@ -50,7 +51,6 @@ const scrollToTop = () => {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-// Throttle para optimizar el scroll
 let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 const handleScroll = () => {
   if (scrollTimeout) return
@@ -72,18 +72,7 @@ const handleScroll = () => {
   }, 50)
 }
 
-const toggleDarkMode = () => {
-  isDark.value = !isDark.value
-  document.documentElement.classList.toggle('dark')
-  localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
-}
-
 onMounted(() => {
-  const savedTheme = localStorage.getItem('theme')
-  isDark.value = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  if (isDark.value) {
-    document.documentElement.classList.add('dark')
-  }
   window.addEventListener('scroll', handleScroll, { passive: true })
   handleScroll()
 })
@@ -106,7 +95,7 @@ onUnmounted(() => {
     :class="[
       'fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md',
       isScrolled 
-        ? 'bg-white/90 dark:bg-[#0A3D3D]/95 shadow-lg border-b border-gray-100 dark:border-[#3FA35B]/30 py-2' 
+        ? 'bg-white/90 dark:bg-[#0A3D3D]/95 shadow-lg border-b border-gray-100 dark:border-gray-700 py-2' 
         : 'bg-transparent dark:bg-[#0A3D3D]/80 py-4'
     ]"
     role="banner"
@@ -120,15 +109,15 @@ onUnmounted(() => {
             aria-label="Go to home"
           >
             <div class="relative">
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300" style="background: linear-gradient(135deg, #3FA35B 0%, #B4D333 100%);">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-primary to-primary-light">
                 <span class="text-white font-bold text-lg">IB</span>
               </div>
             </div>
             <div class="hidden sm:block">
-              <h1 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-[#3FA35B] dark:group-hover:text-[#B4D333] transition-colors duration-300">
+              <h1 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary-light transition-colors duration-300">
                 {{ displayName }}
               </h1>
-              <p class="text-xs text-gray-600 dark:text-[#B4D333]/70 -mt-1 font-medium">
+              <p class="text-xs text-gray-600 dark:text-primary-light/70 -mt-1 font-medium">
                 {{ displayTitle }}
               </p>
             </div>
@@ -136,7 +125,7 @@ onUnmounted(() => {
         </div>
 
         <div class="hidden lg:flex items-center">
-          <nav class="flex items-center bg-gray-100/80 dark:bg-[#1f2937]/90 rounded-2xl px-2 py-2 shadow-sm dark:shadow-lg border border-gray-200 dark:border-[#3FA35B]/30 backdrop-blur-sm" role="menubar">
+          <div class="flex items-center bg-gray-50/90 dark:bg-[#1f2937]/90 rounded-2xl px-2 py-2 shadow-sm dark:shadow-lg border border-gray-100 dark:border-gray-700 backdrop-blur-sm" role="menubar">
             <a
               v-for="(item, idx) in navItems"
               :key="item.href"
@@ -145,25 +134,25 @@ onUnmounted(() => {
               :class="[
                 'nav-link px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 relative overflow-hidden group focus:outline-none focus-ring',
                 activeIndex === idx 
-                  ? 'bg-[#3FA35B] text-white shadow-md' 
-                  : 'text-gray-600 dark:text-[#B4D333] hover:bg-[#3FA35B]/10 dark:hover:bg-[#3FA35B]/20 hover:text-[#3FA35B] dark:hover:text-white'
+                  ? 'bg-primary/10 text-primary shadow-sm dark:bg-primary-light/10 dark:text-primary-light' 
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-primary/5 dark:hover:bg-primary/20 hover:text-primary dark:hover:text-white'
               ]"
               :aria-current="activeIndex === idx ? 'page' : undefined"
               role="menuitem"
             >
               <span class="relative z-10 transition-all duration-300">{{ item.label }}</span>
             </a>
-          </nav>
+          </div>
         </div>
 
         <div class="flex items-center gap-2">
           <button
             @click="toggleLanguage"
-            class="flex items-center gap-2 px-3 py-2 bg-gray-100/80 dark:bg-[#1f2937]/80 hover:bg-[#3FA35B]/10 dark:hover:bg-[#3FA35B]/20 rounded-xl transition-all duration-300 group border border-gray-200 dark:border-[#3FA35B]/30 focus:outline-none focus-ring"
+            class="flex items-center gap-2 px-3 py-2 bg-gray-50/90 dark:bg-[#1f2937]/80 hover:bg-primary/10 dark:hover:bg-primary/20 rounded-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700 focus:outline-none focus-ring"
             :aria-label="`Switch language, current: ${currentLanguage.toUpperCase()}`"
           >
-            <Globe class="h-4 w-4 text-gray-600 dark:text-[#B4D333] group-hover:text-[#3FA35B] dark:group-hover:text-[#C5D946] transition-colors" aria-hidden="true" />
-            <span class="text-sm font-medium text-gray-600 dark:text-[#B4D333] group-hover:text-[#3FA35B] dark:group-hover:text-[#C5D946]">
+            <Globe class="h-4 w-4 text-gray-600 dark:text-primary-light group-hover:text-primary dark:group-hover:text-primary-accent transition-colors" aria-hidden="true" />
+            <span class="text-sm font-medium text-gray-600 dark:text-primary-light group-hover:text-primary dark:group-hover:text-primary-accent">
               {{ currentLanguage.toUpperCase() }}
             </span>
           </button>
@@ -171,26 +160,26 @@ onUnmounted(() => {
           <button
             @click="toggleDarkMode"
             class="relative w-14 h-7 rounded-full transition-all duration-300 focus:outline-none focus-ring"
-            :class="isDark ? 'bg-[#3FA35B]' : 'bg-gray-300'"
+            :class="isDark ? 'bg-primary' : 'bg-gray-300'"
             :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
           >
             <div 
               class="absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-300 flex items-center justify-center"
               :class="isDark ? 'translate-x-7' : 'translate-x-0'"
             >
-              <Moon v-if="isDark" class="w-4 h-4 text-[#3FA35B]" />
+              <Moon v-if="isDark" class="w-4 h-4 text-primary" />
               <Sun v-else class="w-4 h-4 text-gray-600" />
             </div>
           </button>
 
           <button
             @click="toggleMobileMenu"
-            class="lg:hidden p-2.5 bg-gray-100/80 dark:bg-[#1f2937]/80 hover:bg-[#3FA35B]/10 dark:hover:bg-[#3FA35B]/20 rounded-xl transition-all duration-300 group border border-gray-200 dark:border-[#3FA35B]/30 focus:outline-none focus-ring"
+            class="lg:hidden p-2.5 bg-gray-50/90 dark:bg-[#1f2937]/80 hover:bg-primary/10 dark:hover:bg-primary/20 rounded-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700 focus:outline-none focus-ring"
             :aria-expanded="isMobileMenuOpen"
             aria-label="Toggle mobile menu"
           >
-            <Menu v-if="!isMobileMenuOpen" class="h-5 w-5 text-gray-600 dark:text-[#B4D333] group-hover:text-[#3FA35B] dark:group-hover:text-[#C5D946] transition-colors" aria-hidden="true" />
-            <X v-else class="h-5 w-5 text-gray-600 dark:text-[#B4D333] group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors" aria-hidden="true" />
+            <Menu v-if="!isMobileMenuOpen" class="h-5 w-5 text-gray-600 dark:text-primary-light group-hover:text-primary dark:group-hover:text-primary-accent transition-colors" aria-hidden="true" />
+            <X v-else class="h-5 w-5 text-gray-600 dark:text-primary-light group-hover:text-red-500 dark:group-hover:text-red-400 transition-colors" aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -203,7 +192,7 @@ onUnmounted(() => {
         leave-from-class="opacity-100 transform translate-y-0"
         leave-to-class="opacity-0 transform -translate-y-2"
       >
-        <div v-if="isMobileMenuOpen" class="lg:hidden mt-4 border-t border-[#3FA35B]/30 pt-4">
+        <div v-if="isMobileMenuOpen" class="lg:hidden mt-4 border-t border-gray-100 dark:border-gray-700 pt-4">
           <nav class="space-y-2" role="navigation" aria-label="Mobile navigation">
             <a
               v-for="(item, idx) in navItems"
@@ -213,8 +202,8 @@ onUnmounted(() => {
               :class="[
                 'mobile-nav-link flex items-center px-4 py-3 rounded-xl transition-all duration-300 group focus:outline-none focus-ring',
                 activeIndex === idx
-                  ? 'bg-[#3FA35B] text-white shadow-md'
-                  : 'text-[#B4D333] hover:bg-[#3FA35B]/20 hover:text-white'
+                  ? 'bg-primary/10 text-primary dark:bg-primary-light/10 dark:text-primary-light shadow-sm'
+                  : 'text-gray-600 dark:text-gray-300 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-primary dark:hover:text-white'
               ]"
               role="menuitem"
             >
@@ -270,9 +259,8 @@ header {
   transform: translateY(-10px);
 }
 
-/* Focus styles - solo para elementos sin .focus-ring */
 .focus-ring:focus {
-  outline: 2px solid #3FA35B;
+  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
   border-radius: 8px;
 }

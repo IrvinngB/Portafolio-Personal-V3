@@ -5,7 +5,10 @@ export interface CVData {
   email: string;
   phone: string;
   linkedin?: string;
+  github?: string;
+  instagram?: string;
   portfolio?: string;
+  metrics?: Metric[];
   professionalProfile: string;
   workExperience: WorkExperience[];
   projects: Project[];
@@ -54,6 +57,7 @@ export interface Project {
   image?: string;
   url?: string;
   github?: string;
+  status?: 'active' | 'completed' | 'archived';
 }
 
 export interface Education {
@@ -74,3 +78,9 @@ export interface TechnicalSkills {
 }
 
 export type Language = 'es' | 'en';
+
+export interface Metric {
+  value: string;
+  labelEs: string;
+  labelEn: string;
+}

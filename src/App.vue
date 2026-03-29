@@ -47,7 +47,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+  <div class="min-h-screen bg-fixed bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D] text-gray-900 dark:text-white transition-colors duration-300">
     <AppHeader />
     <main role="main" id="main-content">
       <HeroSection />
@@ -71,26 +71,16 @@ const handleKeyPress = (event: KeyboardEvent) => {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #f3f4f6;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background-color: #1f2937;
+  background-color: var(--color-bg-alt);
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #3b82f6;
+  background-color: var(--color-primary);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #2563eb;
-}
-
-* {
-  transition-property: color, background-color, border-color;
-  transition-duration: 200ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--color-primary-dark);
 }
 
 @keyframes fadeIn {

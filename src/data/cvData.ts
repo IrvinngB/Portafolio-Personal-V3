@@ -7,8 +7,15 @@ export const cvDataES: CVData = {
   email: "Irvin.benitezs.26@gmail.com",
   phone: "+507 6361-5832",
   linkedin: "https://www.linkedin.com/in/irvin-benitez-11313231b/",
-  portfolio: "https://irvin-portfolio.com",
-  professionalProfile: "Desarrollador Full-Stack especializado en tecnologías modernas como React, Vue.js, Django y Flask. Experto en desarrollo móvil con React Native, gestión de bases de datos y implementación de prácticas DevOps. Apasionado por crear soluciones innovadoras y eficientes.",
+  github: "https://github.com/IrvinngB",
+  instagram: "https://www.instagram.com/_irvin.gg/",
+  portfolio: "https://irvin-benitez.software/",
+  metrics: [
+    { value: "3+", labelEs: "Proyectos", labelEn: "Projects" },
+    { value: "2", labelEs: "Años Exp.", labelEn: "Years Exp." },
+    { value: "500+", labelEs: "Contribuciones", labelEn: "Contributions" }
+  ],
+  professionalProfile: "Desarrollador Full-Stack especializado en tecnologías modernas como React, Vue.js, Django y Flask. Experto en desarrollo móvil con React Native, gestión de bases de datos e implementación de prácticas DevOps. Apasionado por crear soluciones innovadoras y eficientes.",
   workExperience: [
     {
       position: "Desarrollador Full-Stack",
@@ -35,20 +42,23 @@ export const cvDataES: CVData = {
       description: "Bot personalizado de WhatsApp con respuestas inteligentes usando Gemini AI. Procesamiento de lenguaje natural, respuestas contextuales y atención al cliente automatizada 24/7.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
       image: "/proyectos/Chatbot.png",
-      github: "https://github.com/IrvinngB/JIC-VentiBot"
+      github: "https://github.com/IrvinngB/JIC-VentiBot",
+      status: "completed"
     },
     {
       title: "Sistema IoT de Alerta para Canaletas",
       description: "Canaleta inteligente IoT con ESP32, sensores de temperatura y ultrasonido para detectar desbordes en edificios residenciales. Envía notificaciones automáticas por WhatsApp cuando detecta niveles críticos de agua.",
       technologies: ["ESP32", "IoT", "MicroPython", "WhatsApp API", "Sensores"],
       image: "/proyectos/IoT.png",
-      github: "https://github.com/IrvinngB/alerta-microcotrolador"
+      github: "https://github.com/IrvinngB/alerta-microcotrolador",
+      status: "completed"
     },
     {
       title: "Web para Empresa de Diseño Gráfico",
       description: "Sitio web profesional con sistema de login, gestión de portafolio, panel de administración y contenido dinámico. Landing page moderna optimizada para conversiones.",
       technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-      github: "https://github.com/IrvinngB/Pagina-Aterrizaje"
+      github: "https://github.com/IrvinngB/Pagina-Aterrizaje",
+      status: "completed"
     }
   ],
   education: [
@@ -128,7 +138,14 @@ export const cvDataEN: CVData = {
   email: "Irvin.benitezs.26@gmail.com",
   phone: "+507 6361-5832",
   linkedin: "https://www.linkedin.com/in/irvin-benitez-11313231b/",
+  github: "https://github.com/IrvinngB",
+  instagram: "https://www.instagram.com/_irvin.gg/",
   portfolio: "https://irvin-benitez.software/",
+  metrics: [
+    { value: "3+", labelEs: "Proyectos", labelEn: "Projects" },
+    { value: "2", labelEs: "Años Exp.", labelEn: "Years Exp." },
+    { value: "500+", labelEs: "Contribuciones", labelEn: "Contributions" }
+  ],
   professionalProfile: "Full-Stack Developer specialized in modern technologies like React, Vue.js, Django, and Flask. Expert in mobile development with React Native, database management, and DevOps implementation. Passionate about creating innovative and efficient solutions.",
   workExperience: [
     {
@@ -155,19 +172,22 @@ export const cvDataEN: CVData = {
       title: "AI-Powered WhatsApp Chatbot (VentiBot)",
       description: "Custom WhatsApp bot with intelligent responses using Gemini AI. Natural language processing, contextual responses and 24/7 automated customer service.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
-      github: "https://github.com/IrvinngB/JIC-VentiBot"
+      github: "https://github.com/IrvinngB/JIC-VentiBot",
+      status: "completed"
     },
     {
       title: "IoT Gutter Alert System",
       description: "Smart IoT gutter with ESP32, temperature and ultrasonic sensors to detect overflows in residential buildings. Sends automatic WhatsApp notifications when critical water levels are detected.",
       technologies: ["ESP32", "IoT", "MicroPython", "WhatsApp API", "Sensors"],
-      github: "https://github.com/IrvinngB/alerta-microcotrolador"
+      github: "https://github.com/IrvinngB/alerta-microcotrolador",
+      status: "completed"
     },
     {
       title: "Graphic Design Company Website",
       description: "Professional website with login system, portfolio management, admin panel and dynamic content. Modern landing page optimized for conversions.",
       technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
-      github: "https://github.com/IrvinngB/Pagina-Aterrizaje"
+      github: "https://github.com/IrvinngB/Pagina-Aterrizaje",
+      status: "completed"
     }
   ],
   education: [

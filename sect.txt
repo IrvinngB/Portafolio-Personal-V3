@@ -1,0 +1,29 @@
+
+>   <section id="about-me" ref="container" class="section py-20 bg-white dark:bg-[#1f2937]">
+      <div class="container mx-auto px-6">
+        <div class="max-w-6xl mx-auto">
+>   <section id="certifications" ref="container" class="section py-20 bg-gradient-to-br from-gray-50 to-white dark:from-[#0A3D3D] dark:to-[#1f2937] relative overflow-hidden">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+>   <section id="contact" class="section py-20 text-gray-900 dark:text-white relative overflow-hidden bg-gradient-to-br from-white via-green-50 to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D]">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+>   <section id="education" ref="container" class="section py-20 bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D] relative overflow-hidden">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+>   <section id="experience" class="section py-20 bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D] relative overflow-hidden">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+>   <section 
+      class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D] relative overflow-hidden pt-20"
+      aria-label="Hero section - Introduction"
+>   <section 
+      id="projects" 
+      ref="container"
+>   <section id="skills" ref="container" class="section relative py-20 bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D] overflow-hidden">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+>   <section id="why-hire-me" ref="container" class="section py-20 relative overflow-hidden bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D]">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+

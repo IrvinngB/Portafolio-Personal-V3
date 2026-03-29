@@ -1,6 +1,6 @@
 <template>
   <section 
-    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D] relative overflow-hidden pt-20"
+    class="min-h-screen flex items-center justify-center bg-transparent relative overflow-hidden pt-20"
     aria-label="Hero section - Introduction"
   >
     <!-- Background Elements -->
@@ -57,17 +57,9 @@
             
             <!-- Métricas impactantes -->
             <div class="flex flex-wrap gap-4 sm:gap-6 justify-center lg:justify-start mb-8">
-              <div class="text-center">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">10+</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Proyectos' : 'Projects' }}</div>
-              </div>
-              <div class="text-center">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">2</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Años Exp.' : 'Years Exp.' }}</div>
-              </div>
-              <div class="text-center">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">500+</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? 'Contribuciones' : 'Contributions' }}</div>
+              <div v-for="metric in cvData.metrics" :key="metric.value" class="text-center">
+                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">{{ metric.value }}</div>
+                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? metric.labelEs : metric.labelEn }}</div>
               </div>
             </div>
           </div>
@@ -263,29 +255,29 @@ onUnmounted(() => {
 <style scoped>
 /* New Color Palette Styles */
 .cta-primary {
-  background-color: #3FA35B;
+  background-color: var(--color-primary);
 }
 
 .cta-primary:hover {
-  background-color: #0A3D3D;
+  background-color: var(--color-primary-dark);
 }
 
 .cta-secondary {
-  border-color: #3FA35B;
-  color: #3FA35B;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .cta-secondary:hover {
-  background-color: #3FA35B;
+  background-color: var(--color-primary);
   color: white;
 }
 
 .contact-link:hover {
-  color: #3FA35B;
+  color: var(--color-primary);
 }
 
 .dark .contact-link:hover {
-  color: #B4D333;
+  color: var(--color-primary-light);
 }
 
 /* Ensure avatar is always visible and responsive */

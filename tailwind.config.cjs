@@ -9,10 +9,14 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#3FA35B',
-          dark: '#0A3D3D',
-          light: '#B4D333',
-          accent: '#C5D946'
+          DEFAULT: 'var(--color-primary)',
+          dark: 'var(--color-primary-dark)',
+          light: 'var(--color-primary-light)',
+          accent: 'var(--color-accent)'
+        },
+        surface: {
+          DEFAULT: 'var(--color-surface)',
+          elevated: 'var(--color-surface-elevated)'
         }
       }
     },

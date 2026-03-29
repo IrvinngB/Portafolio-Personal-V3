@@ -1,14 +1,29 @@
 import { onMounted, onUnmounted, ref } from 'vue'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import type { gsap as GsapType } from 'gsap'
 
-gsap.registerPlugin(ScrollTrigger)
+const isClient = typeof window !== 'undefined'
+
+let gsap: typeof GsapType
+let ScrollTrigger: any
+let gsapReady = false
+
+const initGsap = async () => {
+  if (gsapReady || !isClient) return
+  const gsapModule = await import('gsap')
+  const stModule = await import('gsap/ScrollTrigger')
+  gsap = gsapModule.gsap
+  ScrollTrigger = stModule.ScrollTrigger
+  gsap.registerPlugin(ScrollTrigger)
+  gsapReady = true
+}
 
 export function useGSAP(scope?: any) {
   const timeline = ref<gsap.core.Timeline | null>(null)
   const ctx = ref<gsap.Context | null>(null)
 
-  onMounted(() => {
+  onMounted(async () => {
+    if (!isClient) return
+    await initGsap()
     const element = scope?.value || scope
 
     ctx.value = gsap.context(() => {
@@ -52,7 +67,7 @@ export function useGSAP(scope?: any) {
             trigger: section,
             start: 'top 85%',
             end: 'bottom 15%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none'
           }
         })
       })
@@ -73,7 +88,7 @@ export function useGSAP(scope?: any) {
           scrollTrigger: {
             trigger: card,
             start: 'top 90%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none'
           }
         })
       })
@@ -99,47 +114,7 @@ export function useGSAP(scope?: any) {
         })
       })
 
-      // Education specific animations
-      gsap.utils.toArray('.education-card').forEach((card: any, index: number) => {
-        gsap.fromTo(card, {
-          opacity: 0,
-          x: index % 2 === 0 ? -60 : 60,
-          rotationY: index % 2 === 0 ? -15 : 15
-        }, {
-          opacity: 1,
-          x: 0,
-          rotationY: 0,
-          duration: 1,
-          delay: index * 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 90%',
-            toggleActions: 'play none none reverse'
-          }
-        })
-      })
 
-      // Interpersonal skills enhanced animation
-      gsap.utils.toArray('.interpersonal-skill').forEach((skill: any, index: number) => {
-        gsap.fromTo(skill, {
-          opacity: 0,
-          scale: 0.8,
-          rotation: -10
-        }, {
-          opacity: 1,
-          scale: 1,
-          rotation: 0,
-          duration: 0.8,
-          delay: index * 0.1,
-          ease: 'elastic.out(1, 0.5)',
-          scrollTrigger: {
-            trigger: skill,
-            start: 'top 95%',
-            toggleActions: 'play none none reverse'
-          }
-        })
-      })
 
       // Floating animation for hero image - solo si está visible
       if (!scope || document.querySelector('.hero-image')) {
