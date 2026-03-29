@@ -76,6 +76,9 @@ const selectCategory = (index: number) => {
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
       <div class="parallax absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl opacity-40 bg-primary/20"></div>
       <div class="parallax absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl opacity-40 bg-primary-light/20"></div>
+      <div class="absolute top-20 left-20 w-2 h-2 rounded-full animate-pulse bg-primary"></div>
+      <div class="absolute top-40 right-32 w-1 h-1 rounded-full animate-pulse bg-primary-light" style="animation-delay: 1s;"></div>
+      <div class="absolute bottom-32 left-32 w-1.5 h-1.5 rounded-full animate-pulse bg-primary-accent" style="animation-delay: 2s;"></div>
     </div>
 
     <div class="container mx-auto px-4 sm:px-6 relative z-10">

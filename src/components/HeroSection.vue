@@ -7,9 +7,9 @@
     <div class="absolute inset-0 overflow-hidden">
       <div class="parallax absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl" style="background-color: rgba(63, 163, 91, 0.1);"></div>
       <div class="parallax absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl" style="background-color: rgba(180, 211, 51, 0.1);"></div>
-      <div class="absolute top-20 left-20 w-2 h-2 rounded-full animate-pulse" style="background-color: #3FA35B;"></div>
-      <div class="absolute top-40 right-32 w-1 h-1 rounded-full animate-pulse" style="background-color: #B4D333; animation-delay: 1s;"></div>
-      <div class="absolute bottom-32 left-32 w-1.5 h-1.5 rounded-full animate-pulse" style="background-color: #C5D946; animation-delay: 2s;"></div>
+      <div class="absolute top-20 left-20 w-2 h-2 rounded-full animate-pulse bg-primary"></div>
+      <div class="absolute top-40 right-32 w-1 h-1 rounded-full animate-pulse bg-primary-light" style="animation-delay: 1s;"></div>
+      <div class="absolute bottom-32 left-32 w-1.5 h-1.5 rounded-full animate-pulse bg-primary-accent" style="animation-delay: 2s;"></div>
     </div>
 
     <div class="container mx-auto px-4 sm:px-6 relative z-10">

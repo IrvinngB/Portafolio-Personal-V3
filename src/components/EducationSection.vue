@@ -4,6 +4,9 @@
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
       <div class="parallax absolute top-10 left-10 w-80 h-80 rounded-full blur-3xl opacity-40 bg-primary/20"></div>
       <div class="parallax absolute bottom-10 right-10 w-80 h-80 rounded-full blur-3xl opacity-40 bg-primary-light/20"></div>
+      <div class="absolute top-16 right-24 w-1.5 h-1.5 rounded-full animate-pulse bg-primary"></div>
+      <div class="absolute bottom-24 left-20 w-1 h-1 rounded-full animate-pulse bg-primary-accent" style="animation-delay: 1.8s;"></div>
+      <div class="absolute top-2/3 right-16 w-2 h-2 rounded-full animate-pulse bg-primary-light" style="animation-delay: 0.5s;"></div>
     </div>
 
     <div class="container mx-auto px-6 relative z-10">

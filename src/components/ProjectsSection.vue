@@ -9,6 +9,9 @@
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
       <div class="parallax absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl opacity-30 bg-primary/20"></div>
       <div class="parallax absolute bottom-0 left-0 w-96 h-96 rounded-full blur-3xl opacity-30 bg-primary-light/20"></div>
+      <div class="absolute top-24 left-16 w-2 h-2 rounded-full animate-pulse bg-primary"></div>
+      <div class="absolute bottom-32 right-24 w-1 h-1 rounded-full animate-pulse bg-primary-accent" style="animation-delay: 1.2s;"></div>
+      <div class="absolute top-1/3 right-16 w-1.5 h-1.5 rounded-full animate-pulse bg-primary-light" style="animation-delay: 2.5s;"></div>
     </div>
 
     <div class="container mx-auto px-4 sm:px-6 relative z-10">
