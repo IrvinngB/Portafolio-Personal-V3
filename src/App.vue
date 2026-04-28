@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
+import { useHead } from '@unhead/vue'
+import { useLanguage } from './composables/useLanguage'
 import AppHeader from './components/AppHeader.vue'
 import HeroSection from './components/HeroSection.vue'
 import { useGSAP } from './composables/useGSAP'
@@ -16,6 +18,45 @@ const EasterEgg = defineAsyncComponent(() => import('./components/EasterEgg.vue'
 
 // Custom hooks should be called at the very top level
 useGSAP()
+
+const { currentLanguage } = useLanguage()
+
+useHead({
+  title: () => currentLanguage.value === 'es'
+    ? 'Irvin Benitez | Desarrollador Full Stack — Panamá'
+    : 'Irvin Benitez | Full Stack Developer — Panama',
+  meta: [
+    {
+      name: 'description',
+      content: () => currentLanguage.value === 'es'
+        ? 'Portafolio de Irvin Benitez, desarrollador Full Stack en Panamá. Especializado en Vue.js, Django, Laravel, React y soluciones de IA. Egresado de la UTP.'
+        : 'Portfolio of Irvin Benitez, Full Stack Developer from Panama. Specialized in Vue.js, Django, Laravel, React and AI solutions. UTP graduate.'
+    },
+    {
+      property: 'og:title',
+      content: () => currentLanguage.value === 'es'
+        ? 'Irvin Benitez | Desarrollador Full Stack'
+        : 'Irvin Benitez | Full Stack Developer'
+    },
+    {
+      property: 'og:description',
+      content: () => currentLanguage.value === 'es'
+        ? 'Explora mis proyectos de software y arquitectura web. Vue.js, Django, Laravel, React.'
+        : 'Explore my software projects and web architecture. Vue.js, Django, Laravel, React.'
+    },
+    { property: 'og:url', content: 'https://irvincodes.dev' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    {
+      name: 'twitter:title',
+      content: () => currentLanguage.value === 'es'
+        ? 'Irvin Benitez | Desarrollador Full Stack'
+        : 'Irvin Benitez | Full Stack Developer'
+    }
+  ],
+  htmlAttrs: {
+    lang: () => currentLanguage.value
+  }
+})
 
 // Lifecycle hooks should be right after custom hooks
 onMounted(() => {

@@ -29,7 +29,7 @@
           <a
             :href="`mailto:${cvData?.email}`"
             class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark text-gray-600 dark:text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 border border-gray-200 dark:border-white/10 hover:border-transparent hover:shadow-lg"
-            aria-label="Email"
+            aria-label="Enviar correo a Irvin Benitez"
           >
             <Mail class="h-5 w-5" />
           </a>
@@ -38,7 +38,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark text-gray-600 dark:text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 border border-gray-200 dark:border-white/10 hover:border-transparent hover:shadow-lg"
-            aria-label="LinkedIn"
+            aria-label="Irvin Benitez en LinkedIn"
           >
             <Linkedin class="h-5 w-5" />
           </a>
@@ -47,7 +47,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark text-gray-600 dark:text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 border border-gray-200 dark:border-white/10 hover:border-transparent hover:shadow-lg"
-            aria-label="GitHub"
+            aria-label="Irvin Benitez en GitHub"
           >
             <Github class="h-5 w-5" />
           </a>
@@ -56,7 +56,7 @@
             target="_blank"
             rel="noopener noreferrer"
             class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center hover:bg-gradient-to-br hover:from-primary hover:to-primary-dark text-gray-600 dark:text-gray-300 hover:text-white transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 border border-gray-200 dark:border-white/10 hover:border-transparent hover:shadow-lg"
-            aria-label="Instagram"
+            aria-label="Irvin Benitez en Instagram"
           >
             <Instagram class="h-5 w-5" />
           </a>

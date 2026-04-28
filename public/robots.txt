@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://portafolio-personal-v3.vercel.app/sitemap.xml
+Sitemap: https://irvincodes.dev/sitemap.xml

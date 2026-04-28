@@ -1,6 +1,6 @@
 "use client"
 
-import { ref, computed, watch } from "vue"
+import { ref, computed } from "vue"
 import type { Language } from "../types"
 import { translations } from "../data/translations"
 import { cvDataES, cvDataEN } from "../data/cvData"
@@ -15,13 +15,6 @@ export function useLanguage() {
   const toggleLanguage = () => {
     currentLanguage.value = currentLanguage.value === "es" ? "en" : "es"
   }
-
-  // Keep <html lang> in sync with the active language
-  watch(currentLanguage, (lang) => {
-    if (typeof window !== 'undefined') {
-      document.documentElement.lang = lang
-    }
-  }, { immediate: true })
 
   const t = computed(() => translations[currentLanguage.value])
 

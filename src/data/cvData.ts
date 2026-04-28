@@ -9,7 +9,7 @@ export const cvDataES: CVData = {
   linkedin: "https://www.linkedin.com/in/irvin-benitez-11313231b/",
   github: "https://github.com/IrvinngB",
   instagram: "https://www.instagram.com/_irvin.gg/",
-  portfolio: "https://irvin-benitez.software/",
+  portfolio: "https://irvincodes.dev/",
   metrics: [
     { value: "3+", labelEs: "Proyectos", labelEn: "Projects" },
     { value: "2", labelEs: "Años Exp.", labelEn: "Years Exp." },
@@ -140,7 +140,7 @@ export const cvDataEN: CVData = {
   linkedin: "https://www.linkedin.com/in/irvin-benitez-11313231b/",
   github: "https://github.com/IrvinngB",
   instagram: "https://www.instagram.com/_irvin.gg/",
-  portfolio: "https://irvin-benitez.software/",
+  portfolio: "https://irvincodes.dev/",
   metrics: [
     { value: "3+", labelEs: "Proyectos", labelEn: "Projects" },
     { value: "2", labelEs: "Años Exp.", labelEn: "Years Exp." },

@@ -205,7 +205,7 @@ const handleSubmit = async () => {
               target="_blank"
               rel="noopener noreferrer"
               class="flex items-center gap-3 sm:gap-4 p-4 sm:p-5 bg-gray-50 dark:bg-white/10 rounded-xl hover:bg-gray-100 dark:hover:bg-white/25 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 group focus:outline-none focus-ring border border-gray-200 dark:border-white/10"
-              aria-label="GitHub profile"
+              aria-label="GitHub profile of Irvin Benitez"
             >
               <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-primary-light to-primary-accent flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 flex-shrink-0">
                 <Github class="h-7 w-7 text-white" aria-hidden="true" strokeWidth="2.5" />
