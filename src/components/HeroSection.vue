@@ -2,6 +2,8 @@
   <section 
     class="min-h-screen flex items-center justify-center bg-transparent relative overflow-hidden pt-20"
     aria-label="Hero section - Introduction"
+    itemscope 
+    itemtype="https://schema.org/Person"
   >
     <!-- Background Elements -->
     <div class="absolute inset-0 overflow-hidden">
@@ -32,28 +34,29 @@
             </div>
             
             <!-- Nombre más grande -->
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-gray-900 dark:text-white mb-4 leading-tight tracking-tight">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black font-display text-gray-900 dark:text-white mb-4 leading-[1.1] tracking-tight" itemprop="name">
               {{ cvData.name }}
             </h1>
             
             <!-- Propuesta de valor impactante -->
-            <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#3FA35B] dark:text-[#B4D333] mb-6 leading-tight">
+            <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold font-display text-[#3FA35B] dark:text-[#B4D333] mb-6 leading-tight">
               {{ currentLanguage === 'es' 
                 ? 'Construyo experiencias web que ' 
                 : 'I build web experiences that ' }}
               <span class="relative inline-block">
                 <span class="relative z-10">{{ currentLanguage === 'es' ? 'importan' : 'matter' }}</span>
-                <span class="absolute bottom-1 left-0 w-full h-3 bg-[#B4D333] opacity-30 -z-0"></span>
+                <span class="absolute bottom-1 left-0 w-full h-3 bg-[#B4D333]/30 -z-0 rounded-sm"></span>
               </span>
             </h2>
             
             <!-- Descripción mejorada -->
-            <p class="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8">
-              {{ cvData.title }}. 
+            <p class="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8" itemprop="description">
+              <span itemprop="jobTitle">{{ cvData.title }}</span>. 
               {{ currentLanguage === 'es' 
                 ? 'Especializado en Vue.js, Node.js y arquitecturas escalables. Transformo ideas en productos digitales de alto rendimiento.' 
                 : 'Specialized in Vue.js, Node.js and scalable architectures. I transform ideas into high-performance digital products.' }}
             </p>
+            <meta itemprop="url" content="https://irvincodes.dev" />
             
             <!-- Métricas impactantes -->
             <div class="flex flex-wrap gap-4 sm:gap-6 justify-center lg:justify-start mb-8">

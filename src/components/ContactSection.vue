@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Mail, Linkedin, Instagram, Github, Send, CheckCircle, AlertCircle, Loader2, Sparkles } from 'lucide-vue-next'
+import { Mail, Linkedin, Instagram, Github, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 
 const { t, cvData, currentLanguage } = useLanguage()
@@ -75,17 +75,13 @@ const handleSubmit = async () => {
 
     <div class="container mx-auto px-4 sm:px-6 relative z-10">
       <div class="text-center mb-16 relative">
-        <div class="flex items-center gap-2 justify-center mb-4">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
-            <Sparkles class="w-5 h-5 text-white" aria-hidden="true" />
-          </div>
-        </div>
-        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-display text-gray-900 dark:text-white mb-4 tracking-tight">
+          <span class="text-gradient">
             {{ t.getInTouch }}
           </span>
         </h2>
-        <p class="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-8 px-2 leading-relaxed">
+        <div class="section-divider"></div>
+        <p class="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-8 px-2 leading-relaxed mt-6">
           {{ t.contactDescription }}
         </p>
       </div>

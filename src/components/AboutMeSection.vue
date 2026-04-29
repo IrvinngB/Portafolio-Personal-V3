@@ -6,7 +6,7 @@
           <!-- Contenido Principal -->
           <div class="order-2 lg:order-1">
             <div class="mb-6">
-              <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+              <h2 class="text-4xl md:text-5xl font-bold font-display text-gray-900 dark:text-white mb-6">
                 {{ currentLanguage === 'es' ? 'Más allá del código' : 'Beyond the code' }}
               </h2>
             </div>

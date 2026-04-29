@@ -7,6 +7,10 @@ module.exports = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        display: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
+        body: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+      },
       colors: {
         primary: {
           DEFAULT: 'var(--color-primary)',

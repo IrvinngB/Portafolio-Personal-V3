@@ -40,9 +40,13 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(63, 163, 91, 0.15);
 
   /* Typography */
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+
+  font-family: var(--font-body);
   line-height: 1.6;
   font-weight: 400;
   font-synthesis: none;
@@ -55,7 +59,7 @@
 .dark {
   --color-bg: #0A3D3D;
   --color-bg-alt: #1f2937;
-  --color-surface: rgba(255, 255, 255, 0.1);
+  --color-surface: rgba(255, 255, 255, 0.08);
   --color-surface-elevated: #1f2937;
 
   --color-text-primary: #ffffff;
@@ -69,6 +73,7 @@
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 30px rgba(63, 163, 91, 0.2);
 }
 
 * {
@@ -86,6 +91,34 @@ body {
 
 #app {
   min-height: 100vh;
+}
+
+/* ─── Display Font Utility ─── */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ─── Section Heading Styles ─── */
+.section-heading {
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+/* ─── Divider Accent ─── */
+.section-divider {
+  width: 60px;
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--gradient-primary);
+  margin: 0 auto 1.5rem;
+}
+
+.section-divider-left {
+  width: 60px;
+  height: 4px;
+  border-radius: 9999px;
+  background: var(--gradient-primary);
+  margin: 0 0 1.5rem;
 }
 
 /* Animation utilities */
@@ -220,10 +253,16 @@ a:focus-visible {
 }
 
 .glass {
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Light mode glass should be more opaque */
+:root .glass {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 /* Microinteracciones Avanzadas - Optimizadas */
@@ -331,7 +370,7 @@ button:active, a:active {
   background: linear-gradient(
     90deg,
     transparent,
-    color-mix(in srgb, var(--color-primary) 10%, transparent),
+    color-mix(in srgb, var(--color-primary) 8%, transparent),
     transparent
   );
   transition: transform 0.5s ease;
@@ -415,7 +454,32 @@ button:active, a:active {
 /* Smooth scroll mejorado */
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px;
+  scroll-padding-top: 100px; /* Account for floating navbar */
+}
+
+/* ─── Gradient Text Utility ─── */
+.text-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Section Separator ─── */
+.section-separator {
+  position: relative;
+}
+
+.section-separator::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  max-width: 600px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-border), transparent);
 }
 
 /* Reducir movimiento para usuarios con preferencias de accesibilidad */

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Briefcase, Building, Calendar, Sparkles } from 'lucide-vue-next'
+import { Briefcase, Building, Calendar } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 
-const { t, cvData } = useLanguage()
+const { t, cvData, currentLanguage } = useLanguage()
 </script>
 
 <template>
@@ -18,16 +18,13 @@ const { t, cvData } = useLanguage()
 
     <div class="container mx-auto px-4 sm:px-6 relative z-10">
       <div class="text-center mb-12 sm:mb-16 relative">
-        <div class="flex items-center gap-2 justify-center mb-4">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
-            <Sparkles class="w-5 h-5 text-white" aria-hidden="true" />
-          </div>
-        </div>
-        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
-            {{ t.workExperience }}
-          </span>
+        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-primary dark:text-primary-light mb-3">
+          {{ currentLanguage === 'es' ? 'Trayectoria' : 'Career' }}
+        </p>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-display text-gray-900 dark:text-white mb-4 tracking-tight">
+          {{ t.workExperience }}
         </h2>
+        <div class="section-divider"></div>
       </div>
 
       <div class="max-w-4xl mx-auto">

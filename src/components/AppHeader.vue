@@ -34,7 +34,7 @@ const scrollToSection = (event: Event, href?: string) => {
   if (targetHref && targetHref.trim()) {
     const element = document.querySelector(targetHref)
     if (element) {
-      const headerOffset = 80
+      const headerOffset = 100
       const elementPosition = element.getBoundingClientRect().top
       const offsetPosition = elementPosition + window.scrollY - headerOffset
       window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
@@ -93,10 +93,10 @@ onUnmounted(() => {
 
   <header 
     :class="[
-      'fixed top-0 left-0 w-full z-50 transition-all duration-300 backdrop-blur-md',
+      'fixed z-50 transition-all duration-500 backdrop-blur-xl',
       isScrolled 
-        ? 'bg-white/90 dark:bg-[#0A3D3D]/95 shadow-lg border-b border-gray-100 dark:border-gray-700 py-2' 
-        : 'bg-transparent dark:bg-[#0A3D3D]/80 py-4'
+        ? 'top-3 left-4 right-4 bg-white/85 dark:bg-[#0A3D3D]/90 shadow-lg shadow-black/5 dark:shadow-black/20 border border-gray-200/60 dark:border-white/10 rounded-2xl py-2' 
+        : 'top-0 left-0 right-0 bg-transparent py-4'
     ]"
     role="banner"
   >
@@ -110,11 +110,11 @@ onUnmounted(() => {
           >
             <div class="relative">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-primary to-primary-light">
-                <span class="text-white font-bold text-lg">IB</span>
+                <span class="text-white font-bold text-lg font-display">IB</span>
               </div>
             </div>
             <div class="hidden sm:block">
-              <h1 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary-light transition-colors duration-300">
+              <h1 class="text-xl font-bold font-display text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary-light transition-colors duration-300">
                 {{ displayName }}
               </h1>
               <p class="text-xs text-gray-600 dark:text-primary-light/70 -mt-1 font-medium">
@@ -125,7 +125,7 @@ onUnmounted(() => {
         </div>
 
         <div class="hidden lg:flex items-center">
-          <div class="flex items-center bg-gray-50/90 dark:bg-[#1f2937]/90 rounded-2xl px-2 py-2 shadow-sm dark:shadow-lg border border-gray-100 dark:border-gray-700 backdrop-blur-sm" role="menubar">
+          <div class="flex items-center bg-gray-50/90 dark:bg-white/5 rounded-2xl px-2 py-2 shadow-sm dark:shadow-lg border border-gray-100 dark:border-white/10 backdrop-blur-sm" role="menubar">
             <a
               v-for="(item, idx) in navItems"
               :key="item.href"
@@ -148,7 +148,7 @@ onUnmounted(() => {
         <div class="flex items-center gap-2">
           <button
             @click="toggleLanguage"
-            class="flex items-center gap-2 px-3 py-2 bg-gray-50/90 dark:bg-[#1f2937]/80 hover:bg-primary/10 dark:hover:bg-primary/20 rounded-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700 focus:outline-none focus-ring"
+            class="flex items-center gap-2 px-3 py-2 bg-gray-50/90 dark:bg-white/5 hover:bg-primary/10 dark:hover:bg-primary/20 rounded-xl transition-all duration-300 group border border-gray-100 dark:border-white/10 focus:outline-none focus-ring"
             :aria-label="`Switch language, current: ${currentLanguage.toUpperCase()}`"
           >
             <Globe class="h-4 w-4 text-gray-600 dark:text-primary-light group-hover:text-primary dark:group-hover:text-primary-accent transition-colors" aria-hidden="true" />
@@ -174,7 +174,7 @@ onUnmounted(() => {
 
           <button
             @click="toggleMobileMenu"
-            class="lg:hidden p-2.5 bg-gray-50/90 dark:bg-[#1f2937]/80 hover:bg-primary/10 dark:hover:bg-primary/20 rounded-xl transition-all duration-300 group border border-gray-100 dark:border-gray-700 focus:outline-none focus-ring"
+            class="lg:hidden p-2.5 bg-gray-50/90 dark:bg-white/5 hover:bg-primary/10 dark:hover:bg-primary/20 rounded-xl transition-all duration-300 group border border-gray-100 dark:border-white/10 focus:outline-none focus-ring"
             :aria-expanded="isMobileMenuOpen"
             aria-label="Toggle mobile menu"
           >
@@ -192,7 +192,7 @@ onUnmounted(() => {
         leave-from-class="opacity-100 transform translate-y-0"
         leave-to-class="opacity-0 transform -translate-y-2"
       >
-        <div v-if="isMobileMenuOpen" class="lg:hidden mt-4 border-t border-gray-100 dark:border-gray-700 pt-4">
+        <div v-if="isMobileMenuOpen" class="lg:hidden mt-4 border-t border-gray-100 dark:border-white/10 pt-4">
           <nav class="space-y-2" role="navigation" aria-label="Mobile navigation">
             <a
               v-for="(item, idx) in navItems"
@@ -221,7 +221,7 @@ onUnmounted(() => {
 /* Header con GPU acceleration */
 header {
   transform: translateZ(0);
-  will-change: background-color, padding;
+  will-change: background-color, padding, top, left, right, border-radius;
 }
 
 .nav-link {

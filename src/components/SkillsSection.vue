@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Code2, Server, Database, Wrench, Layers, Palette, GitBranch, Globe, Sparkles } from 'lucide-vue-next'
+import { Code2, Server, Database, Wrench, Layers, Palette, GitBranch, Globe } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useGSAP } from '../composables/useGSAP'
 
@@ -84,16 +84,8 @@ const selectCategory = (index: number) => {
     <div class="container mx-auto px-4 sm:px-6 relative z-10">
       <!-- Section Header -->
       <div class="text-center mb-12 sm:mb-16 relative">
-        <div class="flex items-center gap-2 justify-center mb-4">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
-            <Sparkles class="w-5 h-5 text-white" aria-hidden="true" />
-          </div>
-        </div>
-        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6 tracking-tight">
-          {{ currentLanguage === 'es' ? 'Mi ' : 'My ' }}
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary-light">
-            {{ currentLanguage === 'es' ? 'Stack Técnico' : 'Tech Stack' }}
-          </span>
+        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-display text-gray-900 dark:text-white mb-4 tracking-tight">
+          {{ currentLanguage === 'es' ? 'Mi ' : 'My ' }}<span class="text-gradient">{{ currentLanguage === 'es' ? 'Stack Técnico' : 'Tech Stack' }}</span>
         </h2>
         <p class="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-4 leading-relaxed">
           {{ currentLanguage === 'es'

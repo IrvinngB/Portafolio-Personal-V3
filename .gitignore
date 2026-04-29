@@ -22,4 +22,7 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+
+# AI Skills and Design System
+.agents
+design-system

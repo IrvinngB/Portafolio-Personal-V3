@@ -18,7 +18,7 @@
               <span class="text-white font-bold text-lg">IB</span>
             </div>
             <div>
-              <h3 class="text-xl font-bold text-gray-900 dark:text-white">{{ cvData?.name }}</h3>
+              <h3 class="text-xl font-bold font-display text-gray-900 dark:text-white">{{ cvData?.name }}</h3>
               <p class="text-xs text-gray-500 dark:text-gray-400 -mt-0.5 font-medium">{{ cvData?.title }}</p>
             </div>
           </div>
@@ -66,10 +66,17 @@
       <!-- Divider -->
       <div class="border-t border-gray-200 dark:border-white/10 mt-10 pt-6">
         <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
-            &copy; {{ currentYear }} {{ cvData?.name }}.
-            {{ currentLanguage === 'es' ? 'Todos los derechos reservados.' : 'All rights reserved.' }}
-          </p>
+          <div>
+            <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm">
+              &copy; {{ currentYear }} {{ cvData?.name }} — Full Stack Developer.
+              {{ currentLanguage === 'es' ? 'Todos los derechos reservados.' : 'All rights reserved.' }}
+            </p>
+            <p class="text-gray-400 dark:text-gray-500 text-[10px] sm:text-xs mt-1">
+              {{ currentLanguage === 'es' 
+                ? 'Vue.js · Django · React · Laravel · TypeScript · Panamá' 
+                : 'Vue.js · Django · React · Laravel · TypeScript · Panama' }}
+            </p>
+          </div>
           <p class="text-gray-500 dark:text-gray-400 text-xs sm:text-sm flex items-center gap-1.5">
             {{ currentLanguage === 'es' ? 'Diseñado y construido con' : 'Designed & built with' }}
             <Heart class="h-3.5 w-3.5 text-primary" />
@@ -77,6 +84,21 @@
             <span class="font-semibold text-gray-700 dark:text-gray-200">{{ cvData?.name?.split(' ')[0] }}</span>
           </p>
         </div>
+      </div>
+
+      <!-- SEO: Hidden semantic content for search engines -->
+      <div class="sr-only" aria-hidden="true" role="contentinfo" itemscope itemtype="https://schema.org/Person">
+        <span itemprop="name">Irvin Benitez</span>
+        <span itemprop="jobTitle">Full Stack Developer</span>
+        <span itemprop="description">Desarrollador de Software Full Stack en Panamá. Especializado en Vue.js, Django, React, Laravel, TypeScript, Python, PHP, React Native e Inteligencia Artificial. Disponible para proyectos freelance y trabajo remoto.</span>
+        <span itemprop="url">https://irvincodes.dev</span>
+        <span itemprop="email">Irvin.benitezs.26@gmail.com</span>
+        <span itemprop="telephone">+507 6361-5832</span>
+        <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+          <span itemprop="addressLocality">Panamá Oeste</span>,
+          <span itemprop="addressCountry">Panamá</span>
+        </span>
+        <span>Irvin Benitez Software Developer Panama. irvincodes. Desarrollador web. Programador. Best developer Panama. Hire Irvin Benitez.</span>
       </div>
     </div>
 

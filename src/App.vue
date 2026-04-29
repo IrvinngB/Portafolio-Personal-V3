@@ -23,35 +23,43 @@ const { currentLanguage } = useLanguage()
 
 useHead({
   title: () => currentLanguage.value === 'es'
-    ? 'Irvin Benitez | Desarrollador Full Stack — Panamá'
-    : 'Irvin Benitez | Full Stack Developer — Panama',
+    ? 'Irvin Benitez — Desarrollador Full Stack | Vue.js, Django, React | Panamá'
+    : 'Irvin Benitez — Full Stack Developer | Vue.js, Django, React | Panama',
   meta: [
     {
       name: 'description',
       content: () => currentLanguage.value === 'es'
-        ? 'Portafolio de Irvin Benitez, desarrollador Full Stack en Panamá. Especializado en Vue.js, Django, Laravel, React y soluciones de IA. Egresado de la UTP.'
-        : 'Portfolio of Irvin Benitez, Full Stack Developer from Panama. Specialized in Vue.js, Django, Laravel, React and AI solutions. UTP graduate.'
+        ? 'Portafolio de Irvin Benitez, desarrollador Full Stack en Panamá. Especializado en Vue.js, Django, Laravel, React Native, TypeScript e Inteligencia Artificial. Transformo ideas en productos digitales de alto rendimiento.'
+        : 'Portfolio of Irvin Benitez, Full Stack Developer from Panama. Specialized in Vue.js, Django, Laravel, React Native, TypeScript and Artificial Intelligence. I transform ideas into high-performance digital products.'
     },
     {
       property: 'og:title',
       content: () => currentLanguage.value === 'es'
-        ? 'Irvin Benitez | Desarrollador Full Stack'
-        : 'Irvin Benitez | Full Stack Developer'
+        ? 'Irvin Benitez — Desarrollador Full Stack | Panamá'
+        : 'Irvin Benitez — Full Stack Developer | Panama'
     },
     {
       property: 'og:description',
       content: () => currentLanguage.value === 'es'
-        ? 'Explora mis proyectos de software y arquitectura web. Vue.js, Django, Laravel, React.'
-        : 'Explore my software projects and web architecture. Vue.js, Django, Laravel, React.'
+        ? 'Explora mis proyectos de software y arquitectura web. Vue.js, Django, Laravel, React, IA. Portafolio profesional.'
+        : 'Explore my software projects and web architecture. Vue.js, Django, Laravel, React, AI. Professional portfolio.'
     },
     { property: 'og:url', content: 'https://irvincodes.dev' },
+    { property: 'og:site_name', content: 'Irvin Benitez — Full Stack Developer' },
     { name: 'twitter:card', content: 'summary_large_image' },
     {
       name: 'twitter:title',
       content: () => currentLanguage.value === 'es'
-        ? 'Irvin Benitez | Desarrollador Full Stack'
-        : 'Irvin Benitez | Full Stack Developer'
-    }
+        ? 'Irvin Benitez — Desarrollador Full Stack'
+        : 'Irvin Benitez — Full Stack Developer'
+    },
+    {
+      name: 'twitter:description',
+      content: () => currentLanguage.value === 'es'
+        ? 'Vue.js, Django, React & IA. Desarrollo web profesional desde Panamá.'
+        : 'Vue.js, Django, React & AI. Professional web development from Panama.'
+    },
+    { name: 'twitter:creator', content: '@irvin_dev' }
   ],
   htmlAttrs: {
     lang: () => currentLanguage.value
@@ -97,7 +105,6 @@ const handleKeyPress = (event: KeyboardEvent) => {
       <ProjectsSection />
       <SkillsSection />
       <EducationSection />
-    
       <WhyHireMeSection />
       <ContactSection />
     </main>
