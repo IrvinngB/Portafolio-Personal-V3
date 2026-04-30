@@ -1,13 +1,11 @@
 {
   "name": "Irvin Benitez — Full Stack Developer",
   "short_name": "Irvin B.",
-  "description": "Portafolio profesional de Irvin Benitez, desarrollador Full Stack en Panamá. Vue.js, Django, React, Laravel.",
+  "description": "Portafolio profesional de Irvin Benitez, desarrollador Full Stack en Panamá.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0A3D3D",
   "theme_color": "#3FA35B",
-  "orientation": "portrait-primary",
-  "lang": "es",
   "icons": [
     {
       "src": "/icons/android-chrome-192x192.png",
@@ -17,10 +15,7 @@
     {
       "src": "/icons/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
-  ],
-  "categories": ["portfolio", "developer", "software"],
-  "prefer_related_applications": false
+  ]
 }
