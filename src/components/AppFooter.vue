@@ -1,37 +1,33 @@
 <template>
-  <footer class="border-t border-border/50 pt-6 pb-8">
+  <footer class="border-t-2 border-border pt-6 pb-8 bg-bg">
     <div class="container mx-auto px-4 sm:px-6">
       <!-- Single horizontal line -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
         <!-- Availability dot — clickable, scrolls to contact -->
         <button
           @click="scrollToContact"
-          class="flex items-center gap-2 group relative cursor-pointer"
+          class="flex items-center gap-2 group cursor-pointer"
           :aria-label="currentLanguage === 'es' ? 'Disponible para freelance — ir a contacto' : 'Available for freelance — go to contact'"
         >
           <span class="relative flex h-2.5 w-2.5">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-teal opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-teal"></span>
           </span>
-          <span class="text-caption text-fg-soft group-hover:text-fg transition-colors duration-fast">
+          <span class="text-label text-fg-soft group-hover:text-fg transition-colors">
             {{ currentLanguage === 'es' ? 'Disponible para freelance' : 'Available for freelance' }}
-          </span>
-          <!-- Tooltip on hover -->
-          <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-container border border-border rounded-lg px-3 py-1.5 text-label-sm text-fg-soft opacity-0 group-hover:opacity-100 transition-opacity duration-fast whitespace-nowrap pointer-events-none">
-            {{ currentLanguage === 'es' ? 'Click para contactar' : 'Click to get in touch' }}
           </span>
         </button>
 
         <!-- Email -->
         <a
           :href="`mailto:${cvData?.email}`"
-          class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast"
+          class="text-label text-fg-soft hover:text-accent-yellow transition-colors"
         >
           Irvin.benitezs.26@gmail.com
         </a>
 
         <!-- Location -->
-        <span class="text-caption text-muted">
+        <span class="text-label text-accent-teal">
           Panamá Oeste, PA
         </span>
       </div>
@@ -56,7 +52,8 @@
     <div class="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50">
       <button
         @click="scrollToTop"
-        class="p-3 rounded-2xl bg-surface-container border border-border text-fg-soft hover:text-accent shadow-card transition-colors duration-fast"
+        class="brutal-card p-3 text-fg-soft hover:text-fg transition-colors"
+        style="border-radius: 12px;"
         aria-label="Scroll to top"
       >
         <ChevronUp class="h-6 w-6" strokeWidth="2.5" />
