@@ -10,11 +10,6 @@ export const cvDataES: CVData = {
   github: "https://github.com/IrvinngB",
   instagram: "https://www.instagram.com/_irvin.gg/",
   portfolio: "https://irvincodes.dev/",
-  metrics: [
-    { value: "3+", labelEs: "Proyectos", labelEn: "Projects" },
-    { value: "2", labelEs: "Años Exp.", labelEn: "Years Exp." },
-    { value: "500+", labelEs: "Contribuciones", labelEn: "Contributions" }
-  ],
   professionalProfile: "Desarrollador Full-Stack especializado en tecnologías modernas como React, Vue.js, Django y Flask. Experto en desarrollo móvil con React Native, gestión de bases de datos e implementación de prácticas DevOps. Apasionado por crear soluciones innovadoras y eficientes.",
   workExperience: [
     {
@@ -141,11 +136,6 @@ export const cvDataEN: CVData = {
   github: "https://github.com/IrvinngB",
   instagram: "https://www.instagram.com/_irvin.gg/",
   portfolio: "https://irvincodes.dev/",
-  metrics: [
-    { value: "3+", labelEs: "Proyectos", labelEn: "Projects" },
-    { value: "2", labelEs: "Años Exp.", labelEn: "Years Exp." },
-    { value: "500+", labelEs: "Contribuciones", labelEn: "Contributions" }
-  ],
   professionalProfile: "Full-Stack Developer specialized in modern technologies like React, Vue.js, Django, and Flask. Expert in mobile development with React Native, database management, and DevOps implementation. Passionate about creating innovative and efficient solutions.",
   workExperience: [
     {
@@ -259,3 +249,25 @@ export const cvDataEN: CVData = {
     }
   }
 };
+
+export interface ActiveProject {
+  title: string
+  description: string
+  status: 'building' | 'planning'
+  url?: string
+}
+
+export const activeProjects: ActiveProject[] = [
+  {
+    title: 'VentiBot v2',
+    description: 'WhatsApp chatbot con IA, integración RAG y flujos conversacionales avanzados.',
+    status: 'building',
+    url: 'https://github.com/IrvinngB/JIC-VentiBot'
+  },
+  {
+    title: 'Sistema IoT de Monitoreo',
+    description: 'Plataforma de alerta temprana con microcontroladores y dashboard en tiempo real.',
+    status: 'planning',
+    url: 'https://github.com/IrvinngB/alerta-microcotrolador'
+  }
+]
