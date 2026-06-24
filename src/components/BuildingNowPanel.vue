@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import { activeProjects } from '../data/cvData'
+
+const timeAgo = (dateStr?: string): string => {
+  if (!dateStr) return ''
+  const now = Date.now()
+  const then = new Date(dateStr).getTime()
+  const diffDays = Math.floor((now - then) / (1000 * 60 * 60 * 24))
+  if (diffDays === 0) return 'hoy'
+  if (diffDays === 1) return 'ayer'
+  if (diffDays < 7) return `hace ${diffDays} días`
+  if (diffDays < 30) return `hace ${Math.floor(diffDays / 7)} sem`
+  return `hace ${Math.floor(diffDays / 30)} mes${Math.floor(diffDays / 30) > 1 ? 'es' : ''}`
+}
 </script>
 
 <template>
@@ -19,6 +31,9 @@ import { activeProjects } from '../data/cvData'
         <h3 class="text-h3 text-fg">{{ project.title }}</h3>
       </div>
       <p class="text-body-sm text-fg-soft">{{ project.description }}</p>
+      <span v-if="project.lastUpdated" class="text-label-sm text-muted mt-1">
+        {{ project.status === 'building' ? 'Actualizado' : 'Planificado' }} {{ timeAgo(project.lastUpdated) }}
+      </span>
     </div>
   </div>
 </template>

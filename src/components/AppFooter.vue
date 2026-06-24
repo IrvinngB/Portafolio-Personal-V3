@@ -3,16 +3,24 @@
     <div class="container mx-auto px-4 sm:px-6">
       <!-- Single horizontal line -->
       <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-        <!-- Availability dot -->
-        <div class="flex items-center gap-2">
+        <!-- Availability dot — clickable, scrolls to contact -->
+        <button
+          @click="scrollToContact"
+          class="flex items-center gap-2 group relative cursor-pointer"
+          :aria-label="currentLanguage === 'es' ? 'Disponible para freelance — ir a contacto' : 'Available for freelance — go to contact'"
+        >
           <span class="relative flex h-2.5 w-2.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
             <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
           </span>
-          <span class="text-caption text-fg-soft">
-            {{ currentLanguage === 'es' ? 'Disponible' : 'Available' }}
+          <span class="text-caption text-fg-soft group-hover:text-fg transition-colors duration-fast">
+            {{ currentLanguage === 'es' ? 'Disponible para freelance' : 'Available for freelance' }}
           </span>
-        </div>
+          <!-- Tooltip on hover -->
+          <span class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface-container border border-border rounded-lg px-3 py-1.5 text-label-sm text-fg-soft opacity-0 group-hover:opacity-100 transition-opacity duration-fast whitespace-nowrap pointer-events-none">
+            {{ currentLanguage === 'es' ? 'Click para contactar' : 'Click to get in touch' }}
+          </span>
+        </button>
 
         <!-- Email -->
         <a
@@ -68,5 +76,10 @@ const scrollToTop = () => {
     top: 0,
     behavior: 'smooth'
   })
+}
+
+const scrollToContact = () => {
+  const el = document.querySelector('#contact')
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 </script>

@@ -13,10 +13,14 @@
           <h1 class="text-display text-fg" itemprop="name">Irvin</h1>
           <h1 class="text-display-italic text-accent-alt">Benitez</h1>
 
-          <!-- Subtitle -->
-          <p class="text-body-lg text-fg-soft mt-3">
-            {{ cvData.title }}
-          </p>
+          <!-- Subtitle — cycling roles -->
+          <div class="h-[28px] mt-3 overflow-hidden">
+            <Transition name="role" mode="out-in">
+              <p class="text-body-lg text-fg-soft" :key="currentRoleIndex">
+                {{ cyclingRoles[currentRoleIndex] }}
+              </p>
+            </Transition>
+          </div>
 
           <!-- Description -->
           <p class="text-body-md text-fg-soft mt-4 max-w-lg mx-auto lg:mx-0" itemprop="description">
@@ -175,6 +179,15 @@ const { currentLanguage, t, cvData } = useLanguage()
 
 const svgRoot = ref<HTMLElement | null>(null)
 
+// Cycling roles subtitle — editorial flair
+const cyclingRoles = computed(() =>
+  currentLanguage.value === 'es'
+    ? ['Full Stack Developer', 'Vue.js Specialist', 'Software Architect', 'TypeScript Craftsman']
+    : ['Full Stack Developer', 'Vue.js Specialist', 'Software Architect', 'TypeScript Craftsman']
+)
+const currentRoleIndex = ref(0)
+let roleInterval: ReturnType<typeof setInterval> | undefined
+
 const cvPdfUrl = computed(() => {
   const relativePath = currentLanguage.value === 'es'
     ? '/files/CV_ES.pdf'
@@ -196,14 +209,32 @@ let stopAnimation: (() => void) | undefined
 
 onMounted(async () => {
   stopAnimation = await initHeroAnimation(svgRoot.value ?? undefined)
+  roleInterval = setInterval(() => {
+    currentRoleIndex.value = (currentRoleIndex.value + 1) % cyclingRoles.value.length
+  }, 3000)
 })
 
 onUnmounted(() => {
   if (typeof stopAnimation === 'function') stopAnimation()
+  if (roleInterval) clearInterval(roleInterval)
 })
 </script>
 
 <style scoped>
+/* Role cycling transition */
+.role-enter-active,
+.role-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.role-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.role-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
 /* Ensure SVG and inner elements are visible for animation */
 .me {
   visibility: visible !important;

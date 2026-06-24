@@ -33,7 +33,8 @@
           >
             <!-- Timeline dot -->
             <div
-              class="absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-xl border-4 border-bg bg-accent z-10 flex items-center justify-center"
+              class="timeline-dot absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-xl border-4 border-bg bg-accent z-10 flex items-center justify-center"
+              :style="{ animationDelay: `${index * 250}ms` }"
             >
               <Briefcase class="h-4 w-4 sm:h-5 sm:w-5 text-accent-fg" aria-hidden="true" strokeWidth="2.5" />
             </div>
@@ -93,5 +94,21 @@ onMounted(() => {
   transform: translateY(0);
   transition: opacity var(--duration-slow) var(--ease-out),
               transform var(--duration-slow) var(--ease-out);
+}
+
+/* Sequential dot pulse — heartbeat along the timeline */
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(63, 163, 91, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(63, 163, 91, 0); }
+}
+
+.is-visible .timeline-dot {
+  animation: dotPulse 1.5s var(--ease-out) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .timeline-dot {
+    animation: none !important;
+  }
 }
 </style>

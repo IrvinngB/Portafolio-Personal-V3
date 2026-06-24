@@ -45,16 +45,22 @@
               </div>
             </div>
 
-            <!-- Progress for current studies -->
-            <div v-if="education.duration.toLowerCase().includes('2026')" class="flex flex-col items-end">
-              <span class="text-label-sm text-accent mb-2">{{ t.inProgress }}</span>
-              <div class="w-32 bg-surface-high rounded-full h-1.5">
-                <div
-                  class="h-1.5 rounded-full bg-accent transition-all duration-slow"
-                  :style="{ width: getProgressPercentage(education.duration) + '%' }"
-                ></div>
-              </div>
-              <span class="text-caption text-muted mt-1">{{ getProgressPercentage(education.duration) }}%</span>
+            <!-- Circular progress ring for current studies -->
+            <div v-if="education.duration.toLowerCase().includes('2026')" class="flex flex-col items-center gap-2 mt-4 md:mt-0">
+              <span class="text-label-sm text-accent">{{ t.inProgress }}</span>
+              <svg viewBox="0 0 36 36" class="w-16 h-16 -rotate-90">
+                <circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--surface-high)" stroke-width="2.5" />
+                <circle
+                  cx="18" cy="18" r="15.5" fill="none" stroke="var(--accent)" stroke-width="2.5"
+                  stroke-linecap="round"
+                  :stroke-dasharray="97.4"
+                  :stroke-dashoffset="97.4 - (97.4 * getProgressPercentage(education.duration) / 100)"
+                  class="transition-all duration-slow"
+                />
+                <text x="18" y="20" text-anchor="middle" fill="var(--fg)" font-size="8" font-weight="600" font-family="'Plus Jakarta Sans', sans-serif" transform="rotate(90 18 18)">
+                  {{ getProgressPercentage(education.duration) }}%
+                </text>
+              </svg>
             </div>
           </div>
         </div>
