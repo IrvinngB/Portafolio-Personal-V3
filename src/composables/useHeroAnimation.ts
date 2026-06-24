@@ -110,29 +110,22 @@ export async function initHeroAnimation(root?: HTMLElement | null): Promise<() =
   const idleTl = gsap.timeline({ repeat: -1, yoyo: true, paused: true })
 
   idleTl
-    // Head tilts slightly
-    .to(dom.face, {
+    // Head + hair move together — no separation
+    .to([dom.face, dom.hairLeft], {
       duration: 4,
-      rotate: 0.8,
-      ease: "sine.inOut",
-    }, 0)
-    // Hair sways
-    .to(dom.hairLeft, {
-      duration: 4,
-      rotation: 1.5,
-      yPercent: -1,
+      rotate: 0.5,
       ease: "sine.inOut",
     }, 0)
     // Glasses slide down nose slightly
     .to(dom.glasses, {
       duration: 4,
-      yPercent: 2,
+      yPercent: 1.5,
       ease: "sine.inOut",
     }, 0)
-    // Body subtle sway
-    .to(dom.me, {
+    // Body subtle sway — hair follows
+    .to([dom.me, dom.hairGroup], {
       duration: 5,
-      xPercent: 0.5,
+      xPercent: 0.3,
       ease: "sine.inOut",
     }, 0)
 
@@ -289,24 +282,23 @@ export async function initHeroAnimation(root?: HTMLElement | null): Promise<() =
       ease: "power2.out",
     })
 
-    // Hair group — enhanced physics
+    // Hair left — subtly follows face, never detaches
     if (dom.hairLeft) {
       gsap.to(dom.hairLeft, {
         duration: 0.8,
         ease: "power3.out",
-        yPercent: (yLow / 30) * 0.6,
-        xPercent: (x / 30) * 0.6,
-        rotation: (x / 60) + (y / 50),
-        scaleX: 1 + Math.abs(x) / 600 + Math.abs(y) / 900,
+        yPercent: yLow / 60,       // half of face movement
+        xPercent: x / 60,          // half of face movement
+        rotation: x / 120,         // very subtle rotation
       })
     }
 
-    // Hair group overall sway
+    // Hair group — follows face proportionally
     if (dom.hairGroup) {
       gsap.to(dom.hairGroup, {
-        duration: 0.9,
-        rotation: x / 80,
-        xPercent: x / 40,
+        duration: 0.8,
+        rotation: x / 160,
+        xPercent: x / 80,
         ease: "power2.out",
       })
     }

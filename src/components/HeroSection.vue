@@ -150,11 +150,8 @@
                 </div>
               </div>
           </div>
-
-          <!-- Building Now Panel -->
-          <BuildingNowPanel />
-        </div>
       </div>
+    </div>
 
       <!-- Creative scroll indicator — fills as you scroll -->
       <div class="absolute bottom-0 right-6 sm:right-10 z-20 flex flex-col items-center gap-2" style="height: 80px;">
@@ -172,7 +169,6 @@ import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { Download, ChevronDown } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { initHeroAnimation } from '../composables/useHeroAnimation'
-import BuildingNowPanel from './BuildingNowPanel.vue'
 
 const { currentLanguage, t, cvData } = useLanguage()
 
