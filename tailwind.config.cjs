@@ -8,9 +8,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Bricolage Grotesque', 'sans-serif'],
-        body: ['Plus Jakarta Sans', 'sans-serif'],
-        mono: ['Cascadia Code', 'Fira Code', 'ui-monospace', 'monospace'],
+        display: ['JetBrains Mono', 'Cascadia Code', 'monospace'],
+        body: ['JetBrains Mono', 'monospace'],
+        mono: ['JetBrains Mono', 'Cascadia Code', 'monospace'],
       },
       colors: {
         bg: 'var(--bg)',

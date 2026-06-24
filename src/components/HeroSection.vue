@@ -5,13 +5,17 @@
     itemscope
     itemtype="https://schema.org/Person"
   >
+    <!-- Scanline overlay — neuro signature -->
+    <div class="absolute inset-0 pointer-events-none z-20 opacity-[0.03]" aria-hidden="true"
+         style="background: repeating-linear-gradient(0deg, transparent, transparent 2px, var(--accent) 2px, var(--accent) 4px);">
+    </div>
     <div class="container mx-auto px-4 sm:px-6 relative z-10">
       <div class="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-start">
         <!-- Left Column: Content -->
         <div class="text-center lg:text-left pt-8 lg:pt-16">
-          <!-- Name -->
-          <h1 class="text-display text-fg" itemprop="name">Irvin</h1>
-          <h1 class="text-display-italic text-accent-alt">Benitez</h1>
+          <!-- Name — glitch on hover -->
+          <h1 class="text-display text-fg glitch-name" itemprop="name" data-text="Irvin">Irvin</h1>
+          <h1 class="text-display-italic text-accent-alt glitch-name" data-text="Benitez">Benitez</h1>
 
           <!-- Subtitle — cycling roles -->
           <div class="h-[28px] mt-3 overflow-hidden">
@@ -32,11 +36,11 @@
 
           <meta itemprop="url" content="https://irvincodes.dev" />
 
-          <!-- CTAs -->
+          <!-- CTAs — brutalist: hard borders, offset shadows -->
           <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mt-6">
             <button
               @click="scrollToContact"
-              class="bg-accent text-accent-fg rounded-full px-6 py-3 text-btn transition-colors duration-fast hover:bg-surface-high"
+              class="neo-btn bg-accent text-accent-fg px-6 py-3 text-btn border-2 border-accent shadow-card hover:shadow-card-hover hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all duration-fast"
               :aria-label="currentLanguage === 'es' ? 'Ir a sección de contacto' : 'Go to contact section'"
             >
               {{ t.getInTouch }}
@@ -44,7 +48,7 @@
             <a
               :href="cvPdfUrl"
               download
-              class="border border-accent text-accent rounded-full px-6 py-3 text-btn transition-colors duration-fast hover:bg-accent hover:text-accent-fg flex items-center justify-center gap-2"
+              class="neo-btn bg-surface-container text-accent px-6 py-3 text-btn border-2 border-accent shadow-card hover:shadow-card-hover hover:-translate-x-[1px] hover:-translate-y-[1px] transition-all duration-fast flex items-center justify-center gap-2"
               :aria-label="`${t.downloadCV} - PDF file`"
             >
               <Download class="h-5 w-5" aria-hidden="true" />
@@ -76,11 +80,10 @@
 
         <!-- Right Column: Avatar + Building Now -->
         <div class="flex flex-col items-center lg:items-end gap-8 mt-8 lg:mt-0">
-          <!-- SVG Avatar -->
+          <!-- SVG Avatar — brutalist frame -->
           <div class="relative">
             <div 
-              class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 border border-border overflow-hidden"
-              style="border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;"
+              class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 border-2 border-accent overflow-hidden shadow-card"
             >
               <div class="w-full h-full p-2 bg-surface-container/50">
                   <div
@@ -224,15 +227,62 @@ onUnmounted(() => {
 /* Role cycling transition */
 .role-enter-active,
 .role-leave-active {
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.15s steps(3), transform 0.15s steps(3);
 }
 .role-enter-from {
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(6px);
 }
 .role-leave-to {
   opacity: 0;
-  transform: translateY(-8px);
+  transform: translateY(-6px);
+}
+
+/* Glitch name hover */
+.glitch-name {
+  position: relative;
+  cursor: default;
+  transition: text-shadow 0.1s;
+}
+.glitch-name:hover {
+  animation: glitch-1 0.3s steps(2) infinite;
+}
+.glitch-name::before,
+.glitch-name::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+.glitch-name::before {
+  color: var(--accent);
+  z-index: -1;
+}
+.glitch-name::after {
+  color: var(--accent-alt);
+  z-index: -2;
+}
+.glitch-name:hover::before {
+  animation: glitch-1 0.3s steps(2) infinite;
+  opacity: 0.8;
+  clip-path: inset(20% 0 60% 0);
+}
+.glitch-name:hover::after {
+  animation: glitch-2 0.3s steps(2) infinite;
+  opacity: 0.8;
+  clip-path: inset(60% 0 20% 0);
+}
+
+/* Brutalist CTA buttons */
+.neo-btn {
+  position: relative;
+}
+.neo-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: none !important;
 }
 
 /* Ensure SVG and inner elements are visible for animation */
