@@ -1,85 +1,46 @@
 <template>
-  <section 
-    class="min-h-screen flex items-center justify-center bg-transparent relative overflow-hidden pt-20"
+  <section
+    class="min-h-screen flex items-center bg-transparent relative overflow-hidden pt-20 pb-12"
     aria-label="Hero section - Introduction"
-    itemscope 
+    itemscope
     itemtype="https://schema.org/Person"
   >
-    <!-- Background Elements -->
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="parallax absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl" style="background-color: rgba(63, 163, 91, 0.1);"></div>
-      <div class="parallax absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl" style="background-color: rgba(180, 211, 51, 0.1);"></div>
-      <div class="absolute top-20 left-20 w-2 h-2 rounded-full animate-pulse bg-primary"></div>
-      <div class="absolute top-40 right-32 w-1 h-1 rounded-full animate-pulse bg-primary-light" style="animation-delay: 1s;"></div>
-      <div class="absolute bottom-32 left-32 w-1.5 h-1.5 rounded-full animate-pulse bg-primary-accent" style="animation-delay: 2s;"></div>
-    </div>
-
     <div class="container mx-auto px-4 sm:px-6 relative z-10">
-      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-        <!-- Content -->
-        <div class="hero-content text-center lg:text-left">
-          <div class="mb-8">
-            <!-- Saludo inicial -->
-            <div class="flex items-center gap-2 justify-center lg:justify-start mb-3">
-              <div 
-                class="w-10 h-10 rounded-full bg-gradient-to-br from-[#3FA35B] to-[#B4D333] flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform"
-                role="img"
-                aria-label="Sparkles icon"
-              >
-                <Sparkles class="w-5 h-5 text-white" aria-hidden="true" />
-              </div>
-              <p class="text-lg font-semibold text-[#3FA35B] dark:text-[#B4D333] animate-fade-in">
-                {{ currentLanguage === 'es' ? 'Hola, soy' : 'Hi, I\'m' }}
-              </p>
-            </div>
-            
-            <!-- Nombre más grande -->
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black font-display text-gray-900 dark:text-white mb-4 leading-[1.1] tracking-tight" itemprop="name">
-              {{ cvData.name }}
-            </h1>
-            
-            <!-- Propuesta de valor impactante -->
-            <h2 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold font-display text-[#3FA35B] dark:text-[#B4D333] mb-6 leading-tight">
-              {{ currentLanguage === 'es' 
-                ? 'Construyo experiencias web que ' 
-                : 'I build web experiences that ' }}
-              <span class="relative inline-block">
-                <span class="relative z-10">{{ currentLanguage === 'es' ? 'importan' : 'matter' }}</span>
-                <span class="absolute bottom-1 left-0 w-full h-3 bg-[#B4D333]/30 -z-0 rounded-sm"></span>
-              </span>
-            </h2>
-            
-            <!-- Descripción mejorada -->
-            <p class="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 mb-8" itemprop="description">
-              <span itemprop="jobTitle">{{ cvData.title }}</span>. 
-              {{ currentLanguage === 'es' 
-                ? 'Especializado en Vue.js, Node.js y arquitecturas escalables. Transformo ideas en productos digitales de alto rendimiento.' 
-                : 'Specialized in Vue.js, Node.js and scalable architectures. I transform ideas into high-performance digital products.' }}
-            </p>
-            <meta itemprop="url" content="https://irvincodes.dev" />
-            
-            <!-- Métricas impactantes -->
-            <div class="flex flex-wrap gap-4 sm:gap-6 justify-center lg:justify-start mb-8">
-              <div v-for="metric in cvData.metrics" :key="metric.value" class="text-center">
-                <div class="text-3xl sm:text-4xl md:text-5xl font-black text-[#3FA35B] dark:text-[#B4D333] mb-1">{{ metric.value }}</div>
-                <div class="text-sm text-gray-600 dark:text-gray-400 font-medium">{{ currentLanguage === 'es' ? metric.labelEs : metric.labelEn }}</div>
-              </div>
-            </div>
-          </div>
+      <div class="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-start">
+        <!-- Left Column: Content -->
+        <div class="text-center lg:text-left pt-8 lg:pt-16">
+          <!-- Name -->
+          <h1 class="text-display text-fg" itemprop="name">Irvin</h1>
+          <h1 class="text-display-italic text-accent">Benitez</h1>
 
-          <!-- CTA Buttons -->
-          <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
+          <!-- Subtitle -->
+          <p class="text-body-lg text-fg-soft mt-3">
+            {{ cvData.title }}
+          </p>
+
+          <!-- Description -->
+          <p class="text-body-md text-fg-soft mt-4 max-w-lg mx-auto lg:mx-0" itemprop="description">
+            <span itemprop="jobTitle">{{ cvData.title }}</span>.
+            {{ currentLanguage === 'es'
+              ? 'Especializado en Vue.js, Node.js y arquitecturas escalables. Transformo ideas en productos digitales de alto rendimiento.'
+              : 'Specialized in Vue.js, Node.js and scalable architectures. I transform ideas into high-performance digital products.' }}
+          </p>
+
+          <meta itemprop="url" content="https://irvincodes.dev" />
+
+          <!-- CTAs -->
+          <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mt-6">
             <button
               @click="scrollToContact"
-              class="px-6 sm:px-8 py-3 sm:py-4 text-white rounded-xl font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg cta-primary text-sm sm:text-base"
-              aria-label="{{ currentLanguage === 'es' ? 'Ir a sección de contacto' : 'Go to contact section' }}"
+              class="bg-accent text-accent-fg rounded-full px-6 py-3 text-btn transition-colors duration-fast hover:bg-surface-high"
+              :aria-label="currentLanguage === 'es' ? 'Ir a sección de contacto' : 'Go to contact section'"
             >
               {{ t.getInTouch }}
             </button>
             <a
               :href="cvPdfUrl"
               download
-              class="px-6 sm:px-8 py-3 sm:py-4 border-2 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2 cta-secondary text-sm sm:text-base"
+              class="border border-accent text-accent rounded-full px-6 py-3 text-btn transition-colors duration-fast hover:bg-accent hover:text-accent-fg flex items-center justify-center gap-2"
               :aria-label="`${t.downloadCV} - PDF file`"
             >
               <Download class="h-5 w-5" aria-hidden="true" />
@@ -87,52 +48,41 @@
             </a>
           </div>
 
-          <!-- Contact Info -->
-          <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 md:gap-6 mt-6 sm:mt-8 justify-center lg:justify-start text-sm sm:text-base">
+          <!-- Contact Row -->
+          <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-6 mt-6 justify-center lg:justify-start">
             <a
               :href="`mailto:${cvData.email}`"
-              class="flex items-center gap-2 text-gray-600 dark:text-gray-300 transition-colors contact-link"
+              class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast"
               :aria-label="`Send email to ${cvData.email}`"
             >
-              <Mail class="h-5 w-5" aria-hidden="true" />
-              <span>{{ cvData.email }}</span>
+              {{ cvData.email }}
             </a>
             <a
               :href="`tel:${cvData.phone}`"
-              class="flex items-center gap-2 text-gray-600 dark:text-gray-300 transition-colors contact-link"
+              class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast"
               :aria-label="`Call phone number ${cvData.phone}`"
             >
-              <Phone class="h-5 w-5" aria-hidden="true" />
-              <span>{{ cvData.phone }}</span>
+              {{ cvData.phone }}
             </a>
-            <div 
-              class="flex items-center gap-2 text-gray-600 dark:text-gray-300"
-              role="text"
-              :aria-label="`Location: ${cvData.location}`"
-            >
-              <MapPin class="h-5 w-5" aria-hidden="true" />
-              <span>{{ cvData.location }}</span>
-            </div>
+            <span class="text-caption text-muted" :aria-label="`Location: ${cvData.location}`">
+              {{ cvData.location }}
+            </span>
           </div>
         </div>
 
-        <!-- Profile Image -->
-        <div class="hero-image flex justify-center lg:justify-end mt-8 lg:mt-0">
+        <!-- Right Column: Avatar + Building Now -->
+        <div class="flex flex-col items-center lg:items-end gap-8 mt-8 lg:mt-0">
+          <!-- SVG Avatar -->
           <div class="relative">
-            <div class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 rounded-full p-1" style="background: linear-gradient(135deg, #3FA35B 0%, #B4D333 100%);">
-              <!-- inner container becomes transparent and full-size so SVG can fill the whole radius -->
+            <div class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 rounded-full border border-border">
               <div class="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
-                <!-- ring wrapper: creates a thin border/background between outer gradient and the avatar (WhatsApp-style) -->
-                <div class="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-2 bg-white/10 dark:bg-gray-900/50 border-2 border-white/20 dark:border-white/10 shadow-inner">
+                <div class="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-2 bg-surface-container/50">
                   <div
                     ref="svgRoot"
                     class="w-full h-full rounded-full flex items-center justify-center overflow-hidden bg-transparent"
                     style="clip-path: circle(50% at 50% 50%); -webkit-clip-path: circle(50% at 50% 50%);"
                   >
-
-                  <!-- Inline SVG for foto (inlined to ensure visibility and enable animations) -->
-                                    
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 10 211.73 180" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full block">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 10 211.73 180" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full block">
                     <defs>
                       <clipPath id="background-clip-inline">
                         <path d="M39 153.73s31.57 19.71 77.26 15.21 90.18-37.23 90.36-72.33-8.82-80.28-33.59-86.29C136.84-6.57 114.13-5.82 88-2.82S34.73 11.45 16.71 48.24C-1.5 66.64-4.88 125.2 39 153.73z" fill="none"/>
@@ -191,25 +141,24 @@
                       </g>
                     </g>
                   </svg>
-
-                </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <!-- Floating elements -->
-            <div class="absolute -top-4 -right-4 w-8 h-8 rounded-full animate-bounce" style="background-color: #3FA35B;"></div>
-            <div class="absolute -bottom-4 -left-4 w-6 h-6 rounded-full animate-bounce" style="background-color: #C5D946; animation-delay: 0.5s;"></div>
           </div>
+
+          <!-- Building Now Panel -->
+          <BuildingNowPanel />
         </div>
       </div>
 
       <!-- Scroll Indicator -->
-      <div 
+      <div
         class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
         role="img"
         aria-label="Scroll down indicator"
       >
-        <ChevronDown class="h-8 w-8 text-gray-400" aria-hidden="true" />
+        <ChevronDown class="h-8 w-8 text-muted" aria-hidden="true" />
       </div>
     </div>
   </section>
@@ -217,17 +166,16 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { Download, Mail, Phone, MapPin, ChevronDown, Sparkles } from 'lucide-vue-next'
+import { Download, ChevronDown } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { initHeroAnimation } from '../composables/useHeroAnimation'
+import BuildingNowPanel from './BuildingNowPanel.vue'
 
 const { currentLanguage, t, cvData } = useLanguage()
 
 const svgRoot = ref<HTMLElement | null>(null)
 
 const cvPdfUrl = computed(() => {
-  // Use Vite's asset URL resolution so the PDFs are bundled and the href
-  // points to the correct location in production.
   const relativePath = currentLanguage.value === 'es'
     ? '/files/CV_ES.pdf'
     : '/files/CV_INGLES.pdf'
@@ -235,13 +183,13 @@ const cvPdfUrl = computed(() => {
 })
 
 const scrollToContact = () => {
-    const element = document.querySelector('#contact')
-    if (element) {
-        element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        })
-    }
+  const element = document.querySelector('#contact')
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
 }
 
 let stopAnimation: (() => void) | undefined
@@ -251,70 +199,27 @@ onMounted(async () => {
 })
 
 onUnmounted(() => {
-    if (typeof stopAnimation === 'function') stopAnimation()
+  if (typeof stopAnimation === 'function') stopAnimation()
 })
 </script>
 
 <style scoped>
-/* New Color Palette Styles */
-.cta-primary {
-  background-color: var(--color-primary);
-}
-
-.cta-primary:hover {
-  background-color: var(--color-primary-dark);
-}
-
-.cta-secondary {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
-.cta-secondary:hover {
-  background-color: var(--color-primary);
-  color: white;
-}
-
-.contact-link:hover {
-  color: var(--color-primary);
-}
-
-.dark .contact-link:hover {
-  color: var(--color-primary-light);
-}
-
-/* Ensure avatar is always visible and responsive */
-.hero-image svg {
-  visibility: visible !important;
-  opacity: 1 !important;
-  display: block !important;
-}
-
+/* Ensure SVG and inner elements are visible for animation */
 .me {
   visibility: visible !important;
   opacity: 1 !important;
   display: block !important;
 }
 
-.hair-group {
-  transform-origin: center center;
-  will-change: transform;
-}
-
-.hair-left,
-.hair-right {
-  transform-origin: center center;
-  will-change: transform;
-}
-
-/* Smooth animations for hair */
+/* Hair animation continuity */
 .hair-group,
 .hair-left,
 .hair-right {
+  transform-origin: center center;
   transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Ensure proper layering */
+/* SVG layering */
 .hair-group {
   z-index: 2;
 }
