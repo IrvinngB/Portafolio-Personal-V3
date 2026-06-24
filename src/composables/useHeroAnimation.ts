@@ -52,90 +52,23 @@ export async function initHeroAnimation(root?: HTMLElement | null): Promise<() =
   }
 
   // ════════════════════════════════════
-  // ENTRANCE ANIMATION — Dramatic editorial reveal
+  // INITIAL STATE — avatar visible immediately
   // ════════════════════════════════════
   const entrance = gsap.timeline({
     onComplete: addMouseEvent,
-    delay: 0.8,
   })
 
-  // Background shape reveals first
-  entrance
-    .from(qs(".bg") as Element, {
-      duration: 1.2,
-      scale: 0.8,
-      opacity: 0,
-      ease: "power3.out",
-    }, 0)
-
-  // Body rises up
-  entrance
-    .from(dom.me, {
-      duration: 1.1,
-      yPercent: 80,
-      scale: 0.95,
-      ease: "back.out(1.2)",
-    }, 0.3)
-    .from([dom.body, dom.neck].filter(Boolean), {
-      duration: 0.9,
-      yPercent: 30,
-      opacity: 0,
-      ease: "power2.out",
-    }, 0.5)
-
-  // Head pops in with bounce
-  entrance
-    .from(".head, .hair-group, .shadow", {
-      duration: 1,
-      yPercent: 15,
-      scale: 0.92,
-      ease: "elastic.out(0.6, 0.3)",
-    }, 0.6)
-
-  // Ears swing in
-  entrance
-    .from(".ear-right", {
-      duration: 1,
-      rotate: 50,
-      yPercent: 15,
-      ease: "elastic.out(0.6, 0.25)",
-    }, 0.7)
-    .from(".ear-left", {
-      duration: 1,
-      rotate: -50,
-      yPercent: 15,
-      ease: "elastic.out(0.6, 0.25)",
-    }, 0.7)
-
-  // Glasses drop onto nose
-  entrance
-    .from(dom.glasses, {
-      duration: 0.8,
-      yPercent: -40,
-      opacity: 0,
-      ease: "bounce.out",
-    }, 0.75)
-
-  // Eyebrows reveal
-  entrance
-    .from(".eyebrow-right, .eyebrow-left", {
-      duration: 0.7,
-      yPercent: -200,
-      opacity: 0,
-      ease: "power2.out",
-    }, 0.8)
-
-  // Eyes open
-  entrance
-    .to(".eye-right, .eye-left", {
-      duration: 0.3,
-      opacity: 1,
-      ease: "power2.in",
-    }, 0.95)
-    .to(".eye-right-2, .eye-left-2", {
-      duration: 0.01,
-      opacity: 0,
-    }, 0.95)
+  // Ensure everything is visible from the start
+  entrance.set(qs(".bg") as Element, { scale: 1, opacity: 1 })
+  entrance.set(dom.me, { yPercent: 0, scale: 1, opacity: 1, visibility: "visible", display: "block" })
+  entrance.set(".head, .hair-group, .shadow", { yPercent: 0, scale: 1 })
+  entrance.set(".ear-right, .ear-left", { rotate: 0, yPercent: 0 })
+  entrance.set(dom.glasses, { yPercent: 0, opacity: 1 })
+  entrance.set(".eyebrow-right, .eyebrow-left", { yPercent: 0, opacity: 1 })
+  entrance.set(".eye-right, .eye-left", { opacity: 1 })
+  entrance.set(".eye-right-2, .eye-left-2", { opacity: 0 })
+  if (dom.body) entrance.set(dom.body, { yPercent: 0, opacity: 1 })
+  if (dom.neck) entrance.set(dom.neck, { yPercent: 0, opacity: 1 })
 
   // ════════════════════════════════════
   // BLINK — Natural random intervals
