@@ -33,6 +33,13 @@ export const cvDataES: CVData = {
   ],
   projects: [
     {
+      title: "RiskTrail — Evaluación Dinámica de Riesgo en Senderismo",
+      description: "Sistema web de evaluación dinámica de riesgo para senderismo en Panamá. Integra archivos GPX, datos meteorológicos en tiempo real (Open-Meteo) y modelos biomecánicos (Minetti, Tobler-Irmischer, Pandolf) sobre PostgreSQL/PostGIS + pgRouting. Clasifica segmentos en 5 niveles de riesgo según metodología MIDE.",
+      technologies: ["FastAPI", "PostGIS", "pgRouting", "Vue.js", "Open-Meteo", "Python"],
+      github: "https://github.com/IrvinngB/risktrail",
+      status: "active"
+    },
+    {
       title: "Chatbot de WhatsApp con IA (VentiBot)",
       description: "Bot personalizado de WhatsApp con respuestas inteligentes usando Gemini AI. Procesamiento de lenguaje natural, respuestas contextuales y atención al cliente automatizada 24/7.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
@@ -158,6 +165,13 @@ export const cvDataEN: CVData = {
     }
   ],
   projects: [
+    {
+      title: "RiskTrail — Dynamic Hiking Risk Assessment",
+      description: "Web-based dynamic risk assessment system for hiking trails in Panama. Integrates GPX files, real-time weather data (Open-Meteo), and validated biomechanical models (Minetti, Tobler-Irmischer, Pandolf) on PostgreSQL/PostGIS + pgRouting. Classifies trail segments into 5 risk levels per MIDE methodology.",
+      technologies: ["FastAPI", "PostGIS", "pgRouting", "Vue.js", "Open-Meteo", "Python"],
+      github: "https://github.com/IrvinngB/risktrail",
+      status: "active"
+    },
     {
       title: "AI-Powered WhatsApp Chatbot (VentiBot)",
       description: "Custom WhatsApp bot with intelligent responses using Gemini AI. Natural language processing, contextual responses and 24/7 automated customer service.",

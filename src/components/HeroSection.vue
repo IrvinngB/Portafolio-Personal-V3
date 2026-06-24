@@ -156,13 +156,12 @@
         </div>
       </div>
 
-      <!-- Scroll Indicator -->
-      <div
-        class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
-        role="img"
-        aria-label="Scroll down indicator"
-      >
-        <ChevronDown class="h-8 w-8 text-muted" aria-hidden="true" />
+      <!-- Creative scroll indicator — fills as you scroll -->
+      <div class="absolute bottom-0 right-6 sm:right-10 z-20 flex flex-col items-center gap-2" style="height: 80px;">
+        <div class="w-[1px] flex-1 bg-border/30 relative overflow-hidden rounded-full">
+          <div ref="scrollFill" class="absolute bottom-0 left-0 w-full bg-accent transition-[height] duration-75 rounded-full" style="height: 0%;"></div>
+        </div>
+        <ChevronDown class="h-3.5 w-3.5 text-muted" aria-hidden="true" />
       </div>
     </div>
   </section>
@@ -178,6 +177,7 @@ import BuildingNowPanel from './BuildingNowPanel.vue'
 const { currentLanguage, t, cvData } = useLanguage()
 
 const svgRoot = ref<HTMLElement | null>(null)
+const scrollFill = ref<HTMLElement | null>(null)
 
 // Cycling roles subtitle — editorial flair
 const cyclingRoles = computed(() =>
@@ -212,12 +212,21 @@ onMounted(async () => {
   roleInterval = setInterval(() => {
     currentRoleIndex.value = (currentRoleIndex.value + 1) % cyclingRoles.value.length
   }, 3000)
+  window.addEventListener('scroll', updateScrollFill, { passive: true })
 })
 
 onUnmounted(() => {
   if (typeof stopAnimation === 'function') stopAnimation()
   if (roleInterval) clearInterval(roleInterval)
+  window.removeEventListener('scroll', updateScrollFill)
 })
+
+
+const updateScrollFill = () => {
+  if (!scrollFill.value) return
+  const scrollPercent = Math.min((window.scrollY / window.innerHeight) * 100, 100)
+  scrollFill.value.style.height = scrollPercent + '%'
+}
 </script>
 
 <style scoped>
@@ -257,5 +266,17 @@ onUnmounted(() => {
 
 .face {
   z-index: 3;
+}
+
+/* Name glow on hover */
+.text-display,
+.text-display-italic {
+  transition: text-shadow 0.3s ease;
+}
+.text-display:hover {
+  text-shadow: 0 0 24px rgba(232, 245, 240, 0.3);
+}
+.text-display-italic:hover {
+  text-shadow: 0 0 24px rgba(180, 211, 51, 0.4);
 }
 </style>

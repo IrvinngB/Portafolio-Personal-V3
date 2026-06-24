@@ -91,7 +91,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-bg text-fg transition-colors duration-300">
+  <div class="min-h-screen bg-bg text-fg transition-colors duration-300 editorial-grain">
     <AppHeader />
     <main role="main" id="main-content">
       <HeroSection />
