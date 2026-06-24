@@ -147,7 +147,7 @@ onUnmounted(() => {
           <!-- Language Toggle -->
           <button
             @click="toggleLanguage"
-            class="flex items-center gap-2 px-3 py-2 rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg-soft hover:text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
+            class="flex items-center gap-2 px-4 py-3 rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg-soft hover:text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
             :aria-label="`Switch language, current: ${currentLanguage.toUpperCase()}`"
           >
             <Globe class="h-4 w-4" aria-hidden="true" />
@@ -157,13 +157,13 @@ onUnmounted(() => {
           <!-- Theme Toggle -->
           <button
             @click="toggle"
-            class="relative w-14 h-7 rounded-full transition-colors duration-fast focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
+            class="relative w-16 h-10 rounded-full transition-colors duration-fast focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
             :class="theme === 'dark' ? 'bg-accent' : 'bg-muted'"
             :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
           >
             <div
-              class="absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-fast flex items-center justify-center"
-              :class="theme === 'dark' ? 'translate-x-7' : 'translate-x-0'"
+              class="absolute top-1 left-1 w-8 h-8 bg-white rounded-full shadow-md transform transition-transform duration-fast flex items-center justify-center"
+              :class="theme === 'dark' ? 'translate-x-6' : 'translate-x-0'"
             >
               <Moon v-if="theme === 'dark'" class="w-4 h-4 text-accent" />
               <Sun v-else class="w-4 h-4 text-fg-soft" />
@@ -173,7 +173,7 @@ onUnmounted(() => {
           <!-- Mobile Menu Toggle -->
           <button
             @click="toggleMobileMenu"
-            class="lg:hidden p-2.5 rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg-soft hover:text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
+            class="lg:hidden p-3 rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg-soft hover:text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
             :aria-expanded="isMobileMenuOpen"
             aria-label="Toggle mobile menu"
           >

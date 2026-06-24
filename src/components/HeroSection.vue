@@ -36,7 +36,7 @@
           <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mt-6">
             <button
               @click="scrollToContact"
-              class="bg-accent text-accent-fg rounded-full px-6 py-3 text-btn transition-colors duration-fast hover:bg-surface-high"
+              class="bg-accent text-accent-fg rounded-full px-6 py-4 text-btn transition-colors duration-fast hover:bg-surface-high"
               :aria-label="currentLanguage === 'es' ? 'Ir a sección de contacto' : 'Go to contact section'"
             >
               {{ t.getInTouch }}
@@ -44,7 +44,7 @@
             <a
               :href="cvPdfUrl"
               download
-              class="border border-accent text-accent rounded-full px-6 py-3 text-btn transition-colors duration-fast hover:bg-accent hover:text-accent-fg flex items-center justify-center gap-2"
+              class="border border-accent text-accent rounded-full px-6 py-4 text-btn transition-colors duration-fast hover:bg-accent hover:text-accent-fg flex items-center justify-center gap-2"
               :aria-label="`${t.downloadCV} - PDF file`"
             >
               <Download class="h-5 w-5" aria-hidden="true" />
@@ -56,19 +56,19 @@
           <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-6 mt-6 justify-center lg:justify-start">
             <a
               :href="`mailto:${cvData.email}`"
-              class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast"
+              class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast py-2"
               :aria-label="`Send email to ${cvData.email}`"
             >
               {{ cvData.email }}
             </a>
             <a
               :href="`tel:${cvData.phone}`"
-              class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast"
+              class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast py-2"
               :aria-label="`Call phone number ${cvData.phone}`"
             >
               {{ cvData.phone }}
             </a>
-            <span class="text-caption text-muted" :aria-label="`Location: ${cvData.location}`">
+            <span class="text-caption text-muted py-2" :aria-label="`Location: ${cvData.location}`">
               {{ cvData.location }}
             </span>
           </div>

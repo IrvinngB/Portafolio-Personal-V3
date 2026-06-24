@@ -20,7 +20,7 @@
       <div class="max-w-4xl mx-auto relative">
         <!-- Timeline line -->
         <div
-          class="absolute left-6 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-border"
+          class="absolute left-5 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-border"
           aria-hidden="true"
         ></div>
 

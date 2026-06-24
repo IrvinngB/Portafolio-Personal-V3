@@ -79,7 +79,7 @@
             <button
               type="submit"
               :disabled="formStatus === 'loading'"
-              class="w-full bg-accent text-accent-fg rounded-full px-6 py-3 text-btn transition-colors duration-fast hover:bg-surface-high disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              class="w-full bg-accent text-accent-fg rounded-full px-6 py-4 text-btn transition-colors duration-fast hover:bg-surface-high disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               <Loader2 v-if="formStatus === 'loading'" class="w-5 h-5 animate-spin" />
               <Send v-else class="w-5 h-5" />

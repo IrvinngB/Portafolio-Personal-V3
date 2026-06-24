@@ -36,7 +36,7 @@ export const cvDataES: CVData = {
       title: "RiskTrail — Evaluación Dinámica de Riesgo en Senderismo",
       description: "Sistema web de evaluación dinámica de riesgo para senderismo en Panamá. Integra archivos GPX, datos meteorológicos en tiempo real (Open-Meteo) y modelos biomecánicos (Minetti, Tobler-Irmischer, Pandolf) sobre PostgreSQL/PostGIS + pgRouting. Clasifica segmentos en 5 niveles de riesgo según metodología MIDE.",
       technologies: ["FastAPI", "PostGIS", "pgRouting", "Vue.js", "Open-Meteo", "Python"],
-      github: "https://github.com/IrvinngB/risktrail",
+      github: "https://github.com/IrvinngB/JIC-Geo",
       status: "active"
     },
     {
@@ -169,7 +169,7 @@ export const cvDataEN: CVData = {
       title: "RiskTrail — Dynamic Hiking Risk Assessment",
       description: "Web-based dynamic risk assessment system for hiking trails in Panama. Integrates GPX files, real-time weather data (Open-Meteo), and validated biomechanical models (Minetti, Tobler-Irmischer, Pandolf) on PostgreSQL/PostGIS + pgRouting. Classifies trail segments into 5 risk levels per MIDE methodology.",
       technologies: ["FastAPI", "PostGIS", "pgRouting", "Vue.js", "Open-Meteo", "Python"],
-      github: "https://github.com/IrvinngB/risktrail",
+      github: "https://github.com/IrvinngB/JIC-Geo",
       status: "active"
     },
     {

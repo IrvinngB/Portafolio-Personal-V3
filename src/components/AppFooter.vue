@@ -6,7 +6,7 @@
         <!-- Availability dot — clickable, scrolls to contact -->
         <button
           @click="scrollToContact"
-          class="flex items-center gap-2 group relative cursor-pointer"
+          class="flex items-center gap-2 group relative cursor-pointer py-2"
           :aria-label="currentLanguage === 'es' ? 'Disponible para freelance — ir a contacto' : 'Available for freelance — go to contact'"
         >
           <span class="relative flex h-2.5 w-2.5">
@@ -25,7 +25,7 @@
         <!-- Email -->
         <a
           :href="`mailto:${cvData?.email}`"
-          class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast"
+          class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast py-2"
         >
           Irvin.benitezs.26@gmail.com
         </a>

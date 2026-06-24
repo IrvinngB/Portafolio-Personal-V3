@@ -104,7 +104,7 @@
               <h3 class="text-h2 text-fg pr-10">{{ selectedProject.title }}</h3>
               <button
                 @click.stop="closeModal"
-                class="absolute top-4 right-4 w-10 h-10 bg-surface-high hover:bg-surface-container rounded-full flex items-center justify-center transition-colors duration-fast"
+                class="absolute top-4 right-4 min-w-[44px] min-h-[44px] bg-surface-high hover:bg-surface-container rounded-full flex items-center justify-center transition-colors duration-fast"
                 aria-label="Close modal"
               >
                 <X class="w-5 h-5 text-fg-soft" />
@@ -132,7 +132,7 @@
                   :href="selectedProject.url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="flex-1 bg-accent text-accent-fg rounded-full px-6 py-3 text-btn text-center transition-colors duration-fast hover:bg-surface-high"
+                  class="flex-1 bg-accent text-accent-fg rounded-full px-6 py-4 text-btn text-center transition-colors duration-fast hover:bg-surface-high"
                 >
                   {{ currentLanguage === 'es' ? 'Ver Proyecto' : 'View Project' }}
                 </a>
@@ -141,7 +141,7 @@
                   :href="selectedProject.github"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="border border-accent text-accent rounded-full px-6 py-3 text-btn text-center transition-colors duration-fast hover:bg-accent hover:text-accent-fg"
+                  class="border border-accent text-accent rounded-full px-6 py-4 text-btn text-center transition-colors duration-fast hover:bg-accent hover:text-accent-fg"
                 >
                   GitHub
                 </a>
