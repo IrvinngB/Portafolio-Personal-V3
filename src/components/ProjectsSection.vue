@@ -2,12 +2,12 @@
   <section
     id="projects"
     ref="container"
-    class="section py-16 sm:py-20 lg:py-28 overflow-hidden"
+    class="section py-16 sm:py-20 lg:py-28"
     aria-labelledby="projects-heading"
   >
     <div class="container mx-auto px-4 sm:px-6">
-      <!-- Section Header — zine-style overline + title -->
-      <div class="mb-14 sm:mb-20">
+      <!-- Header -->
+      <div class="mb-10 sm:mb-14">
         <span class="text-label-md text-muted block mb-3">
           {{ currentLanguage === 'es' ? '· Trabajo seleccionado ·' : '· Selected work ·' }}
         </span>
@@ -15,27 +15,37 @@
           {{ t.featuredProjects }}
         </h2>
       </div>
+    </div>
 
-      <!-- Zine Grid -->
-      <div class="zine-grid">
-        <article
+    <!-- Desktop: horizontal scroll track -->
+    <div
+      class="hidden md:block"
+      @wheel.passive="onWheel"
+    >
+      <div
+        ref="trackRef"
+        class="scroll-track flex gap-[1px] overflow-x-auto snap-x snap-mandatory"
+        :class="{ 'scrolling': isScrolling }"
+      >
+        <div
           v-for="(project, idx) in projects"
           :key="project.title"
-          class="zine-card group cursor-pointer"
-          :class="[
-            idx === 0 ? 'zine-featured' : '',
-            `zine-rotate-${idx % 4}`
-          ]"
+          class="scroll-card snap-start shrink-0 cursor-pointer group flex flex-col justify-between relative overflow-hidden"
+          :class="idx === 0 ? 'w-[520px] lg:w-[600px]' : 'w-[340px] lg:w-[380px]'"
+          style="background: var(--surface-container);"
           @click="openModal(project)"
         >
-          <!-- Giant watermark index -->
-          <span class="zine-index" aria-hidden="true">
+          <!-- Giant index -->
+          <span
+            class="absolute -bottom-4 -right-2 pointer-events-none select-none z-0"
+            style="font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(100px, 14vw, 180px); font-weight: 800; line-height: 0.7; color: var(--muted); opacity: 0.1;"
+            aria-hidden="true"
+          >
             {{ String(idx + 1).padStart(2, '0') }}
           </span>
 
-          <!-- Content -->
-          <div class="zine-content">
-            <!-- Status dot + overline -->
+          <!-- Top: status + title -->
+          <div class="relative z-10 p-6 sm:p-8 pb-4">
             <div class="flex items-center gap-2 mb-3">
               <span
                 class="w-1.5 h-1.5 rounded-full"
@@ -48,39 +58,108 @@
               </span>
             </div>
 
-            <!-- Title -->
-            <h3 class="zine-title">
+            <h3
+              style="font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(22px, 3vw, 28px); font-weight: 600; line-height: 1.15; color: var(--fg);"
+              :class="idx === 0 ? 'max-w-[65%]' : ''"
+            >
               {{ project.title }}
             </h3>
 
-            <!-- Description (visible on featured + hover) -->
-            <p
-              class="text-body-sm text-fg-soft mt-3 zine-desc"
-              :class="idx === 0 ? 'zine-desc-visible' : ''"
-            >
+            <p class="text-body-sm text-fg-soft mt-3 line-clamp-2">
               {{ project.description }}
             </p>
+          </div>
 
-            <!-- Tags — asymmetric float -->
-            <div class="zine-tags">
+          <!-- Bottom: tags -->
+          <div class="relative z-10 p-6 sm:p-8 pt-0">
+            <div class="flex flex-wrap gap-1.5">
               <span
-                v-for="(tech, tIdx) in (project.technologies || []).slice(0, 4)"
+                v-for="tech in (project.technologies || []).slice(0, 4)"
                 :key="tech"
-                class="zine-tag"
-                :style="{ marginTop: tIdx % 2 === 1 ? '4px' : '0' }"
+                class="bg-accent-dim text-accent border border-accent-border rounded-sm px-2 py-0.5 text-label-sm"
               >
                 {{ tech }}
               </span>
             </div>
           </div>
 
-          <!-- Hover lift line (decorative) -->
-          <div class="zine-accent-line"></div>
+          <!-- Hover surface change + accent line -->
+          <div
+            class="absolute inset-0 transition-colors duration-fast z-[1]"
+            :class="idx === 0 ? '' : ''"
+            style="background: transparent;"
+          ></div>
+          <div
+            class="absolute bottom-0 left-0 h-[2px] bg-accent transition-all duration-300 ease-out"
+            :style="{ width: '0%' }"
+            style="z-index: 10;"
+          ></div>
+
+          <!-- Hover overlay handled by group-hover on parent -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile: vertical stack -->
+    <div class="md:hidden container mx-auto px-4 sm:px-6">
+      <div class="flex flex-col gap-[1px]" style="background: var(--border);">
+        <article
+          v-for="(project, idx) in projects"
+          :key="project.title"
+          class="relative overflow-hidden cursor-pointer group p-5 sm:p-6 flex flex-col gap-3"
+          style="background: var(--surface-container);"
+          @click="openModal(project)"
+        >
+          <!-- Giant index behind -->
+          <span
+            class="absolute -bottom-2 right-2 pointer-events-none select-none z-0"
+            style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 120px; font-weight: 800; line-height: 0.7; color: var(--muted); opacity: 0.08;"
+            aria-hidden="true"
+          >
+            {{ String(idx + 1).padStart(2, '0') }}
+          </span>
+
+          <div class="relative z-10">
+            <div class="flex items-center gap-2 mb-2">
+              <span
+                class="w-1.5 h-1.5 rounded-full"
+                :class="project.status === 'active' ? 'bg-accent' : 'bg-muted'"
+              ></span>
+              <span class="text-label-md text-muted">
+                {{ project.status === 'active'
+                  ? (currentLanguage === 'es' ? 'Activo' : 'Active')
+                  : (currentLanguage === 'es' ? 'Completado' : 'Completed') }}
+              </span>
+            </div>
+            <h3
+              style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 600; line-height: 1.15; color: var(--fg);"
+            >
+              {{ project.title }}
+            </h3>
+            <p class="text-body-sm text-fg-soft mt-2 line-clamp-2">
+              {{ project.description }}
+            </p>
+          </div>
+
+          <div class="relative z-10 flex flex-wrap gap-1.5">
+            <span
+              v-for="tech in (project.technologies || []).slice(0, 4)"
+              :key="tech"
+              class="bg-accent-dim text-accent border border-accent-border rounded-sm px-2 py-0.5 text-label-sm"
+            >
+              {{ tech }}
+            </span>
+          </div>
+
+          <div
+            class="absolute bottom-0 left-0 h-[2px] bg-accent transition-all duration-300 ease-out"
+            style="width: 0%; z-index: 10;"
+          ></div>
         </article>
       </div>
     </div>
 
-    <!-- Modal (kept from original, tonal surfaces) -->
+    <!-- Modal -->
     <Teleport to="body">
       <Transition
         enter-active-class="transition-opacity duration-fast"
@@ -152,7 +231,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { X } from 'lucide-vue-next'
 import type { Project } from '../types'
 import { useLanguage } from '../composables/useLanguage'
@@ -160,15 +239,39 @@ import { useScrollReveal } from '../composables/useScrollReveal'
 
 const { t, cvData, currentLanguage } = useLanguage()
 const container = ref<HTMLElement>()
+const trackRef = ref<HTMLElement>()
 const selectedProject = ref<Project | null>(null)
 const isModalOpen = ref(false)
+const isScrolling = ref(false)
 
 const { observe } = useScrollReveal()
 
 const projects = computed(() => cvData.value?.projects ?? [])
 
+let scrollTimer: ReturnType<typeof setTimeout> | null = null
+
+const onWheel = (e: WheelEvent) => {
+  if (!trackRef.value) return
+  // Convert vertical scroll to horizontal when in the track
+  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+    e.preventDefault()
+    trackRef.value.scrollLeft += e.deltaY
+  }
+  isScrolling.value = true
+  if (scrollTimer) clearTimeout(scrollTimer)
+  scrollTimer = setTimeout(() => {
+    isScrolling.value = false
+  }, 150)
+}
+
 onMounted(() => {
   if (container.value) observe(container.value)
+  // Passive: false needed to call preventDefault in wheel handler
+  trackRef.value?.addEventListener('wheel', onWheel as any, { passive: false })
+})
+
+onUnmounted(() => {
+  trackRef.value?.removeEventListener('wheel', onWheel as any)
 })
 
 const openModal = (project: Project) => {
@@ -185,172 +288,60 @@ const closeModal = () => {
 </script>
 
 <style scoped>
-/* ═══════ Zine Grid — broken editorial layout ═══════ */
-.zine-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
-  background: var(--border);
+/* ═══════ Scroll Track ═══════ */
+.scroll-track {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) var(--surface);
+  scroll-behavior: smooth;
 }
 
-@media (min-width: 768px) {
-  .zine-grid {
-    grid-template-columns: 2fr 1fr 1fr;
-  }
+.scroll-track::-webkit-scrollbar {
+  height: 6px;
 }
 
-/* ═══════ Zine Card ═══════ */
-.zine-card {
-  position: relative;
-  background: var(--surface-container);
-  padding: 28px 24px 24px;
-  overflow: hidden;
-  transition:
-    transform 0.4s var(--ease-out),
-    background var(--duration-fast);
-  cursor: pointer;
+.scroll-track::-webkit-scrollbar-track {
+  background: var(--surface);
 }
 
-@media (min-width: 768px) {
-  .zine-card {
-    padding: 36px 28px 28px;
-  }
-}
-
-.zine-card:hover {
-  transform: rotate(0deg) translateY(-4px) !important;
-  background: var(--surface-high);
-  z-index: 2;
-}
-
-/* ═══ Featured — 2 cols at md+ ═══ */
-@media (min-width: 768px) {
-  .zine-featured {
-    grid-column: span 2;
-    padding: 48px 36px 36px;
-  }
-}
-
-/* ═══ Rotations — alternating for zine rhythm ═══ */
-@media (min-width: 768px) {
-  .zine-rotate-0 { transform: rotate(-1deg); }
-  .zine-rotate-1 { transform: rotate(1.2deg); }
-  .zine-rotate-2 { transform: rotate(-0.6deg); }
-  .zine-rotate-3 { transform: rotate(0.8deg); }
-}
-
-/* ═══ Giant watermark index ═══ */
-.zine-index {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(80px, 12vw, 160px);
-  font-weight: 800;
-  line-height: 0.7;
-  color: var(--muted);
-  opacity: 0.12;
-  position: absolute;
-  top: -16px;
-  right: 12px;
-  pointer-events: none;
-  z-index: 0;
-  user-select: none;
-}
-
-.zine-featured .zine-index {
-  font-size: clamp(120px, 16vw, 200px);
-  top: -24px;
-  right: 16px;
-  opacity: 0.1;
-}
-
-/* ═══ Content layer — above index ═══ */
-.zine-content {
-  position: relative;
-  z-index: 1;
-}
-
-/* ═══ Title — Bricolage editorial ═══ */
-.zine-title {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(18px, 3vw, 24px);
-  font-weight: 600;
-  line-height: 1.15;
-  color: var(--fg);
-}
-
-.zine-featured .zine-title {
-  font-size: clamp(24px, 4vw, 36px);
-  max-width: 70%;
-}
-
-/* ═══ Description — hidden by default, visible on featured + card hover ═══ */
-.zine-desc {
-  display: none;
-}
-
-.zine-desc-visible,
-.zine-card:hover .zine-desc {
-  display: block;
-}
-
-/* ═══ Tags — asymmetric float ═══ */
-.zine-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 14px;
-}
-
-.zine-tag {
-  background: var(--accent-dim);
-  color: var(--accent);
-  border: 1px solid var(--accent-border);
-  border-radius: var(--radius-sm);
-  padding: 2px 8px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 10px;
-  line-height: 1.3;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-}
-
-/* ═══ Accent line — appears on hover ═══ */
-.zine-accent-line {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 2px;
+.scroll-track::-webkit-scrollbar-thumb {
   background: var(--accent);
-  transition: width 0.4s var(--ease-out);
+  border-radius: 9999px;
 }
 
-.zine-card:hover .zine-accent-line {
-  width: 100%;
+.scroll-track::-webkit-scrollbar-thumb:hover {
+  background: var(--surface-high);
 }
 
-/* ═══ Scroll reveal ═══ */
-.reveal-section .reveal-child {
-  opacity: 0;
-  transform: translateY(16px);
+/* Hover effects on cards */
+.scroll-card:hover {
+  background: var(--surface-high) !important;
 }
 
-.reveal-section.is-visible .reveal-child {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    opacity var(--duration-slow) var(--ease-out),
-    transform var(--duration-slow) var(--ease-out);
+.scroll-card:hover > div[class*="absolute bottom-0 left-0"] {
+  width: 100% !important;
 }
 
-/* ═══ Reduced motion ═══ */
+/* Mobile card hover */
+article:hover {
+  background: var(--surface-high) !important;
+}
+
+article:hover > div[class*="absolute bottom-0 left-0"] {
+  width: 100% !important;
+}
+
+/* ═══════ Reduced motion ═══════ */
 @media (prefers-reduced-motion: reduce) {
-  .zine-card {
-    transform: none !important;
-    transition: none !important;
+  .scroll-track {
+    scroll-behavior: auto;
   }
-  .zine-card:hover {
-    transform: none !important;
-  }
+}
+
+/* ═══════ Line clamp ═══════ */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>
