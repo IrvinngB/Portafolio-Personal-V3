@@ -21,6 +21,7 @@ module.exports = {
         },
         accent: {
           DEFAULT: 'var(--accent)',
+          alt: 'var(--accent-alt)',
           dim: 'var(--accent-dim)',
           border: 'var(--accent-border)',
           fg: 'var(--accent-fg)',

@@ -11,7 +11,7 @@
         <div class="text-center lg:text-left pt-8 lg:pt-16">
           <!-- Name -->
           <h1 class="text-display text-fg" itemprop="name">Irvin</h1>
-          <h1 class="text-display-italic text-accent">Benitez</h1>
+          <h1 class="text-display-italic text-accent-alt">Benitez</h1>
 
           <!-- Subtitle -->
           <p class="text-body-lg text-fg-soft mt-3">
@@ -74,13 +74,14 @@
         <div class="flex flex-col items-center lg:items-end gap-8 mt-8 lg:mt-0">
           <!-- SVG Avatar -->
           <div class="relative">
-            <div class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 rounded-full border border-border">
-              <div class="w-full h-full rounded-full flex items-center justify-center overflow-hidden">
-                <div class="w-full h-full rounded-full flex items-center justify-center overflow-hidden p-2 bg-surface-container/50">
+            <div 
+              class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 border border-border overflow-hidden"
+              style="border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;"
+            >
+              <div class="w-full h-full p-2 bg-surface-container/50">
                   <div
                     ref="svgRoot"
-                    class="w-full h-full rounded-full flex items-center justify-center overflow-hidden bg-transparent"
-                    style="clip-path: circle(50% at 50% 50%); -webkit-clip-path: circle(50% at 50% 50%);"
+                    class="w-full h-full bg-transparent"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 10 211.73 180" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" stroke-linecap="round" stroke-linejoin="round" class="h-full w-full block">
                     <defs>

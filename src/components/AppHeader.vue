@@ -121,7 +121,7 @@ onUnmounted(() => {
 
         <!-- Desktop Nav Links -->
         <div class="hidden lg:flex items-center">
-          <div class="flex items-center gap-1 bg-surface-container rounded-full px-2 py-1.5" role="menubar">
+          <div class="flex items-center gap-1" role="menubar">
             <a
               v-for="(item, idx) in navItems"
               :key="item.href"
