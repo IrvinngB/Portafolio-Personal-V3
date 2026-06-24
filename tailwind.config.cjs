@@ -1,60 +1,42 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './index.html',
-    './src/**/*.{vue,js,ts,jsx,tsx}',
-  ],
-  darkMode: ['selector', '[data-theme="dark"]'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontFamily: {
-        display: ['Bricolage Grotesque', 'sans-serif'],
-        body: ['Plus Jakarta Sans', 'sans-serif'],
-        mono: ['Cascadia Code', 'Fira Code', 'ui-monospace', 'monospace'],
+        mono: ['Share Tech Mono', 'VT323', 'monospace'],
+        display: ['VT323', 'Share Tech Mono', 'monospace'],
+        body: ['Share Tech Mono', 'VT323', 'monospace'],
       },
       colors: {
         bg: 'var(--bg)',
-        surface: {
-          DEFAULT: 'var(--surface)',
-          container: 'var(--surface-container)',
-          high: 'var(--surface-high)',
+        phosphor: {
+          DEFAULT: 'var(--phosphor)',
+          dim: 'var(--phosphor-dim)',
+          bright: 'var(--phosphor-bright)',
+          glow: 'var(--phosphor-glow)',
         },
-        accent: {
-          DEFAULT: 'var(--accent)',
-          alt: 'var(--accent-alt)',
-          dim: 'var(--accent-dim)',
-          border: 'var(--accent-border)',
-          fg: 'var(--accent-fg)',
+        amber: {
+          DEFAULT: 'var(--amber)',
+          dim: 'var(--amber-dim)',
         },
+        error: 'var(--error)',
         fg: {
           DEFAULT: 'var(--fg)',
-          soft: 'var(--fg-soft)',
+          dim: 'var(--fg-dim)',
         },
-        muted: 'var(--muted)',
         border: {
           DEFAULT: 'var(--border)',
-          soft: 'var(--border-soft)',
+          active: 'var(--border-active)',
         },
       },
       boxShadow: {
-        card: 'var(--shadow-card)',
-        'card-hover': 'var(--shadow-card-hover)',
+        glow: 'var(--box-glow)',
+        'glow-amber': 'var(--box-glow-amber)',
       },
-      borderRadius: {
-        sm: 'var(--radius-sm)',
-        md: 'var(--radius-md)',
-        lg: 'var(--radius-lg)',
-        xl: 'var(--radius-xl)',
-        xxl: 'var(--radius-xxl)',
-        full: 'var(--radius-full)',
-      },
-      transitionTimingFunction: {
-        'ease-out': 'var(--ease-out)',
-      },
-      transitionDuration: {
-        fast: 'var(--duration-fast)',
-        normal: 'var(--duration-normal)',
-        slow: 'var(--duration-slow)',
+      textShadow: {
+        glow: 'var(--text-glow)',
+        'glow-dim': 'var(--text-glow-dim)',
       },
     },
   },

@@ -15,24 +15,20 @@ const timeAgo = (dateStr?: string): string => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <span class="text-label-md text-muted">Construyendo ahora</span>
+  <div class="flex flex-col gap-4 w-full">
+    <span class="text-label text-phosphor-dim">> CONSTRUYENDO AHORA</span>
     <div
       v-for="project in activeProjects"
       :key="project.title"
-      class="flex flex-col gap-1 p-3 rounded-lg bg-surface-container transition-colors duration-fast"
-      :class="{ 'border-l-2 border-accent pl-[10px]': project.status === 'building' }"
+      class="crt-panel w-full"
     >
-      <div class="flex items-center gap-2">
-        <span
-          class="w-2 h-2 rounded-full flex-shrink-0"
-          :class="project.status === 'building' ? 'bg-accent' : 'bg-muted'"
-        ></span>
-        <h3 class="text-h3 text-fg">{{ project.title }}</h3>
+      <div class="crt-header">
+        [STATUS: {{ project.status?.toUpperCase() }}]
       </div>
-      <p class="text-body-sm text-fg-soft">{{ project.description }}</p>
-      <span v-if="project.lastUpdated" class="text-label-sm text-muted mt-1">
-        {{ project.status === 'building' ? 'Actualizado' : 'Planificado' }} {{ timeAgo(project.lastUpdated) }}
+      <h3 class="text-h2 mt-1 mb-1">{{ project.title }}</h3>
+      <p class="text-body">{{ project.description }}</p>
+      <span v-if="project.lastUpdated" class="text-data text-phosphor-dim mt-2 block">
+        > {{ project.status === 'building' ? 'Actualizado' : 'Planificado' }} {{ timeAgo(project.lastUpdated) }}
       </span>
     </div>
   </div>
