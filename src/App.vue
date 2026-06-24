@@ -4,20 +4,15 @@ import { useHead } from '@unhead/vue'
 import { useLanguage } from './composables/useLanguage'
 import AppHeader from './components/AppHeader.vue'
 import HeroSection from './components/HeroSection.vue'
-import { useGSAP } from './composables/useGSAP'
 
 const AboutMeSection = defineAsyncComponent(() => import('./components/AboutMeSection.vue'))
 const ExperienceSection = defineAsyncComponent(() => import('./components/ExperienceSection.vue'))
 const ProjectsSection = defineAsyncComponent(() => import('./components/ProjectsSection.vue'))
 const SkillsSection = defineAsyncComponent(() => import('./components/SkillsSection.vue'))
 const EducationSection = defineAsyncComponent(() => import('./components/EducationSection.vue'))
-const WhyHireMeSection = defineAsyncComponent(() => import('./components/WhyHireMeSection.vue'))
 const ContactSection = defineAsyncComponent(() => import('./components/ContactSection.vue'))
 const AppFooter = defineAsyncComponent(() => import('./components/AppFooter.vue'))
 const EasterEgg = defineAsyncComponent(() => import('./components/EasterEgg.vue'))
-
-// Custom hooks should be called at the very top level
-useGSAP()
 
 const { currentLanguage } = useLanguage()
 
@@ -96,7 +91,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-fixed bg-gradient-to-br from-green-50 via-white to-lime-50 dark:from-[#0A3D3D] dark:via-[#1f2937] dark:to-[#0A3D3D] text-gray-900 dark:text-white transition-colors duration-300">
+  <div class="min-h-screen bg-bg text-fg transition-colors duration-300">
     <AppHeader />
     <main role="main" id="main-content">
       <HeroSection />
@@ -105,7 +100,6 @@ const handleKeyPress = (event: KeyboardEvent) => {
       <ProjectsSection />
       <SkillsSection />
       <EducationSection />
-      <WhyHireMeSection />
       <ContactSection />
     </main>
     <AppFooter />
@@ -114,38 +108,6 @@ const handleKeyPress = (event: KeyboardEvent) => {
 </template>
 
 <style>
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background-color: var(--color-bg-alt);
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-primary-dark);
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: fadeIn 0.6s ease-out;
-}
-
 html {
   scroll-behavior: smooth;
 }
