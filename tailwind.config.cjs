@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Lora', 'serif'],
+        display: ['Bricolage Grotesque', 'sans-serif'],
         body: ['Plus Jakarta Sans', 'sans-serif'],
         mono: ['Cascadia Code', 'Fira Code', 'ui-monospace', 'monospace'],
       },
