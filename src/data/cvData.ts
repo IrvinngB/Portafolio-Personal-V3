@@ -251,23 +251,79 @@ export const cvDataEN: CVData = {
 };
 
 export interface ActiveProject {
+  id: string
   title: string
   description: string
-  status: 'building' | 'planning'
+  tags: string[]
+  status: 'building' | 'planning' | 'completed'
   url?: string
+  demoUrl?: string
 }
 
 export const activeProjects: ActiveProject[] = [
   {
+    id: 'ventibot-v2',
     title: 'VentiBot v2',
     description: 'WhatsApp chatbot con IA, integración RAG y flujos conversacionales avanzados.',
+    tags: ['Python', 'WhatsApp API', 'OpenAI', 'RAG'],
     status: 'building',
     url: 'https://github.com/IrvinngB/JIC-VentiBot'
   },
   {
+    id: 'iot-monitoreo',
     title: 'Sistema IoT de Monitoreo',
     description: 'Plataforma de alerta temprana con microcontroladores y dashboard en tiempo real.',
+    tags: ['IoT', 'ESP32', 'MQTT', 'React'],
     status: 'planning',
     url: 'https://github.com/IrvinngB/alerta-microcotrolador'
+  }
+]
+
+export const constellationProjects: ActiveProject[] = [
+  {
+    id: 'risktrail',
+    title: 'RiskTrail',
+    description: 'Plataforma de gestión de riesgos financieros con análisis predictivo y dashboards interactivos.',
+    tags: ['Vue.js', 'Django', 'PostgreSQL', 'Docker'],
+    status: 'building',
+    url: 'https://github.com/IrvinngB/risktrail'
+  },
+  {
+    id: 'ventibot',
+    title: 'VentiBot',
+    description: 'Chatbot de WhatsApp con inteligencia artificial, integración RAG y flujos conversacionales avanzados.',
+    tags: ['Python', 'WhatsApp API', 'OpenAI', 'RAG'],
+    status: 'building',
+    url: 'https://github.com/IrvinngB/JIC-VentiBot'
+  },
+  {
+    id: 'iot-alerta',
+    title: 'IoT Alerta',
+    description: 'Sistema de alerta temprana con microcontroladores y monitoreo en tiempo real para canaletas.',
+    tags: ['IoT', 'Arduino', 'MQTT', 'React'],
+    status: 'completed',
+    url: 'https://github.com/IrvinngB/alerta-microcotrolador'
+  },
+  {
+    id: 'regulus',
+    title: 'Regulus',
+    description: 'Sistema de control de acceso y gestión de inventario para laboratorios universitarios.',
+    tags: ['Laravel', 'Vue.js', 'MySQL', 'Docker'],
+    status: 'planning',
+    url: 'https://github.com/IrvinngB/regulus'
+  },
+  {
+    id: 'jic-platform',
+    title: 'JIC Platform',
+    description: 'Plataforma web integral para la gestión de jornadas de investigación y congresos académicos.',
+    tags: ['Django', 'PostgreSQL', 'AWS', 'CI/CD'],
+    status: 'completed'
+  },
+  {
+    id: 'flexwms',
+    title: 'FlexWMS',
+    description: 'Sistema de gestión de almacenes con tracking RFID y optimización de rutas de picking.',
+    tags: ['React', 'Node.js', 'MongoDB', 'Redis'],
+    status: 'planning'
   }
 ]
