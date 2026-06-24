@@ -7,7 +7,7 @@
   >
     <div class="container mx-auto px-4 sm:px-6">
       <!-- Header -->
-      <div class="mb-10 sm:mb-14">
+      <div class="mb-14 sm:mb-20 text-center">
         <span class="text-label-md text-muted block mb-3">
           {{ currentLanguage === 'es' ? '· Trabajo seleccionado ·' : '· Selected work ·' }}
         </span>
@@ -15,146 +15,70 @@
           {{ t.featuredProjects }}
         </h2>
       </div>
-    </div>
 
-    <!-- Desktop: horizontal scroll track -->
-    <div
-      class="hidden md:block"
-      @wheel.passive="onWheel"
-    >
-      <div
-        ref="trackRef"
-        class="scroll-track flex gap-[1px] overflow-x-auto snap-x snap-mandatory"
-        :class="{ 'scrolling': isScrolling }"
-      >
-        <div
-          v-for="(project, idx) in projects"
-          :key="project.title"
-          class="scroll-card snap-start shrink-0 cursor-pointer group flex flex-col justify-between relative overflow-hidden"
-          :class="idx === 0 ? 'w-[520px] lg:w-[600px]' : 'w-[340px] lg:w-[380px]'"
-          style="background: var(--surface-container);"
-          @click="openModal(project)"
-        >
-          <!-- Giant index -->
-          <span
-            class="absolute -bottom-4 -right-2 pointer-events-none select-none z-0"
-            style="font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(100px, 14vw, 180px); font-weight: 800; line-height: 0.7; color: var(--muted); opacity: 0.1;"
-            aria-hidden="true"
-          >
-            {{ String(idx + 1).padStart(2, '0') }}
-          </span>
-
-          <!-- Top: status + title -->
-          <div class="relative z-10 p-6 sm:p-8 pb-4">
-            <div class="flex items-center gap-2 mb-3">
-              <span
-                class="w-1.5 h-1.5 rounded-full"
-                :class="project.status === 'active' ? 'bg-accent' : 'bg-muted'"
-              ></span>
-              <span class="text-label-md text-muted">
-                {{ project.status === 'active'
-                  ? (currentLanguage === 'es' ? 'Activo' : 'Active')
-                  : (currentLanguage === 'es' ? 'Completado' : 'Completed') }}
-              </span>
-            </div>
-
-            <h3
-              style="font-family: 'Bricolage Grotesque', sans-serif; font-size: clamp(22px, 3vw, 28px); font-weight: 600; line-height: 1.15; color: var(--fg);"
-              :class="idx === 0 ? 'max-w-[65%]' : ''"
-            >
-              {{ project.title }}
-            </h3>
-
-            <p class="text-body-sm text-fg-soft mt-3 line-clamp-2">
-              {{ project.description }}
-            </p>
-          </div>
-
-          <!-- Bottom: tags -->
-          <div class="relative z-10 p-6 sm:p-8 pt-0">
-            <div class="flex flex-wrap gap-1.5">
-              <span
-                v-for="tech in (project.technologies || []).slice(0, 4)"
-                :key="tech"
-                class="bg-accent-dim text-accent border border-accent-border rounded-sm px-2 py-0.5 text-label-sm"
-              >
-                {{ tech }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Hover surface change + accent line -->
-          <div
-            class="absolute inset-0 transition-colors duration-fast z-[1]"
-            :class="idx === 0 ? '' : ''"
-            style="background: transparent;"
-          ></div>
-          <div
-            class="absolute bottom-0 left-0 h-[2px] bg-accent transition-all duration-300 ease-out"
-            :style="{ width: '0%' }"
-            style="z-index: 10;"
-          ></div>
-
-          <!-- Hover overlay handled by group-hover on parent -->
-        </div>
-      </div>
-    </div>
-
-    <!-- Mobile: vertical stack -->
-    <div class="md:hidden container mx-auto px-4 sm:px-6">
-      <div class="flex flex-col gap-[1px]" style="background: var(--border);">
+      <!-- Timeline -->
+      <div class="timeline">
         <article
           v-for="(project, idx) in projects"
           :key="project.title"
-          class="relative overflow-hidden cursor-pointer group p-5 sm:p-6 flex flex-col gap-3"
-          style="background: var(--surface-container);"
+          class="timeline-row group cursor-pointer"
+          :class="idx % 2 === 0 ? 'timeline-left' : 'timeline-right'"
           @click="openModal(project)"
         >
-          <!-- Giant index behind -->
-          <span
-            class="absolute -bottom-2 right-2 pointer-events-none select-none z-0"
-            style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 120px; font-weight: 800; line-height: 0.7; color: var(--muted); opacity: 0.08;"
-            aria-hidden="true"
-          >
-            {{ String(idx + 1).padStart(2, '0') }}
-          </span>
+          <!-- Card -->
+          <div class="timeline-card">
+            <!-- Giant index watermark -->
+            <span class="timeline-index" aria-hidden="true">
+              {{ String(idx + 1).padStart(2, '0') }}
+            </span>
 
-          <div class="relative z-10">
-            <div class="flex items-center gap-2 mb-2">
-              <span
-                class="w-1.5 h-1.5 rounded-full"
-                :class="project.status === 'active' ? 'bg-accent' : 'bg-muted'"
-              ></span>
-              <span class="text-label-md text-muted">
-                {{ project.status === 'active'
-                  ? (currentLanguage === 'es' ? 'Activo' : 'Active')
-                  : (currentLanguage === 'es' ? 'Completado' : 'Completed') }}
+            <!-- Content -->
+            <div class="relative z-10">
+              <!-- Status + overline -->
+              <div class="flex items-center gap-2 mb-3">
+                <span
+                  class="w-2 h-2 rounded-full"
+                  :class="project.status === 'active' ? 'bg-accent' : 'bg-muted'"
+                ></span>
+                <span class="text-label-md text-muted">
+                  {{ project.status === 'active'
+                    ? (currentLanguage === 'es' ? 'Activo' : 'Active')
+                    : (currentLanguage === 'es' ? 'Completado' : 'Completed') }}
+                </span>
+              </div>
+
+              <!-- Title -->
+              <h3 class="timeline-title">
+                {{ project.title }}
+              </h3>
+
+              <!-- Description -->
+              <p class="text-body-sm text-fg-soft mt-3 line-clamp-2">
+                {{ project.description }}
+              </p>
+
+              <!-- Tags -->
+              <div class="flex flex-wrap gap-1.5 mt-4">
+                <span
+                  v-for="tech in (project.technologies || []).slice(0, 4)"
+                  :key="tech"
+                  class="bg-accent-dim text-accent border border-accent-border rounded-sm px-2 py-0.5 text-label-sm"
+                >
+                  {{ tech }}
+                </span>
+              </div>
+
+              <!-- Read more -->
+              <span class="inline-block mt-4 text-btn text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-fast">
+                {{ currentLanguage === 'es' ? 'Ver más →' : 'Read more →' }}
               </span>
             </div>
-            <h3
-              style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; font-weight: 600; line-height: 1.15; color: var(--fg);"
-            >
-              {{ project.title }}
-            </h3>
-            <p class="text-body-sm text-fg-soft mt-2 line-clamp-2">
-              {{ project.description }}
-            </p>
           </div>
 
-          <div class="relative z-10 flex flex-wrap gap-1.5">
-            <span
-              v-for="tech in (project.technologies || []).slice(0, 4)"
-              :key="tech"
-              class="bg-accent-dim text-accent border border-accent-border rounded-sm px-2 py-0.5 text-label-sm"
-            >
-              {{ tech }}
-            </span>
+          <!-- Node on the line -->
+          <div class="timeline-node" :class="idx === 0 ? 'timeline-node-featured' : ''">
+            <span class="timeline-dot"></span>
           </div>
-
-          <div
-            class="absolute bottom-0 left-0 h-[2px] bg-accent transition-all duration-300 ease-out"
-            style="width: 0%; z-index: 10;"
-          ></div>
         </article>
       </div>
     </div>
@@ -231,7 +155,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { X } from 'lucide-vue-next'
 import type { Project } from '../types'
 import { useLanguage } from '../composables/useLanguage'
@@ -239,39 +163,15 @@ import { useScrollReveal } from '../composables/useScrollReveal'
 
 const { t, cvData, currentLanguage } = useLanguage()
 const container = ref<HTMLElement>()
-const trackRef = ref<HTMLElement>()
 const selectedProject = ref<Project | null>(null)
 const isModalOpen = ref(false)
-const isScrolling = ref(false)
 
 const { observe } = useScrollReveal()
 
 const projects = computed(() => cvData.value?.projects ?? [])
 
-let scrollTimer: ReturnType<typeof setTimeout> | null = null
-
-const onWheel = (e: WheelEvent) => {
-  if (!trackRef.value) return
-  // Convert vertical scroll to horizontal when in the track
-  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-    e.preventDefault()
-    trackRef.value.scrollLeft += e.deltaY
-  }
-  isScrolling.value = true
-  if (scrollTimer) clearTimeout(scrollTimer)
-  scrollTimer = setTimeout(() => {
-    isScrolling.value = false
-  }, 150)
-}
-
 onMounted(() => {
   if (container.value) observe(container.value)
-  // Passive: false needed to call preventDefault in wheel handler
-  trackRef.value?.addEventListener('wheel', onWheel as any, { passive: false })
-})
-
-onUnmounted(() => {
-  trackRef.value?.removeEventListener('wheel', onWheel as any)
 })
 
 const openModal = (project: Project) => {
@@ -288,53 +188,139 @@ const closeModal = () => {
 </script>
 
 <style scoped>
-/* ═══════ Scroll Track ═══════ */
-.scroll-track {
-  scrollbar-width: thin;
-  scrollbar-color: var(--accent) var(--surface);
-  scroll-behavior: smooth;
+/* ═══════ Timeline Structure ═══════ */
+.timeline {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
-.scroll-track::-webkit-scrollbar {
-  height: 6px;
+/* Central line — hidden on mobile */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border);
+  transform: translateX(-50%);
 }
 
-.scroll-track::-webkit-scrollbar-track {
-  background: var(--surface);
+/* ═══════ Timeline Row ═══════ */
+.timeline-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 48px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out);
 }
 
-.scroll-track::-webkit-scrollbar-thumb {
-  background: var(--accent);
-  border-radius: 9999px;
+.timeline-row:last-child {
+  margin-bottom: 0;
 }
 
-.scroll-track::-webkit-scrollbar-thumb:hover {
+/* Revealed by scroll observer */
+.is-visible .timeline-row {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger */
+.timeline-row:nth-child(2) { transition-delay: 80ms; }
+.timeline-row:nth-child(3) { transition-delay: 160ms; }
+.timeline-row:nth-child(4) { transition-delay: 240ms; }
+.timeline-row:nth-child(5) { transition-delay: 320ms; }
+
+/* Left: card on left, node in center */
+.timeline-left {
+  flex-direction: row;
+}
+
+/* Right: node in center, card on right */
+.timeline-right {
+  flex-direction: row-reverse;
+}
+
+/* ═══════ Card ═══════ */
+.timeline-card {
+  width: calc(50% - 32px);
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-container);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  transition:
+    background var(--duration-fast),
+    transform 0.3s var(--ease-out);
+}
+
+.timeline-card:hover {
   background: var(--surface-high);
+  transform: translateY(-2px);
 }
 
-/* Hover effects on cards */
-.scroll-card:hover {
-  background: var(--surface-high) !important;
+/* ═══════ Giant Index ═══════ */
+.timeline-index {
+  position: absolute;
+  bottom: -8px;
+  right: 8px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(80px, 10vw, 120px);
+  font-weight: 800;
+  line-height: 0.7;
+  color: var(--muted);
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
 }
 
-.scroll-card:hover > div[class*="absolute bottom-0 left-0"] {
-  width: 100% !important;
+/* ═══════ Title ═══════ */
+.timeline-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(18px, 2.5vw, 22px);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--fg);
 }
 
-/* Mobile card hover */
-article:hover {
-  background: var(--surface-high) !important;
+/* ═══════ Node (dot on the line) ═══════ */
+.timeline-node {
+  flex-shrink: 0;
+  width: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 28px;
 }
 
-article:hover > div[class*="absolute bottom-0 left-0"] {
-  width: 100% !important;
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--muted);
+  border: 2px solid var(--surface);
+  position: relative;
+  z-index: 2;
+  transition:
+    background var(--duration-fast),
+    transform 0.3s var(--ease-out);
 }
 
-/* ═══════ Reduced motion ═══════ */
-@media (prefers-reduced-motion: reduce) {
-  .scroll-track {
-    scroll-behavior: auto;
-  }
+.timeline-row:hover .timeline-dot {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+
+.timeline-node-featured .timeline-dot {
+  background: var(--accent);
+  width: 14px;
+  height: 14px;
 }
 
 /* ═══════ Line clamp ═══════ */
@@ -343,5 +329,56 @@ article:hover > div[class*="absolute bottom-0 left-0"] {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* ═══════ Mobile — single column, line on left ═══════ */
+@media (max-width: 767px) {
+  .timeline {
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    left: 16px;
+    transform: none;
+  }
+
+  .timeline-row {
+    flex-direction: row !important;
+    margin-bottom: 36px;
+  }
+
+  .timeline-card {
+    width: 100%;
+    padding: 20px 18px;
+  }
+
+  .timeline-node {
+    position: absolute;
+    left: -32px;
+    width: 32px;
+    padding-top: 20px;
+  }
+
+  .timeline-index {
+    font-size: 80px;
+    right: 4px;
+    bottom: -6px;
+  }
+
+  .timeline-title {
+    font-size: 18px;
+  }
+}
+
+/* ═══════ Reduced motion ═══════ */
+@media (prefers-reduced-motion: reduce) {
+  .timeline-row {
+    opacity: 1;
+    transform: none;
+    transition: none !important;
+  }
+  .timeline-card:hover {
+    transform: none;
+  }
 }
 </style>
