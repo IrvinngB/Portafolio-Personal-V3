@@ -61,7 +61,6 @@ useHead({
   }
 })
 
-// Lifecycle hooks should be right after custom hooks
 onMounted(() => {
   document.documentElement.style.scrollBehavior = 'smooth'
   window.addEventListener('keydown', handleKeyPress)
@@ -71,18 +70,16 @@ onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyPress)
 })
 
-// State declarations AFTER all hooks
 const showEasterEgg = ref(false)
 const konamiCode = ref<string[]>([])
 const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a']
 
-// Handle keypress for Easter egg
 const handleKeyPress = (event: KeyboardEvent) => {
   konamiCode.value.push(event.key)
   if (konamiCode.value.length > konamiSequence.length) {
     konamiCode.value.shift()
   }
-  
+
   if (konamiCode.value.join(',') === konamiSequence.join(',')) {
     showEasterEgg.value = true
     konamiCode.value = []
@@ -91,7 +88,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-bg text-fg transition-colors duration-300">
+  <div class="min-h-screen bg-bg text-ink paper-grain">
     <AppHeader />
     <main role="main" id="main-content">
       <HeroSection />

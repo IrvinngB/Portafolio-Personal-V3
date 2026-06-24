@@ -5,34 +5,29 @@
     class="reveal-section section py-12 sm:py-16 lg:py-20"
     aria-labelledby="about-heading"
   >
-    <div class="container mx-auto px-4 sm:px-6">
-      <div class="max-w-6xl mx-auto">
+    <div class="container mx-auto px-6">
+      <div class="max-w-5xl mx-auto">
         <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           <!-- Main Content -->
           <div class="reveal-child order-2 lg:order-1">
-            <h2 id="about-heading" class="text-h1 text-fg mb-6">
+            <div class="rule-thick mb-4 max-w-xs"></div>
+            <h2 id="about-heading" class="text-h1 mb-6">
               {{ currentLanguage === 'es' ? 'Más allá del código' : 'Beyond the code' }}
             </h2>
 
-            <div class="space-y-4 text-body-lg text-fg-soft leading-relaxed">
-              <p v-for="(paragraph, index) in cvData.aboutMe?.description" :key="index">
+            <div class="editorial-cols text-body mb-8">
+              <p v-for="(paragraph, index) in cvData.aboutMe?.description" :key="index" class="mb-3">
                 {{ paragraph }}
               </p>
             </div>
 
             <!-- Motivation card -->
-            <div class="mt-8 p-6 rounded-xxl bg-surface-container border border-border">
+            <div class="noir-card mt-6">
               <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl bg-accent-dim text-accent flex items-center justify-center flex-shrink-0">
-                  <Lightbulb class="w-6 h-6" strokeWidth="2.5" />
-                </div>
+                <Lightbulb class="w-6 h-6 text-ink flex-shrink-0 mt-0.5" strokeWidth="2" />
                 <div>
-                  <h3 class="text-h3 text-fg mb-2">
-                    {{ cvData.aboutMe?.motivation.title }}
-                  </h3>
-                  <p class="text-body-md text-fg-soft">
-                    {{ cvData.aboutMe?.motivation.description }}
-                  </p>
+                  <h3 class="text-h2 mb-2 text-lg">{{ cvData.aboutMe?.motivation.title }}</h3>
+                  <p class="text-body text-sm">{{ cvData.aboutMe?.motivation.description }}</p>
                 </div>
               </div>
             </div>
@@ -43,16 +38,14 @@
             <div
               v-for="(value, index) in cvData.aboutMe?.values"
               :key="index"
-              class="bg-surface-container hover:bg-surface-high transition-colors duration-fast rounded-xxl p-5 sm:p-6 border border-border"
+              class="noir-card"
               :style="{ transitionDelay: `${60 + index * 60}ms` }"
             >
               <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl bg-accent-dim text-accent flex items-center justify-center flex-shrink-0">
-                  <component :is="iconMap[value.icon as keyof typeof iconMap]" class="w-6 h-6" strokeWidth="2.5" />
-                </div>
+                <component :is="iconMap[value.icon as keyof typeof iconMap]" class="w-6 h-6 text-ink flex-shrink-0 mt-0.5" strokeWidth="2" />
                 <div>
-                  <h4 class="text-h3 text-fg mb-2">{{ value.title }}</h4>
-                  <p class="text-body-md text-fg-soft">{{ value.description }}</p>
+                  <h4 class="text-h2 mb-2 text-lg">{{ value.title }}</h4>
+                  <p class="text-body text-sm">{{ value.description }}</p>
                 </div>
               </div>
             </div>
@@ -95,7 +88,6 @@ const iconMap = {
 .reveal-section.is-visible .reveal-child {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity var(--duration-slow) var(--ease-out),
-              transform var(--duration-slow) var(--ease-out);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 </style>

@@ -263,6 +263,15 @@ export interface ActiveProject {
 
 export const activeProjects: ActiveProject[] = [
   {
+    id: 'risktrail',
+    title: 'RiskTrail',
+    description: 'Sistema web de evaluación dinámica de riesgo para senderismo. Integra archivos GPX, datos meteorológicos en tiempo real (Open-Meteo) y modelos biomecánicos (Minetti, Tobler-Irmischer, Pandolf) sobre PostgreSQL/PostGIS + pgRouting. Clasifica segmentos en 5 niveles de riesgo según metodología MIDE.',
+    tags: ['FastAPI', 'PostGIS', 'pgRouting', 'Vue.js', 'Open-Meteo'],
+    status: 'building',
+    url: 'https://github.com/IrvinngB/risktrail',
+    lastUpdated: '2026-06-23'
+  },
+  {
     id: 'ventibot-v2',
     title: 'VentiBot v2',
     description: 'WhatsApp chatbot con IA, integración RAG y flujos conversacionales avanzados.',

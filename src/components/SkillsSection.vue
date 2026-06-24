@@ -5,38 +5,34 @@
     class="reveal-section section py-12 sm:py-16 lg:py-20"
     aria-labelledby="skills-heading"
   >
-    <div class="container mx-auto px-4 sm:px-6">
+    <div class="container mx-auto px-6">
       <!-- Section Header -->
       <div class="text-center mb-12 sm:mb-16">
-        <h2 id="skills-heading" class="text-h1 text-fg mb-4">
-          {{ t.technicalSkills }}
-        </h2>
-        <p class="text-body-lg text-fg-soft max-w-2xl mx-auto">
+        <div class="rule-thick mb-2 max-w-xs mx-auto"></div>
+        <h2 id="skills-heading" class="text-h1 mb-4">{{ t.technicalSkills }}</h2>
+        <p class="text-deck max-w-2xl mx-auto">
           {{ currentLanguage === 'es'
             ? 'Tecnologías con las que construyo productos digitales escalables y de alto rendimiento.'
             : 'Technologies I use to build scalable and high-performance digital products.' }}
         </p>
+        <div class="rule-thin mt-4 max-w-xs mx-auto"></div>
       </div>
 
-      <!-- 4-Column Stack Bar -->
-      <div
-        ref="stackBar"
-        class="reveal-child grid grid-cols-2 sm:grid-cols-4 gap-1 bg-border max-w-5xl mx-auto"
-      >
+      <!-- Skills Grid -->
+      <div class="reveal-child grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-5xl mx-auto">
         <div
           v-for="cat in stackCategories"
           :key="cat.key"
-          class="bg-surface-container hover:bg-surface-high transition-colors duration-fast p-5 sm:p-6"
+          class="noir-card"
           :style="{ transitionDelay: `${cat.delay}ms` }"
         >
-          <!-- Category Label -->
-          <h3 class="text-label-md text-muted mb-4">{{ cat.title }}</h3>
-          <!-- Tech Names -->
-          <ul class="space-y-2">
+          <div class="rule-thin mb-4"></div>
+          <h3 class="text-h2 mb-3 text-lg">{{ cat.title }}</h3>
+          <ul class="space-y-1">
             <li
               v-for="tech in cat.skills"
               :key="tech"
-              class="text-label-lg text-fg hover:text-accent transition-colors duration-fast"
+              class="text-body text-sm"
             >
               {{ tech }}
             </li>
@@ -47,17 +43,18 @@
       <!-- Interpersonal Skills -->
       <div
         v-if="interpersonalSkills.length > 0"
-        class="reveal-child mt-10 text-center"
+        class="reveal-child mt-8 text-center"
         style="transition-delay: 240ms"
       >
-        <h3 class="text-label-md text-muted mb-4">{{ t.interpersonalSkills }}</h3>
-        <div class="flex flex-wrap justify-center gap-2">
+        <h3 class="text-label mb-4">{{ t.interpersonalSkills }}</h3>
+        <div class="flex flex-wrap justify-center gap-x-3 gap-y-1">
           <span
             v-for="skill in interpersonalSkills"
             :key="skill"
-            class="text-label-lg text-fg-soft hover:text-accent transition-colors duration-fast after:content-['·'] after:text-muted after:ml-2 last:after:content-none"
+            class="text-caption"
           >
             {{ skill }}
+            <span class="text-ink-faint mx-1" v-if="interpersonalSkills.indexOf(skill) < interpersonalSkills.length - 1">·</span>
           </span>
         </div>
       </div>
@@ -103,7 +100,6 @@ const interpersonalSkills = computed(() => cvData.value?.interpersonalSkills || 
 .reveal-section.is-visible .reveal-child {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity var(--duration-slow) var(--ease-out),
-              transform var(--duration-slow) var(--ease-out);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 </style>
