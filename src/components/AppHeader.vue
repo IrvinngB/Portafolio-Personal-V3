@@ -86,7 +86,12 @@ onUnmounted(() => {
   </a>
 
   <header
-    class="fixed z-50 w-full bg-bg/95 border-b-2 border-ink py-3"
+    :class="[
+      'fixed z-50 w-full py-3 transition-all duration-200',
+      isScrolled
+        ? 'bg-bg border-b-2 border-ink'
+        : 'bg-transparent'
+    ]"
     role="banner"
   >
     <nav class="container mx-auto px-6" role="navigation" aria-label="Main navigation">
