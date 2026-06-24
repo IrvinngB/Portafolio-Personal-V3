@@ -32,11 +32,11 @@
 
           <meta itemprop="url" content="https://irvincodes.dev" />
 
-          <!-- CTAs -->
-          <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mt-6">
+          <!-- CTAs — clay: puffy, pressable -->
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-6">
             <button
               @click="scrollToContact"
-              class="bg-accent text-accent-fg rounded-full px-6 py-3 text-btn transition-colors duration-fast hover:bg-surface-high"
+              class="clay-btn px-8 py-3.5 text-btn"
               :aria-label="currentLanguage === 'es' ? 'Ir a sección de contacto' : 'Go to contact section'"
             >
               {{ t.getInTouch }}
@@ -44,7 +44,7 @@
             <a
               :href="cvPdfUrl"
               download
-              class="border border-accent text-accent rounded-full px-6 py-3 text-btn transition-colors duration-fast hover:bg-accent hover:text-accent-fg flex items-center justify-center gap-2"
+              class="clay-btn-outline px-8 py-3.5 text-btn flex items-center justify-center gap-2"
               :aria-label="`${t.downloadCV} - PDF file`"
             >
               <Download class="h-5 w-5" aria-hidden="true" />
@@ -76,11 +76,11 @@
 
         <!-- Right Column: Avatar + Building Now -->
         <div class="flex flex-col items-center lg:items-end gap-8 mt-8 lg:mt-0">
-          <!-- SVG Avatar -->
-          <div class="relative">
+          <!-- SVG Avatar — soft clay blob frame -->
+          <div class="relative flex justify-center lg:justify-end">
             <div 
-              class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 border border-border overflow-hidden"
-              style="border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;"
+              class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 overflow-hidden clay-card"
+              style="border-radius: 45% 55% 65% 35% / 40% 50% 60% 55%;"
             >
               <div class="w-full h-full p-2 bg-surface-container/50">
                   <div

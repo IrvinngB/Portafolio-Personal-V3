@@ -8,9 +8,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Bricolage Grotesque', 'sans-serif'],
+        display: ['Outfit', 'Plus Jakarta Sans', 'sans-serif'],
         body: ['Plus Jakarta Sans', 'sans-serif'],
-        mono: ['Cascadia Code', 'Fira Code', 'ui-monospace', 'monospace'],
+        mono: ['JetBrains Mono', 'Cascadia Code', 'monospace'],
       },
       colors: {
         bg: 'var(--bg)',
@@ -39,6 +39,8 @@ module.exports = {
       boxShadow: {
         card: 'var(--shadow-card)',
         'card-hover': 'var(--shadow-card-hover)',
+        btn: 'var(--shadow-btn)',
+        'btn-pressed': 'var(--shadow-btn-pressed)',
       },
       borderRadius: {
         sm: 'var(--radius-sm)',

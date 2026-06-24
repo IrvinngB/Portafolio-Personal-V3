@@ -2,97 +2,282 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* ===== Dark Mode Tokens (default) ===== */
-  --bg: #071F1F;
-  --surface: #0A2E2E;
-  --surface-container: #0D3A3A;
-  --surface-high: #114444;
-  --accent: #3FA35B;
-  --accent-alt: #B4D333;
-  --accent-dim: rgba(63,163,91,0.12);
-  --accent-border: rgba(63,163,91,0.25);
-  --accent-fg: #071F1F;
-  --fg: #E8F5F0;
-  --fg-soft: rgba(232,245,240,0.60);
-  --muted: rgba(232,245,240,0.35);
-  --border: rgba(255,255,255,0.08);
-  --border-soft: rgba(255,255,255,0.05);
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.3);
-  --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.4);
+/* ═══════════════════════════════════════
+   CLAYMORPHISM DESIGN TOKENS
+   Soft. Puffy. Warm. 3D clay feel.
+   ═══════════════════════════════════════ */
 
-  /* Radius scale */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 16px;
-  --radius-xxl: 24px;
+:root {
+  /* === Base — warm cream palette === */
+  --bg: #F5F0EB;
+  --surface: #FFFDF9;
+  --surface-container: #FBF8F4;
+  --surface-high: #F3EFE9;
+
+  /* === Accent — warm terracotta + soft sage === */
+  --accent: #E07A5F;
+  --accent-alt: #81B29A;
+  --accent-dim: rgba(224, 122, 95, 0.12);
+  --accent-border: rgba(224, 122, 95, 0.25);
+  --accent-fg: #FFFDF9;
+
+  /* === Text — warm brown, never pure black === */
+  --fg: #3D3A35;
+  --fg-soft: rgba(61, 58, 53, 0.65);
+  --muted: rgba(61, 58, 53, 0.35);
+
+  /* === Borders — barely there === */
+  --border: rgba(61, 58, 53, 0.08);
+  --border-soft: rgba(61, 58, 53, 0.04);
+
+  /* === Shadows — iconic double-shadow: inner highlight + outer depth === */
+  --shadow-card:
+    0 4px 16px rgba(149, 130, 110, 0.15),
+    0 1px 3px rgba(149, 130, 110, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --shadow-card-hover:
+    0 8px 28px rgba(149, 130, 110, 0.2),
+    0 2px 6px rgba(149, 130, 110, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --shadow-btn:
+    0 3px 12px rgba(224, 122, 95, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  --shadow-btn-pressed:
+    0 1px 4px rgba(224, 122, 95, 0.2),
+    inset 0 2px 4px rgba(0, 0, 0, 0.08);
+
+  /* === Radius — everything is puffy === */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-xxl: 32px;
   --radius-full: 9999px;
 
-  /* Motion */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --duration-fast: 150ms;
-  --duration-normal: 300ms;
+  /* === Motion — bouncy, springy === */
+  --ease-out: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 350ms;
   --duration-slow: 500ms;
 }
 
-/* Light mode overrides */
-[data-theme="light"] {
-  --bg: #F4FAF0;
-  --surface: #FFFFFF;
-  --surface-container: #EAF3E4;
-  --surface-high: #D6EACB;
-  --accent: #2E7A42;
-  --accent-alt: #7A9A10;
-  --accent-dim: rgba(46,122,66,0.08);
-  --accent-border: rgba(46,122,66,0.2);
-  --accent-fg: #FFFFFF;
-  --fg: #071F1F;
-  --fg-soft: rgba(7,31,31,0.65);
-  --muted: rgba(7,31,31,0.40);
-  --border: rgba(0,0,0,0.08);
-  /* border-soft, shadows, radii, motion stay same */
-}
-
-/* Typography utility classes */
+/* ═══════════════════════════════════════
+   TYPOGRAPHY — Warm, friendly, rounded
+   ═══════════════════════════════════════ */
 @layer components {
-  .text-display { font-family: 'Bricolage Grotesque', sans-serif; font-size: 56px; line-height: 1.0; font-weight: 200; }
-  .text-display-italic { font-family: 'Bricolage Grotesque', sans-serif; font-size: 56px; line-height: 1.0; font-weight: 800; }
-  .text-h1 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 32px; line-height: 1.15; font-weight: 600; }
-  .text-h2 { font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; line-height: 1.25; font-weight: 500; }
-  .text-h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; line-height: 1.35; font-weight: 600; }
-  .text-body-lg { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; line-height: 1.75; font-weight: 400; }
-  .text-body-md { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; line-height: 1.7; font-weight: 400; }
-  .text-body-sm { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; line-height: 1.6; font-weight: 400; }
-  .text-label-lg { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; line-height: 1.4; font-weight: 500; }
-  .text-label-md { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; line-height: 1.4; font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; }
-  .text-label-sm { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px; line-height: 1.3; font-weight: 500; letter-spacing: 0.06em; }
-  .text-caption { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 11px; line-height: 1.4; font-weight: 400; }
-  .text-mono { font-family: 'Cascadia Code', 'Fira Code', ui-monospace, monospace; font-size: 12px; line-height: 1.5; font-weight: 400; }
-  .text-btn { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; line-height: 1; font-weight: 500; letter-spacing: 0.04em; }
+  .text-display {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(48px, 8vw, 64px);
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .text-display-italic {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(48px, 8vw, 64px);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .text-h1 {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(28px, 4vw, 36px);
+    line-height: 1.15;
+    font-weight: 700;
+  }
+  .text-h2 {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 600;
+  }
+  .text-h3 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.35;
+    font-weight: 600;
+  }
+  .text-body-lg {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    font-weight: 400;
+  }
+  .text-body-md {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    font-weight: 400;
+  }
+  .text-body-sm {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+  .text-label-lg {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+  .text-label-md {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .text-label-sm {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  .text-caption {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+  .text-mono {
+    font-family: 'JetBrains Mono', 'Cascadia Code', monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .text-btn {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
 }
 
-/* Base reset */
+/* ═══════════════════════════════════════
+   CLAY UTILITY CLASSES
+   ═══════════════════════════════════════ */
+@layer components {
+  /* Card — puffy clay surface */
+  .clay-card {
+    background: var(--surface-container);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow var(--duration-normal) var(--ease-out),
+      transform var(--duration-normal) var(--ease-out);
+  }
+  .clay-card:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-2px);
+  }
+  .clay-card:active {
+    box-shadow: var(--shadow-btn-pressed);
+    transform: translateY(1px);
+  }
+
+  /* Button — puffy clay button */
+  .clay-btn {
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-btn);
+    transition:
+      box-shadow var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+  .clay-btn:hover {
+    box-shadow:
+      0 6px 20px rgba(224, 122, 95, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transform: translateY(-1px);
+  }
+  .clay-btn:active {
+    box-shadow: var(--shadow-btn-pressed);
+    transform: translateY(2px) scale(0.98);
+  }
+
+  /* Secondary button — outline clay */
+  .clay-btn-outline {
+    background: var(--surface-container);
+    color: var(--accent);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-card);
+    border: none;
+    transition:
+      box-shadow var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out);
+  }
+  .clay-btn-outline:hover {
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-1px);
+  }
+  .clay-btn-outline:active {
+    transform: translateY(2px) scale(0.98);
+  }
+
+  /* Tag — pill with soft inset */
+  .clay-tag {
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-radius: var(--radius-sm);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+  }
+}
+
+/* ═══════════════════════════════════════
+   BASE
+   ═══════════════════════════════════════ */
 * { box-sizing: border-box; }
-body { margin: 0; padding: 0; min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg);
+  color: var(--fg);
+}
 #app { min-height: 100vh; }
 
-/* Smooth scroll */
 html { scroll-behavior: smooth; scroll-padding-top: 100px; }
 
-/* Focus */
-button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
-
-/* Scrollbar (tonal surfaces) */
+/* ═══════════════════════════════════════
+   SCROLLBAR — soft, warm
+   ═══════════════════════════════════════ */
 ::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background-color: var(--surface); }
-::-webkit-scrollbar-thumb { background-color: var(--accent); border-radius: 9999px; }
-::-webkit-scrollbar-thumb:hover { background-color: var(--surface-high); }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-alt); }
 
-/* Print */
-@media print { .no-print { display: none !important; } }
+/* ═══════════════════════════════════════
+   FOCUS
+   ═══════════════════════════════════════ */
+button:focus-visible, a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
 
-/* Reduced motion */
+/* ═══════════════════════════════════════
+   SELECTION — warm accent
+   ═══════════════════════════════════════ */
+::selection {
+  background: rgba(224, 122, 95, 0.25);
+  color: var(--fg);
+}
+
+/* ═══════════════════════════════════════
+   REDUCED MOTION
+   ═══════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -100,3 +285,5 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
     transition-duration: 0.01ms !important;
   }
 }
+
+@media print { .no-print { display: none !important; } }
