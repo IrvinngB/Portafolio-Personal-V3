@@ -2,27 +2,59 @@
 module.exports = {
   content: [
     './index.html',
-    './src/**/*.{vue,js,ts,jsx,tsx}'
+    './src/**/*.{vue,js,ts,jsx,tsx}',
   ],
-  darkMode: 'class',
+  darkMode: ['selector', '[data-theme="dark"]'],
   theme: {
     extend: {
       fontFamily: {
-        display: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
-        body: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+        display: ['Lora', 'serif'],
+        body: ['Plus Jakarta Sans', 'sans-serif'],
+        mono: ['Cascadia Code', 'Fira Code', 'ui-monospace', 'monospace'],
       },
       colors: {
-        primary: {
-          DEFAULT: 'var(--color-primary)',
-          dark: 'var(--color-primary-dark)',
-          light: 'var(--color-primary-light)',
-          accent: 'var(--color-accent)'
-        },
+        bg: 'var(--bg)',
         surface: {
-          DEFAULT: 'var(--color-surface)',
-          elevated: 'var(--color-surface-elevated)'
-        }
-      }
+          DEFAULT: 'var(--surface)',
+          container: 'var(--surface-container)',
+          high: 'var(--surface-high)',
+        },
+        accent: {
+          DEFAULT: 'var(--accent)',
+          dim: 'var(--accent-dim)',
+          border: 'var(--accent-border)',
+          fg: 'var(--accent-fg)',
+        },
+        fg: {
+          DEFAULT: 'var(--fg)',
+          soft: 'var(--fg-soft)',
+        },
+        muted: 'var(--muted)',
+        border: {
+          DEFAULT: 'var(--border)',
+          soft: 'var(--border-soft)',
+        },
+      },
+      boxShadow: {
+        card: 'var(--shadow-card)',
+        'card-hover': 'var(--shadow-card-hover)',
+      },
+      borderRadius: {
+        sm: 'var(--radius-sm)',
+        md: 'var(--radius-md)',
+        lg: 'var(--radius-lg)',
+        xl: 'var(--radius-xl)',
+        xxl: 'var(--radius-xxl)',
+        full: 'var(--radius-full)',
+      },
+      transitionTimingFunction: {
+        'ease-out': 'var(--ease-out)',
+      },
+      transitionDuration: {
+        fast: 'var(--duration-fast)',
+        normal: 'var(--duration-normal)',
+        slow: 'var(--duration-slow)',
+      },
     },
   },
   plugins: [],
