@@ -18,8 +18,8 @@
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
     <meta name="bingbot" content="index, follow" />
-    <meta name="theme-color" content="#3FA35B" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0A3D3D" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#071F1F" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#F0FAF7" media="(prefers-color-scheme: light)" />
     <meta name="color-scheme" content="light dark" />
     <meta name="generator" content="Vite + Vue.js 3 + TypeScript" />
     <meta name="rating" content="general" />
@@ -66,10 +66,18 @@
     <meta name="msapplication-TileColor" content="#3FA35B" />
     <meta name="msapplication-tooltip" content="Irvin Benitez — Full Stack Developer Portfolio" />
 
+    <!-- ═══════════ FOUC Prevention ─ Set data-theme before any CSS loads ═══════════ -->
+    <script>
+      (function() {
+        var theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+
     <!-- ═══════════ Google Fonts ═══════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <!-- ═══════════ DNS Prefetch ═══════════ -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
