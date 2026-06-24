@@ -1,55 +1,41 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { Globe, Menu, X, ChevronRight, Sun, Moon } from 'lucide-vue-next'
+import { Globe, Menu, X } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
-import { useTheme } from '../composables/useTheme'
 
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
 const activeIndex = ref(0)
 
-const { theme, toggle } = useTheme()
 const { currentLanguage, toggleLanguage, t, cvData } = useLanguage()
 
 const displayName = computed(() => cvData.value?.name ?? 'Portfolio')
-const displayTitle = computed(() => cvData.value?.title ?? 'Developer')
 
 const navItems = computed(() => [
-  { href: '#experience', label: t.value.experience },
   { href: '#projects', label: t.value.projects },
   { href: '#skills', label: t.value.skills },
-  { href: '#education', label: t.value.education },
   { href: '#contact', label: t.value.contact }
 ])
 
-const sections = computed(() => ['#experience', '#projects', '#skills', '#education', '#contact'])
+const sections = computed(() => ['#projects', '#skills', '#contact'])
 
-const toggleMobileMenu = () => {
-  isMobileMenuOpen.value = !isMobileMenuOpen.value
-}
+const toggleMobileMenu = () => { isMobileMenuOpen.value = !isMobileMenuOpen.value }
 
 const scrollToSection = (event: Event, href?: string) => {
   event.preventDefault()
   const targetHref = href || (event.currentTarget as HTMLAnchorElement)?.getAttribute('href')
-  if (targetHref && targetHref.trim()) {
-    const element = document.querySelector(targetHref)
-    if (element) {
-      const headerOffset = 100
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.scrollY - headerOffset
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+  if (targetHref) {
+    const el = document.querySelector(targetHref!)
+    if (el) {
+      const pos = el.getBoundingClientRect().top + window.scrollY - 100
+      window.scrollTo({ top: pos, behavior: 'smooth' })
     }
   }
 }
 
-const handleMobileNavClick = (event: Event) => {
-  scrollToSection(event)
-  isMobileMenuOpen.value = false
-}
+const handleMobileNavClick = (event: Event) => { scrollToSection(event); isMobileMenuOpen.value = false }
 
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+const scrollToTop = () => { window.scrollTo({ top: 0, behavior: 'smooth' }) }
 
 let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 const handleScroll = () => {
@@ -58,162 +44,75 @@ const handleScroll = () => {
     scrollTimeout = null
     isScrolled.value = window.scrollY > 50
     for (let i = sections.value.length - 1; i >= 0; i--) {
-      const selector = sections.value[i]
-      if (!selector) continue
-      const el = document.querySelector(selector) as HTMLElement | null
-      if (!el) continue
-      const rect = el.getBoundingClientRect()
-      if (rect.top <= 120) {
-        activeIndex.value = i
-        return
-      }
+      const el = document.querySelector(sections.value[i]!) as HTMLElement | null
+      if (el && el.getBoundingClientRect().top <= 120) { activeIndex.value = i; return }
     }
-    activeIndex.value = 0
+    activeIndex.value = -1
   }, 50)
 }
 
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll, { passive: true })
-  handleScroll()
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
-})
+onMounted(() => window.addEventListener('scroll', handleScroll, { passive: true }))
+onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 </script>
 
 <template>
-  <a
-    href="#main-content"
-    class="sr-only focus:not-sr-only"
-  >
-    {{ currentLanguage === 'es' ? 'Saltar al contenido principal' : 'Skip to main content' }}
-  </a>
+  <a href="#main-content" class="sr-only focus:not-sr-only">Skip to main content</a>
 
   <header
-    :class="[
-      'fixed z-50 w-full transition-colors',
-      'duration-fast',
-      isScrolled
-        ? 'bg-bg border-b border-border/50'
-        : 'bg-transparent'
-    ]"
+    class="fixed z-50 w-full transition-colors duration-150"
+    :class="isScrolled ? 'bg-bg border-b-2 border-border' : 'bg-transparent'"
     role="banner"
   >
-    <nav class="container mx-auto px-4 lg:px-6 py-3" role="navigation" aria-label="Main navigation">
+    <nav class="container mx-auto px-4 lg:px-6 py-4" role="navigation">
       <div class="flex items-center justify-between">
-        <!-- Logo / Brand -->
-        <div class="flex items-center">
-          <button
-            @click="scrollToTop"
-            class="flex items-center gap-3 group focus:outline-none focus-visible:outline-3 focus-visible:outline-accent rounded"
-            aria-label="Go to home"
-          >
-            <div class="w-10 h-10 rounded-full bg-accent text-accent-fg flex items-center justify-center">
-              <span class="text-label-lg">IB</span>
-            </div>
-            <div class="hidden sm:block">
-              <h1 class="text-h3 text-fg">{{ displayName }}</h1>
-              <p class="text-caption text-fg-soft -mt-0.5">{{ displayTitle }}</p>
-            </div>
+        <!-- Logo -->
+        <button @click="scrollToTop" class="text-h2" style="color: var(--fg);">
+          {{ displayName }}
+        </button>
+
+        <!-- Desktop Nav -->
+        <div class="hidden lg:flex items-center gap-6">
+          <a
+            v-for="(item, idx) in navItems" :key="item.href"
+            :href="item.href" @click="scrollToSection"
+            class="text-label transition-colors duration-150"
+            :class="activeIndex === idx ? 'underline underline-offset-[6px] decoration-2' : ''"
+            style="color: var(--fg);"
+            :style="activeIndex === idx ? { textDecorationColor: 'var(--accent-yellow)' } : {}"
+          >{{ item.label }}</a>
+
+          <!-- Language -->
+          <button @click="toggleLanguage" class="text-label ml-4" style="color: var(--fg-soft);">
+            <Globe class="h-4 w-4 inline mr-1" />{{ currentLanguage.toUpperCase() }}
           </button>
         </div>
 
-        <!-- Desktop Nav Links -->
-        <div class="hidden lg:flex items-center">
-          <div class="flex items-center gap-1" role="menubar">
-            <a
-              v-for="(item, idx) in navItems"
-              :key="item.href"
-              :href="item.href"
-              @click="scrollToSection"
-              :class="[
-                'px-4 py-2 rounded-full text-label-md transition-colors duration-fast',
-                'focus:outline-none focus-visible:outline-2 focus-visible:outline-accent',
-                activeIndex === idx
-                  ? 'text-accent'
-                  : 'text-fg-soft hover:text-fg'
-              ]"
-              :aria-current="activeIndex === idx ? 'page' : undefined"
-              role="menuitem"
-            >
-              {{ item.label }}
-            </a>
-          </div>
-        </div>
+        <!-- Mobile toggle -->
+        <button @click="toggleMobileMenu" class="lg:hidden p-2" style="color: var(--fg);">
+          <Menu v-if="!isMobileMenuOpen" class="h-6 w-6" />
+          <X v-else class="h-6 w-6" />
+        </button>
+      </div>
+    </nav>
 
-        <!-- Controls -->
-        <div class="flex items-center gap-2">
-          <!-- Language Toggle -->
-          <button
-            @click="toggleLanguage"
-            class="flex items-center gap-2 px-3 py-2 rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg-soft hover:text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
-            :aria-label="`Switch language, current: ${currentLanguage.toUpperCase()}`"
-          >
-            <Globe class="h-4 w-4" aria-hidden="true" />
-            <span class="text-label-md">{{ currentLanguage.toUpperCase() }}</span>
-          </button>
-
-          <!-- Theme Toggle -->
-          <button
-            @click="toggle"
-            class="relative w-14 h-7 rounded-full transition-colors duration-fast focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
-            :class="theme === 'dark' ? 'bg-accent' : 'bg-muted'"
-            :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
-          >
-            <div
-              class="absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow-md transform transition-transform duration-fast flex items-center justify-center"
-              :class="theme === 'dark' ? 'translate-x-7' : 'translate-x-0'"
-            >
-              <Moon v-if="theme === 'dark'" class="w-4 h-4 text-accent" />
-              <Sun v-else class="w-4 h-4 text-fg-soft" />
-            </div>
-          </button>
-
-          <!-- Mobile Menu Toggle -->
-          <button
-            @click="toggleMobileMenu"
-            class="lg:hidden p-2.5 rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg-soft hover:text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
-            :aria-expanded="isMobileMenuOpen"
-            aria-label="Toggle mobile menu"
-          >
-            <Menu v-if="!isMobileMenuOpen" class="h-5 w-5" aria-hidden="true" />
-            <X v-else class="h-5 w-5" aria-hidden="true" />
+    <!-- Mobile menu -->
+    <Transition name="slide">
+      <div v-if="isMobileMenuOpen" class="lg:hidden border-t-2 border-border bg-surface">
+        <div class="container mx-auto px-4 py-4 flex flex-col gap-3">
+          <a v-for="item in navItems" :key="item.href" :href="item.href"
+             @click="handleMobileNavClick"
+             class="text-label py-2" style="color: var(--fg);">{{ item.label }}</a>
+          <button @click="toggleLanguage(); isMobileMenuOpen = false"
+                  class="text-label text-left" style="color: var(--fg-soft);">
+            {{ currentLanguage.toUpperCase() }}
           </button>
         </div>
       </div>
-
-      <!-- Mobile Menu -->
-      <Transition
-        enter-active-class="transition-all duration-fast ease-out"
-        enter-from-class="opacity-0 transform -translate-y-2"
-        enter-to-class="opacity-100 transform translate-y-0"
-        leave-active-class="transition-all duration-fast ease-in"
-        leave-from-class="opacity-100 transform translate-y-0"
-        leave-to-class="opacity-0 transform -translate-y-2"
-      >
-        <div v-if="isMobileMenuOpen" class="lg:hidden mt-4 border-t border-border pt-4">
-          <nav class="space-y-1" role="navigation" aria-label="Mobile navigation">
-            <a
-              v-for="(item, idx) in navItems"
-              :key="item.href"
-              :href="item.href"
-              @click="handleMobileNavClick"
-              :class="[
-                'flex items-center px-4 py-3 rounded-xl transition-colors duration-fast',
-                'focus:outline-none focus-visible:outline-2 focus-visible:outline-accent',
-                activeIndex === idx
-                  ? 'text-accent bg-accent-dim'
-                  : 'text-fg-soft hover:text-fg hover:bg-surface-container'
-              ]"
-              role="menuitem"
-            >
-              <span class="text-label-md">{{ item.label }}</span>
-              <ChevronRight class="h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-fast transform group-hover:translate-x-1" aria-hidden="true" />
-            </a>
-          </nav>
-        </div>
-      </Transition>
-    </nav>
+    </Transition>
   </header>
 </template>
+
+<style scoped>
+.slide-enter-active, .slide-leave-active { transition: all 0.2s ease; }
+.slide-enter-from, .slide-leave-to { opacity: 0; transform: translateY(-8px); }
+</style>

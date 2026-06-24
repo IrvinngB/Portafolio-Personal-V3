@@ -1,60 +1,38 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './index.html',
-    './src/**/*.{vue,js,ts,jsx,tsx}',
-  ],
-  darkMode: ['selector', '[data-theme="dark"]'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontFamily: {
-        display: ['Bricolage Grotesque', 'sans-serif'],
-        body: ['Plus Jakarta Sans', 'sans-serif'],
-        mono: ['Cascadia Code', 'Fira Code', 'ui-monospace', 'monospace'],
+        sans: ['Space Grotesk', 'sans-serif'],
+        display: ['Space Grotesk', 'sans-serif'],
       },
       colors: {
         bg: 'var(--bg)',
-        surface: {
-          DEFAULT: 'var(--surface)',
-          container: 'var(--surface-container)',
-          high: 'var(--surface-high)',
-        },
-        accent: {
-          DEFAULT: 'var(--accent)',
-          alt: 'var(--accent-alt)',
-          dim: 'var(--accent-dim)',
-          border: 'var(--accent-border)',
-          fg: 'var(--accent-fg)',
-        },
+        surface: 'var(--surface)',
         fg: {
           DEFAULT: 'var(--fg)',
           soft: 'var(--fg-soft)',
         },
-        muted: 'var(--muted)',
-        border: {
-          DEFAULT: 'var(--border)',
-          soft: 'var(--border-soft)',
+        border: 'var(--border)',
+        accent: {
+          yellow: 'var(--accent-yellow)',
+          pink: 'var(--accent-pink)',
+          teal: 'var(--accent-teal)',
+          purple: 'var(--accent-purple)',
+          blue: 'var(--accent-blue)',
         },
       },
       boxShadow: {
-        card: 'var(--shadow-card)',
-        'card-hover': 'var(--shadow-card-hover)',
+        offset: 'var(--shadow-offset)',
+        'offset-hover': 'var(--shadow-offset-hover)',
+        sticker: 'var(--shadow-sticker)',
       },
       borderRadius: {
-        sm: 'var(--radius-sm)',
-        md: 'var(--radius-md)',
-        lg: 'var(--radius-lg)',
-        xl: 'var(--radius-xl)',
-        xxl: 'var(--radius-xxl)',
-        full: 'var(--radius-full)',
-      },
-      transitionTimingFunction: {
-        'ease-out': 'var(--ease-out)',
-      },
-      transitionDuration: {
-        fast: 'var(--duration-fast)',
-        normal: 'var(--duration-normal)',
-        slow: 'var(--duration-slow)',
+        card: 'var(--radius-card)',
+        btn: 'var(--radius-btn)',
+        photo: 'var(--radius-photo)',
+        pill: 'var(--radius-pill)',
       },
     },
   },
