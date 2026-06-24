@@ -1,229 +1,109 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { Code2, Server, Database, Wrench, Layers, Palette, GitBranch, Globe } from 'lucide-vue-next'
-import { useLanguage } from '../composables/useLanguage'
-import { useGSAP } from '../composables/useGSAP'
-
-const container = ref(null)
-useGSAP(container)
-
-const { t, cvData, currentLanguage } = useLanguage()
-const activeCategory = ref(0)
-
-const categories = computed(() => {
-  const skills = cvData.value?.technicalSkills
-  const details = cvData.value?.skillsDetails
-  if (!skills || !details) return []
-
-  return [
-    {
-      key: 'frontend',
-      title: t.value.frontend,
-      icon: Code2,
-      skills: skills.frontend || [],
-      description: details.descriptions.frontend,
-      gradient: 'from-primary to-primary-light'
-    },
-    {
-      key: 'backend',
-      title: t.value.backend,
-      icon: Server,
-      skills: skills.backend || [],
-      description: details.descriptions.backend,
-      gradient: 'from-primary-dark to-primary'
-    },
-    {
-      key: 'databases',
-      title: t.value.databases,
-      icon: Database,
-      skills: skills.databases || [],
-      description: details.descriptions.databases,
-      gradient: 'from-primary-light to-primary-accent'
-    },
-    {
-      key: 'tools',
-      title: t.value.tools,
-      icon: Wrench,
-      skills: skills.tools || [],
-      description: details.descriptions.tools,
-      gradient: 'from-primary-accent to-primary'
-    }
-  ].filter(c => c.skills.length > 0)
-})
-
-const secondarySkills = computed(() => {
-  const skills = cvData.value?.technicalSkills
-  if (!skills) return []
-
-  return [
-    { icon: Palette, items: skills.design || [], label: t.value.design },
-    { icon: GitBranch, items: skills.methodologies || [], label: t.value.methodologies },
-    { icon: Layers, items: skills.dataAnalysis || [], label: t.value.dataAnalysis },
-    { icon: Globe, items: skills.languages || [], label: t.value.languages }
-  ].filter(s => s.items.length > 0)
-})
-
-const interpersonalSkills = computed(() => cvData.value?.interpersonalSkills || [])
-
-const selectCategory = (index: number) => {
-  activeCategory.value = index
-}
-</script>
-
 <template>
-  <section id="skills" ref="container" class="section relative py-20 bg-transparent overflow-hidden">
-    <!-- Background Elements -->
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div class="parallax absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl opacity-40 bg-primary/20"></div>
-      <div class="parallax absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl opacity-40 bg-primary-light/20"></div>
-      <div class="absolute top-20 left-20 w-2 h-2 rounded-full animate-pulse bg-primary"></div>
-      <div class="absolute top-40 right-32 w-1 h-1 rounded-full animate-pulse bg-primary-light" style="animation-delay: 1s;"></div>
-      <div class="absolute bottom-32 left-32 w-1.5 h-1.5 rounded-full animate-pulse bg-primary-accent" style="animation-delay: 2s;"></div>
-    </div>
-
-    <div class="container mx-auto px-4 sm:px-6 relative z-10">
+  <section
+    id="skills"
+    ref="container"
+    class="reveal-section section py-12 sm:py-16 lg:py-20"
+    aria-labelledby="skills-heading"
+  >
+    <div class="container mx-auto px-4 sm:px-6">
       <!-- Section Header -->
-      <div class="text-center mb-12 sm:mb-16 relative">
-        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black font-display text-gray-900 dark:text-white mb-4 tracking-tight">
-          {{ currentLanguage === 'es' ? 'Mi ' : 'My ' }}<span class="text-gradient">{{ currentLanguage === 'es' ? 'Stack Técnico' : 'Tech Stack' }}</span>
+      <div class="text-center mb-12 sm:mb-16">
+        <h2 id="skills-heading" class="text-h1 text-fg mb-4">
+          {{ t.technicalSkills }}
         </h2>
-        <p class="text-base sm:text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto mb-4 leading-relaxed">
+        <p class="text-body-lg text-fg-soft max-w-2xl mx-auto">
           {{ currentLanguage === 'es'
-            ? 'Una colección de tecnologías con las que trabajo para construir productos digitales escalables y de alto rendimiento.'
-            : 'A collection of technologies I use to build scalable and high-performance digital products.' }}
+            ? 'Tecnologías con las que construyo productos digitales escalables y de alto rendimiento.'
+            : 'Technologies I use to build scalable and high-performance digital products.' }}
         </p>
       </div>
 
-      <!-- Main Skills — Premium Tab Navigation -->
-      <div class="max-w-5xl mx-auto">
-        <!-- Tab Navigation — Premium pill-style -->
-        <div class="flex justify-center mb-10">
-          <div class="inline-flex bg-gray-100 dark:bg-white/5 rounded-2xl p-1.5 border border-gray-200 dark:border-white/10">
-            <button
-              v-for="(cat, idx) in categories"
-              :key="cat.key"
-              @click="selectCategory(idx)"
-              :class="[
-                'relative flex items-center gap-2 px-5 sm:px-7 py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300',
-                activeCategory === idx
-                  ? 'bg-gradient-to-r ' + cat.gradient + ' text-white shadow-lg'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-              ]"
-              :aria-pressed="activeCategory === idx"
-            >
-              <component :is="cat.icon" class="w-4 h-4 sm:w-5 sm:h-5" :strokeWidth="2.5" />
-              <span class="hidden sm:inline">{{ cat.title }}</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Active Category Detail — Premium Card -->
+      <!-- 4-Column Stack Bar -->
+      <div
+        ref="stackBar"
+        class="reveal-child grid grid-cols-2 sm:grid-cols-4 gap-1 bg-border max-w-5xl mx-auto"
+      >
         <div
-          v-for="(cat, idx) in categories"
-          :key="cat.key + '-detail'"
-          v-show="activeCategory === idx"
-          class="skill-panel"
+          v-for="cat in stackCategories"
+          :key="cat.key"
+          class="bg-surface-container hover:bg-surface-high transition-colors duration-fast p-5 sm:p-6"
+          :style="{ transitionDelay: `${cat.delay}ms` }"
         >
-          <div class="premium-card group bg-gray-50 dark:bg-[#1f2937] rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700">
-            <!-- Panel Header -->
-            <div class="flex items-center gap-4 p-6 sm:p-8 border-b border-gray-100 dark:border-gray-700">
-              <div :class="'w-16 h-16 rounded-2xl bg-gradient-to-br ' + cat.gradient + ' flex items-center justify-center shadow-xl transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300'">
-                <component :is="cat.icon" class="w-8 h-8 text-white" :strokeWidth="2" />
-              </div>
-              <div>
-                <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white group-hover:text-primary dark:group-hover:text-primary-light transition-colors">{{ cat.title }}</h3>
-                <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1">{{ cat.description }}</p>
-              </div>
-            </div>
-
-            <!-- Skills Grid -->
-            <div class="p-6 sm:p-8">
-              <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                <div
-                  v-for="skill in cat.skills"
-                  :key="skill"
-                  class="skill-chip group/chip flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-white dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10 hover:border-primary dark:hover:border-primary-light transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
-                >
-                  <span class="w-2 h-2 rounded-full bg-gradient-to-r shrink-0 transition-transform duration-300 group-hover/chip:scale-125" :class="cat.gradient"></span>
-                  <span class="text-sm font-medium text-gray-800 dark:text-gray-200 truncate">{{ skill }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Secondary Skills Row — Premium Cards -->
-        <div class="mt-8 sm:mt-12 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          <div
-            v-for="group in secondarySkills"
-            :key="group.label"
-            class="premium-card group bg-gray-50 dark:bg-[#1f2937] rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-          >
-            <div class="flex items-center gap-2 mb-3">
-              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary-light flex items-center justify-center shadow-md transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <component :is="group.icon" class="w-4 h-4 text-white" :strokeWidth="2.5" />
-              </div>
-              <h4 class="text-xs sm:text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wide">{{ group.label }}</h4>
-            </div>
-            <div class="flex flex-wrap gap-1.5">
-              <span
-                v-for="item in group.items"
-                :key="item"
-                class="text-xs px-2 py-1 bg-white dark:bg-white/10 text-gray-700 dark:text-gray-300 rounded-md border border-gray-100 dark:border-white/10"
-              >
-                {{ item }}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Interpersonal Skills -->
-        <div class="mt-8 sm:mt-12">
-          <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-            {{ t.interpersonalSkills }}
-          </h3>
-          <div class="flex flex-wrap justify-center gap-3">
-            <span
-              v-for="skill in interpersonalSkills"
-              :key="skill"
-              class="soft-skill-tag px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-r from-primary/10 to-primary-light/10 dark:from-primary/20 dark:to-primary-light/20 text-gray-800 dark:text-gray-200 rounded-full text-sm font-medium border border-primary/20 dark:border-primary-light/20 hover:border-primary dark:hover:border-primary-light transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+          <!-- Category Label -->
+          <h3 class="text-label-md text-muted mb-4">{{ cat.title }}</h3>
+          <!-- Tech Names -->
+          <ul class="space-y-2">
+            <li
+              v-for="tech in cat.skills"
+              :key="tech"
+              class="text-label-lg text-fg hover:text-accent transition-colors duration-fast"
             >
-              {{ skill }}
-            </span>
-          </div>
+              {{ tech }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Interpersonal Skills -->
+      <div
+        v-if="interpersonalSkills.length > 0"
+        class="reveal-child mt-10 text-center"
+        style="transition-delay: 240ms"
+      >
+        <h3 class="text-label-md text-muted mb-4">{{ t.interpersonalSkills }}</h3>
+        <div class="flex flex-wrap justify-center gap-2">
+          <span
+            v-for="skill in interpersonalSkills"
+            :key="skill"
+            class="text-label-lg text-fg-soft hover:text-accent transition-colors duration-fast after:content-['·'] after:text-muted after:ml-2 last:after:content-none"
+          >
+            {{ skill }}
+          </span>
         </div>
       </div>
     </div>
   </section>
 </template>
 
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { useLanguage } from '../composables/useLanguage'
+import { useScrollReveal } from '../composables/useScrollReveal'
+
+const { t, cvData, currentLanguage } = useLanguage()
+const container = ref<HTMLElement>()
+
+const { observe } = useScrollReveal()
+
+onMounted(() => {
+  if (container.value) observe(container.value)
+})
+
+const stackCategories = computed(() => {
+  const skills = cvData.value?.technicalSkills
+  if (!skills) return []
+
+  return [
+    { key: 'frontend', title: t.value.frontend, skills: skills.frontend || [], delay: 0 },
+    { key: 'backend', title: t.value.backend, skills: skills.backend || [], delay: 60 },
+    { key: 'databases', title: t.value.databases, skills: skills.databases || [], delay: 120 },
+    { key: 'tools', title: t.value.tools, skills: skills.tools || [], delay: 180 },
+  ].filter(c => c.skills.length > 0)
+})
+
+const interpersonalSkills = computed(() => cvData.value?.interpersonalSkills || [])
+</script>
+
 <style scoped>
-.skill-panel {
-  animation: panelIn 0.35s ease-out;
+.reveal-section .reveal-child {
+  opacity: 0;
+  transform: translateY(16px);
 }
 
-@keyframes panelIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.skill-chip {
-  transform: translateZ(0);
-}
-
-.soft-skill-tag {
-  transform: translateZ(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skill-panel {
-    animation: none;
-  }
+.reveal-section.is-visible .reveal-child {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--duration-slow) var(--ease-out),
+              transform var(--duration-slow) var(--ease-out);
 }
 </style>
