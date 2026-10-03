@@ -270,16 +270,18 @@ export async function initHeroAnimation(root?: HTMLElement | null): Promise<() =
       ease: "power2.out",
     })
 
-    // Hair front — slight movement
-    gsap.to(dom.hairFront, {
-      duration: 0.7,
-      yPercent: yHigh / 15,
-      xPercent: x / 22,
-      ease: "power2.out",
-    })
+    // Hair front — slight movement (only if the SVG has it; a null target throws every frame)
+    if (dom.hairFront) {
+      gsap.to(dom.hairFront, {
+        duration: 0.7,
+        yPercent: yHigh / 15,
+        xPercent: x / 22,
+        ease: "power2.out",
+      })
+    }
 
     // Hair back + shadow — opposite direction for parallax
-    gsap.to([dom.hairBack, ...dom.shadow], {
+    gsap.to([dom.hairBack, ...dom.shadow].filter(Boolean), {
       duration: 0.7,
       yPercent: (yLow / 20) * -1,
       xPercent: (x / 20) * -1,

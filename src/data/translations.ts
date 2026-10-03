@@ -1,7 +1,7 @@
 export const translations = {
   es: {
     // Navigation
-    about: "Acerca de",
+    about: "Sobre mí",
     experience: "Experiencia",
     projects: "Proyectos",
     skills: "Habilidades",
@@ -54,7 +54,7 @@ export const translations = {
   },
   en: {
     // Navigation
-    about: "About",
+    about: "About me",
     experience: "Experience",
     projects: "Projects",
     skills: "Skills",

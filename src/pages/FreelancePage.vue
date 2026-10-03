@@ -324,6 +324,7 @@ usePageSeo({
       name: 'Irvin Benitez — Desarrollo web freelance',
       url: absoluteUrl('/freelance'),
       image: absoluteUrl('/og-image.png'),
+      logo: absoluteUrl('/icons/logo-ib/favicon-512.png'),
       email: cvData.value.email,
       founder: { '@id': absoluteUrl('/#person') },
       address: { '@type': 'PostalAddress', addressLocality: 'Panamá Oeste', addressCountry: 'PA' },

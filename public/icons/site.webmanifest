@@ -4,18 +4,24 @@
   "description": "Portafolio profesional de Irvin Benitez, desarrollador Full Stack en Panamá.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0A3D3D",
-  "theme_color": "#3FA35B",
+  "background_color": "#0A1715",
+  "theme_color": "#071F1F",
   "icons": [
     {
-      "src": "/icons/android-chrome-192x192.png",
-      "sizes": "192x192",
+      "src": "/icons/logo-ib/favicon-180.png",
+      "sizes": "180x180",
       "type": "image/png"
     },
     {
-      "src": "/icons/android-chrome-512x512.png",
+      "src": "/icons/logo-ib/favicon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/logo-ib/ib-icono.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
   ]
 }

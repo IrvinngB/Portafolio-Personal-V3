@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { Globe, Menu, X, ChevronRight, Sun, Moon } from 'lucide-vue-next'
+import { Globe, Menu, X, ArrowRight, Sun, Moon } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useTheme } from '../composables/useTheme'
 import BrandMark from './BrandMark.vue'
@@ -62,6 +62,27 @@ const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
 
+// Mobile panel lists every home section (desktop keeps the shorter list); Freelance is its own CTA
+const mobileItems = computed<NavItem[]>(() => [
+  { path: '/', hash: '#about-me', label: t.value.about },
+  ...navItems.value.filter(item => item.hash),
+])
+const freelanceItem = computed(() => navItems.value.find(item => !item.hash) as NavItem)
+
+// Lock page scroll behind the open panel, close on Escape or when the viewport grows to desktop
+const onKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') isMobileMenuOpen.value = false
+}
+const onResize = () => {
+  if (window.innerWidth >= 1024) isMobileMenuOpen.value = false
+}
+watch(isMobileMenuOpen, open => {
+  document.documentElement.style.overflow = open ? 'hidden' : ''
+  if (open) document.addEventListener('keydown', onKeydown)
+  else document.removeEventListener('keydown', onKeydown)
+})
+watch(() => route.fullPath, () => { isMobileMenuOpen.value = false })
+
 // Scroll spy for the home page sections
 let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 const handleScroll = () => {
@@ -89,11 +110,15 @@ watch(() => route.path, () => handleScroll())
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener('resize', onResize, { passive: true })
   handleScroll()
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', onResize)
+  document.removeEventListener('keydown', onKeydown)
+  document.documentElement.style.overflow = ''
 })
 </script>
 
@@ -109,7 +134,7 @@ onUnmounted(() => {
     :class="[
       'fixed z-50 w-full transition-colors',
       'duration-fast',
-      isScrolled
+      isScrolled || isMobileMenuOpen
         ? 'bg-bg border-b border-border/50'
         : 'bg-transparent'
     ]"
@@ -158,77 +183,104 @@ onUnmounted(() => {
 
         <!-- Controls -->
         <div class="flex items-center gap-2">
-          <!-- Language Toggle -->
-          <button
-            @click="toggleLanguage"
-            class="flex items-center gap-2 px-4 py-3 rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg-soft hover:text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
-            :aria-label="`Switch language, current: ${currentLanguage.toUpperCase()}`"
-          >
-            <Globe class="h-4 w-4" aria-hidden="true" />
-            <span class="text-label-md">{{ currentLanguage.toUpperCase() }}</span>
-          </button>
-
-          <!-- Theme Toggle -->
-          <button
-            @click="toggle"
-            class="relative w-16 h-10 rounded-full transition-colors duration-fast focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
-            :class="theme === 'dark' ? 'bg-accent' : 'bg-muted'"
-            :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
-          >
-            <div
-              class="absolute top-1 left-1 w-8 h-8 bg-white rounded-full shadow-md transform transition-transform duration-fast flex items-center justify-center"
-              :class="theme === 'dark' ? 'translate-x-6' : 'translate-x-0'"
+          <!-- Language + theme live in the mobile panel below lg -->
+          <div class="hidden lg:flex items-center gap-2">
+            <button
+              @click="toggleLanguage"
+              class="flex items-center gap-2 px-4 py-3 rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg-soft hover:text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
+              :aria-label="`Switch language, current: ${currentLanguage.toUpperCase()}`"
             >
-              <Moon v-if="theme === 'dark'" class="w-4 h-4 text-accent" />
-              <Sun v-else class="w-4 h-4 text-fg-soft" />
-            </div>
-          </button>
+              <Globe class="h-4 w-4" aria-hidden="true" />
+              <span class="text-label-md">{{ currentLanguage.toUpperCase() }}</span>
+            </button>
+
+            <button
+              @click="toggle"
+              class="relative w-16 h-10 rounded-full transition-colors duration-fast focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
+              :class="theme === 'dark' ? 'bg-accent' : 'bg-muted'"
+              :aria-label="theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'"
+            >
+              <div
+                class="absolute top-1 left-1 w-8 h-8 bg-white rounded-full shadow-md transform transition-transform duration-fast flex items-center justify-center"
+                :class="theme === 'dark' ? 'translate-x-6' : 'translate-x-0'"
+              >
+                <Moon v-if="theme === 'dark'" class="w-4 h-4 text-accent" />
+                <Sun v-else class="w-4 h-4 text-fg-soft" />
+              </div>
+            </button>
+          </div>
 
           <!-- Mobile Menu Toggle -->
           <button
             @click="toggleMobileMenu"
-            class="lg:hidden p-3 rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg-soft hover:text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
+            class="lg:hidden w-11 h-11 flex items-center justify-center rounded-full transition-colors duration-fast bg-surface-container hover:bg-surface-high text-fg focus:outline-none focus-visible:outline-2 focus-visible:outline-accent"
             :aria-expanded="isMobileMenuOpen"
-            aria-label="Toggle mobile menu"
+            aria-controls="mobile-menu"
+            :aria-label="isMobileMenuOpen
+              ? (currentLanguage === 'es' ? 'Cerrar menú' : 'Close menu')
+              : (currentLanguage === 'es' ? 'Abrir menú' : 'Open menu')"
           >
             <Menu v-if="!isMobileMenuOpen" class="h-5 w-5" aria-hidden="true" />
             <X v-else class="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
       </div>
-
-      <!-- Mobile Menu -->
-      <Transition
-        enter-active-class="transition-all duration-fast ease-out"
-        enter-from-class="opacity-0 transform -translate-y-2"
-        enter-to-class="opacity-100 transform translate-y-0"
-        leave-active-class="transition-all duration-fast ease-in"
-        leave-from-class="opacity-100 transform translate-y-0"
-        leave-to-class="opacity-0 transform -translate-y-2"
-      >
-        <div v-if="isMobileMenuOpen" class="lg:hidden mt-4 border-t border-border pt-4">
-          <nav class="space-y-1" role="navigation" aria-label="Mobile navigation">
-            <a
-              v-for="item in navItems"
-              :key="item.label"
-              :href="hrefOf(item)"
-              @click="navigate($event, item)"
-              :class="[
-                'flex items-center px-4 py-3 rounded-xl transition-colors duration-fast',
-                'focus:outline-none focus-visible:outline-2 focus-visible:outline-accent',
-                isActive(item)
-                  ? 'text-accent bg-accent-dim'
-                  : 'text-fg-soft hover:text-fg hover:bg-surface-container'
-              ]"
-              role="menuitem"
-            >
-              <span class="text-label-md">{{ item.label }}</span>
-              <ChevronRight class="h-4 w-4 ml-auto opacity-0 group-hover:opacity-100 transition-all duration-fast transform group-hover:translate-x-1" aria-hidden="true" />
-            </a>
-          </nav>
-        </div>
-      </Transition>
     </nav>
+
+    <!-- Mobile Menu: full-height panel under the header bar -->
+    <Transition name="panel">
+      <div
+        v-if="isMobileMenuOpen"
+        id="mobile-menu"
+        class="mobile-panel lg:hidden"
+      >
+        <nav class="container mx-auto px-4 flex flex-col h-full" :aria-label="currentLanguage === 'es' ? 'Navegación móvil' : 'Mobile navigation'">
+          <ul class="pt-4">
+            <li
+              v-for="(item, i) in mobileItems"
+              :key="item.label"
+              class="mobile-item"
+              :style="{ '--i': i }"
+            >
+              <a
+                :href="hrefOf(item)"
+                @click="navigate($event, item)"
+                class="mobile-link"
+                :class="{ 'is-active': isActive(item) }"
+                :aria-current="isActive(item) ? 'location' : undefined"
+              >
+                {{ item.label }}
+              </a>
+            </li>
+          </ul>
+
+          <a
+            :href="hrefOf(freelanceItem)"
+            @click="navigate($event, freelanceItem)"
+            class="mobile-cta mobile-item"
+            :style="{ '--i': mobileItems.length }"
+            :aria-current="isActive(freelanceItem) ? 'page' : undefined"
+          >
+            {{ currentLanguage === 'es' ? 'Trabajemos juntos · Freelance' : "Let's work together · Freelance" }}
+            <ArrowRight class="w-4 h-4" aria-hidden="true" />
+          </a>
+
+          <div class="mobile-controls mobile-item" :style="{ '--i': mobileItems.length + 1 }">
+            <button type="button" class="control-btn" @click="toggleLanguage">
+              <Globe class="h-4 w-4" aria-hidden="true" />
+              {{ currentLanguage === 'es' ? 'English' : 'Español' }}
+            </button>
+            <button type="button" class="control-btn" @click="toggle">
+              <Sun v-if="theme === 'dark'" class="h-4 w-4" aria-hidden="true" />
+              <Moon v-else class="h-4 w-4" aria-hidden="true" />
+              {{ theme === 'dark'
+                ? (currentLanguage === 'es' ? 'Tema claro' : 'Light theme')
+                : (currentLanguage === 'es' ? 'Tema oscuro' : 'Dark theme') }}
+            </button>
+          </div>
+        </nav>
+      </div>
+    </Transition>
   </header>
 </template>
 
@@ -237,5 +289,102 @@ onUnmounted(() => {
 .nav-freelance {
   border: 1px solid var(--accent-border);
   margin-left: 6px;
+}
+
+/* ═══════ Mobile panel ═══════ */
+.mobile-panel {
+  position: fixed;
+  inset: 68px 0 0 0;
+  background: var(--bg);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+}
+
+.mobile-link {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  border-bottom: 1px solid var(--border);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(24px, 7vw, 30px);
+  font-weight: 500;
+  color: var(--fg-soft);
+  transition: color var(--duration-fast);
+}
+
+.mobile-link:hover,
+.mobile-link.is-active {
+  color: var(--fg);
+}
+
+.mobile-link.is-active::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 12px;
+}
+
+.mobile-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 52px;
+  margin-top: 28px;
+  padding: 0 22px;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.mobile-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 28px;
+}
+
+.control-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface-container);
+  color: var(--fg-soft);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Items rise in one after another when the panel opens */
+.panel-enter-active .mobile-item {
+  animation: itemIn 0.45s var(--ease-out) both;
+  animation-delay: calc(60ms + var(--i) * 40ms);
+}
+
+@keyframes itemIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+.panel-enter-active,
+.panel-leave-active {
+  transition: opacity var(--duration-normal) var(--ease-out), transform var(--duration-normal) var(--ease-out);
+}
+
+.panel-enter-from,
+.panel-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
 }
 </style>

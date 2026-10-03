@@ -21,10 +21,9 @@
   --shadow-card: 0 1px 3px rgba(0,0,0,0.3);
   --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.4);
 
-  /* Brand mark (marca.png greens, deep tone lifted for dark backgrounds) */
-  --brand-deep: #2F8F5C;
-  --brand-mid: #4CAF68;
-  --brand-lime: #B4D333;
+  /* Brand mark (public/icons/logo-ib/ib-simbolo.svg) */
+  --brand-dot: #BBD94E;
+  --brand-shape: #5DAA62;
 
   /* Radius scale */
   --radius-sm: 4px;
@@ -56,9 +55,9 @@
   --fg-soft: rgba(7,31,31,0.65);
   --muted: rgba(7,31,31,0.40);
   --border: rgba(0,0,0,0.08);
-  --brand-deep: #1B7350;
-  --brand-mid: #43985A;
-  --brand-lime: #A0C93E;
+  /* Brand mark on light backgrounds (ib-simbolo-claro.svg) */
+  --brand-dot: #5DAA62;
+  --brand-shape: #2B6B36;
   /* border-soft, shadows, radii, motion stay same */
 }
 
