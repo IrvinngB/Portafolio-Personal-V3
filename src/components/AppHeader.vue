@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { Globe, Menu, X, ChevronRight, Sun, Moon } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useTheme } from '../composables/useTheme'
+import BrandMark from './BrandMark.vue'
 
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
@@ -123,9 +124,7 @@ onUnmounted(() => {
             class="flex items-center gap-3 group focus:outline-none focus-visible:outline-3 focus-visible:outline-accent rounded"
             aria-label="Go to home"
           >
-            <div class="w-10 h-10 rounded-full bg-accent text-accent-fg flex items-center justify-center">
-              <span class="text-label-lg">IB</span>
-            </div>
+            <BrandMark class="h-10 w-auto" />
             <div class="hidden sm:block">
               <span class="block text-h3 text-fg">{{ displayName }}</span>
               <p class="text-caption text-fg-soft -mt-0.5 whitespace-nowrap lg:hidden xl:block">{{ displayTitle }}</p>

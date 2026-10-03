@@ -8,29 +8,20 @@
     <div class="container mx-auto px-4 sm:px-6 max-w-6xl">
       <SectionHeader
         :eyebrow="t.contact"
-        :title="t.getInTouch"
+        :title="heading"
         heading-id="contact-heading"
       />
 
       <div class="grid lg:grid-cols-12 gap-10 lg:gap-16">
         <!-- CTA + direct channels -->
         <div class="reveal-child lg:col-span-5 flex flex-col">
-          <p class="contact-cta">
-            {{ currentLanguage === 'es' ? 'Hablemos de lo que' : "Let's talk about what" }}
-            <span class="text-accent">{{ currentLanguage === 'es' ? 'quieres construir.' : 'you want to build.' }}</span>
-          </p>
-          <p class="text-body-lg text-fg-soft mt-4">{{ t.contactDescription }}</p>
+          <p class="text-body-lg text-fg-soft">{{ t.contactDescription }}</p>
 
-          <p class="inline-flex items-center gap-2 mt-6 text-label-lg text-fg">
-            <span class="relative flex h-2.5 w-2.5" aria-hidden="true">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60"></span>
-              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent"></span>
-            </span>
-            {{ currentLanguage === 'es' ? 'Disponible para freelance y trabajo remoto' : 'Available for freelance and remote work' }}
+          <!-- Primary channel: email with copy -->
+          <p class="text-label-md text-muted mt-8 mb-3">
+            {{ currentLanguage === 'es' ? 'Escríbeme directo' : 'Email me directly' }}
           </p>
-
-          <!-- Email with copy -->
-          <div class="email-row mt-8">
+          <div class="email-row">
             <a :href="`mailto:${contactEmail}`" class="email-link">
               <Mail class="w-5 h-5 text-accent flex-shrink-0" aria-hidden="true" />
               <span class="truncate">{{ contactEmail }}</span>
@@ -49,38 +40,20 @@
             </span>
           </div>
 
-          <!-- Freelance page link -->
-          <RouterLink v-if="showFreelanceLink" to="/freelance" class="freelance-link group mt-6">
-            <span class="freelance-link-icon">
-              <Briefcase class="w-5 h-5" aria-hidden="true" />
-            </span>
-            <span class="flex-1 min-w-0">
-              <span class="block text-label-lg text-fg">
-                {{ currentLanguage === 'es' ? '¿Tienes un proyecto freelance?' : 'Have a freelance project?' }}
-              </span>
-              <span class="block text-body-sm text-fg-soft">
-                {{ currentLanguage === 'es' ? 'Mira qué hago y cómo trabajo' : 'See what I do and how I work' }}
-              </span>
-            </span>
-            <ArrowRight class="w-4 h-4 text-accent transition-transform duration-fast group-hover:translate-x-1" aria-hidden="true" />
-          </RouterLink>
-
-          <!-- Socials -->
-          <ul class="mt-6 border-t border-border">
-            <li v-for="link in socials" :key="link.label" class="border-b border-border">
-              <a
-                :href="link.href"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link group"
-              >
-                <component :is="link.icon" class="w-5 h-5 text-fg-soft group-hover:text-accent transition-colors duration-fast" aria-hidden="true" />
-                <span class="text-label-lg text-fg">{{ link.label }}</span>
-                <span class="text-body-sm text-muted ml-auto hidden sm:inline">{{ link.handle }}</span>
-                <ArrowUpRight class="w-4 h-4 text-muted group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition duration-fast" aria-hidden="true" />
+          <!-- Secondary channels as plain text links -->
+          <ul class="flex flex-wrap gap-x-6 gap-y-1 mt-6">
+            <li v-for="link in socials" :key="link.label">
+              <a :href="link.href" target="_blank" rel="noopener noreferrer" class="text-link">
+                {{ link.label }}
+                <ArrowUpRight class="w-3.5 h-3.5" aria-hidden="true" />
               </a>
             </li>
           </ul>
+
+          <RouterLink v-if="showFreelanceLink" to="/freelance" class="freelance-link group">
+            {{ currentLanguage === 'es' ? '¿Proyecto freelance? Mira cómo trabajo' : 'Freelance project? See how I work' }}
+            <ArrowRight class="w-4 h-4 transition-transform duration-fast group-hover:translate-x-1" aria-hidden="true" />
+          </RouterLink>
         </div>
 
         <!-- Contact Form -->
@@ -174,7 +147,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { Mail, Linkedin, Instagram, Github, Send, CheckCircle, AlertCircle, Loader2, Copy, Check, ArrowUpRight, ArrowRight, Briefcase } from 'lucide-vue-next'
+import { Mail, Send, CheckCircle, AlertCircle, Loader2, Copy, Check, ArrowUpRight, ArrowRight } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useScrollReveal } from '../composables/useScrollReveal'
 import SectionHeader from './SectionHeader.vue'
@@ -198,10 +171,14 @@ onMounted(() => {
 
 const contactEmail = computed(() => cvData.value?.email ?? '')
 
+const heading = computed(() => currentLanguage.value === 'es'
+  ? 'Hablemos de lo que quieres construir.'
+  : "Let's talk about what you want to build.")
+
 const socials = computed(() => [
-  { label: 'LinkedIn', href: cvData.value?.linkedin, icon: Linkedin, handle: 'irvin-benitez' },
-  { label: 'GitHub', href: cvData.value?.github, icon: Github, handle: '@IrvinngB' },
-  { label: 'Instagram', href: cvData.value?.instagram, icon: Instagram, handle: '@_irvin.gg' },
+  { label: 'LinkedIn', href: cvData.value?.linkedin },
+  { label: 'GitHub', href: cvData.value?.github },
+  { label: 'Instagram', href: cvData.value?.instagram },
 ].filter(link => !!link.href))
 
 const copied = ref(false)
@@ -285,14 +262,6 @@ const handleSubmit = async () => {
 </script>
 
 <style scoped>
-.contact-cta {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(28px, 4.5vw, 44px);
-  font-weight: 600;
-  line-height: 1.1;
-  color: var(--fg);
-}
-
 .email-row {
   display: flex;
   align-items: center;
@@ -337,40 +306,32 @@ const handleSubmit = async () => {
   color: var(--accent);
 }
 
-.freelance-link {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--border);
-  background: var(--surface-container);
-  padding: 14px 16px;
-  transition: border-color var(--duration-fast), background var(--duration-fast);
-}
-
-.freelance-link:hover {
-  border-color: var(--accent-border);
-  background: var(--surface-high);
-}
-
-.freelance-link-icon {
+.text-link {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-lg);
-  background: var(--accent-dim);
+  gap: 4px;
+  min-height: 44px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--fg-soft);
+  transition: color var(--duration-fast);
+}
+
+.text-link:hover {
   color: var(--accent);
 }
 
-.social-link {
-  display: flex;
+.freelance-link {
+  display: inline-flex;
   align-items: center;
-  gap: 14px;
-  min-height: 56px;
-  padding-inline: 4px;
+  gap: 8px;
+  min-height: 44px;
+  padding-top: 32px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
 }
 
 .field {

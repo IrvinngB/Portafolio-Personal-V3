@@ -4,7 +4,10 @@
       <div class="grid gap-10 md:grid-cols-12">
         <!-- Brand -->
         <div class="md:col-span-5">
-          <p class="footer-name">{{ cvData?.name }}</p>
+          <div class="flex items-center gap-3">
+            <BrandMark class="h-9 w-auto" aria-hidden="true" />
+            <p class="footer-name">{{ cvData?.name }}</p>
+          </div>
           <p class="text-body-md text-fg-soft mt-2">{{ cvData?.title }} · {{ cvData?.location }}</p>
           <a
             :href="`mailto:${cvData?.email}`"
@@ -75,6 +78,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { ArrowUp, Github, Linkedin, Instagram } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
+import BrandMark from './BrandMark.vue'
 
 const { t, cvData, currentLanguage } = useLanguage()
 

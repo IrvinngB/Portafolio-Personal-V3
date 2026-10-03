@@ -16,30 +16,9 @@ export interface CVData {
   technicalSkills: TechnicalSkills;
   interpersonalSkills: string[];
   aboutMe?: {
+    /** Public path to a real portrait, e.g. "/me.jpg". Falls back to the brand mark */
+    photo?: string;
     description: string[];
-    motivation: {
-      title: string;
-      description: string;
-    };
-    values: {
-      title: string;
-      description: string;
-      icon: string;
-    }[];
-  };
-  skillsDetails?: {
-    descriptions: {
-      frontend: string;
-      backend: string;
-      databases: string;
-      tools: string;
-    };
-    labels: {
-      frontend: string;
-      backend: string;
-      databases: string;
-      tools: string;
-    };
   };
 }
 

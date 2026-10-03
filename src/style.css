@@ -21,6 +21,11 @@
   --shadow-card: 0 1px 3px rgba(0,0,0,0.3);
   --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.4);
 
+  /* Brand mark (marca.png greens, deep tone lifted for dark backgrounds) */
+  --brand-deep: #2F8F5C;
+  --brand-mid: #4CAF68;
+  --brand-lime: #B4D333;
+
   /* Radius scale */
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -51,6 +56,9 @@
   --fg-soft: rgba(7,31,31,0.65);
   --muted: rgba(7,31,31,0.40);
   --border: rgba(0,0,0,0.08);
+  --brand-deep: #1B7350;
+  --brand-mid: #43985A;
+  --brand-lime: #A0C93E;
   /* border-soft, shadows, radii, motion stay same */
 }
 
@@ -141,6 +149,13 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 
 .is-visible .eyebrow-rule {
   transform: scaleX(1);
+}
+
+/* ===== TopoArt: contour lines draw in one by one when revealed ===== */
+.is-visible .topo-ring {
+  stroke-dashoffset: 0 !important;
+  transition: stroke-dashoffset 1.6s var(--ease-out);
+  transition-delay: calc(var(--i) * 110ms);
 }
 
 /* ===== Spotlight: cursor-following glow, driven by v-spotlight ===== */

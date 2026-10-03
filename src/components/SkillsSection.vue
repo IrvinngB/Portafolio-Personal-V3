@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <!-- Core stack: 4 primary categories -->
+      <!-- Core categories: text chips only, logos live in the marquee -->
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         <article
           v-for="(cat, i) in coreCategories"
@@ -36,21 +36,14 @@
           class="reveal-child skill-card"
           :style="{ transitionDelay: `${i * 60}ms` }"
         >
-          <div class="flex items-center gap-3 mb-4">
+          <div class="flex items-center gap-3 mb-5">
             <span class="skill-icon">
               <component :is="cat.icon" class="w-5 h-5" aria-hidden="true" />
             </span>
             <h3 class="text-h3 text-fg">{{ cat.title }}</h3>
-            <span class="ml-auto text-mono text-muted">{{ cat.skills.length }}</span>
           </div>
-          <p v-if="cat.description" class="text-body-sm text-fg-soft mb-5">
-            {{ cat.description }}
-          </p>
-          <ul class="flex flex-wrap gap-2 mt-auto">
-            <li v-for="tech in cat.skills" :key="tech" class="skill-chip">
-              <TechIcon :name="tech" class="w-3.5 h-3.5 shrink-0" />
-              {{ tech }}
-            </li>
+          <ul class="flex flex-wrap gap-2">
+            <li v-for="tech in cat.skills" :key="tech" class="skill-chip">{{ tech }}</li>
           </ul>
         </article>
       </div>
@@ -68,19 +61,19 @@
             <h3 class="text-label-md text-muted">{{ cat.title }}</h3>
           </div>
           <ul class="space-y-1.5">
-            <li v-for="tech in cat.skills" :key="tech" class="text-label-lg text-fg">
-              {{ tech }}
-            </li>
+            <li v-for="tech in cat.skills" :key="tech" class="text-label-lg text-fg">{{ tech }}</li>
           </ul>
         </article>
       </div>
-
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
+import type { TechnicalSkills } from '../types'
+import { useLanguage } from '../composables/useLanguage'
+import { useScrollReveal } from '../composables/useScrollReveal'
 import {
   LayoutTemplate,
   ServerCog,
@@ -91,9 +84,6 @@ import {
   Workflow,
   Languages,
 } from 'lucide-vue-next'
-import type { TechnicalSkills } from '../types'
-import { useLanguage } from '../composables/useLanguage'
-import { useScrollReveal } from '../composables/useScrollReveal'
 import SectionHeader from './SectionHeader.vue'
 import TechIcon from './TechIcon.vue'
 import TechIconSprite from './TechIconSprite.vue'
@@ -108,42 +98,35 @@ onMounted(() => {
 })
 
 type SkillKey = keyof TechnicalSkills
+type Def = { key: SkillKey; icon: typeof Database }
 
-const CORE: { key: SkillKey; icon: typeof Database }[] = [
+const CORE: Def[] = [
   { key: 'frontend', icon: LayoutTemplate },
   { key: 'backend', icon: ServerCog },
   { key: 'databases', icon: Database },
   { key: 'tools', icon: Wrench },
 ]
 
-const EXTRA: { key: SkillKey; icon: typeof Database }[] = [
+const EXTRA: Def[] = [
   { key: 'dataAnalysis', icon: ChartColumn },
   { key: 'design', icon: PenTool },
   { key: 'methodologies', icon: Workflow },
   { key: 'languages', icon: Languages },
 ]
 
-const toCategories = (defs: typeof CORE) => {
+const toCategories = (defs: Def[]) => {
   const skills = cvData.value?.technicalSkills
-  const descriptions = cvData.value?.skillsDetails?.descriptions as Partial<Record<SkillKey, string>> | undefined
   if (!skills) return []
-
   return defs
-    .map(({ key, icon }) => ({
-      key,
-      icon,
-      title: t.value[key],
-      description: descriptions?.[key],
-      skills: skills[key] ?? [],
-    }))
+    .map(({ key, icon }) => ({ key, icon, title: t.value[key], skills: skills[key] ?? [] }))
     .filter(c => c.skills.length > 0)
 }
 
 const coreCategories = computed(() => toCategories(CORE))
 const extraCategories = computed(() => toCategories(EXTRA))
 
+// Logos only in the decorative marquee; the list below carries the information as text
 const marqueeItems = computed(() => [...new Set(coreCategories.value.flatMap(c => c.skills))])
-
 </script>
 
 <style scoped>
@@ -158,16 +141,11 @@ const marqueeItems = computed(() => [...new Set(coreCategories.value.flatMap(c =
 
 .skill-card:hover {
   border-color: var(--accent-border);
-  background: var(--surface-high);
 }
 
 .skill-card-compact {
   background: transparent;
   padding: 20px;
-}
-
-.skill-card-compact:hover {
-  background: var(--surface-container);
 }
 
 .skill-icon {
@@ -183,9 +161,6 @@ const marqueeItems = computed(() => [...new Set(coreCategories.value.flatMap(c =
 }
 
 .skill-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -194,16 +169,6 @@ const marqueeItems = computed(() => [...new Set(coreCategories.value.flatMap(c =
   border: 1px solid var(--border);
   border-radius: var(--radius-full);
   padding: 4px 12px;
-  transition: color var(--duration-fast), border-color var(--duration-fast);
-}
-
-.skill-chip:hover {
-  color: var(--accent);
-  border-color: var(--accent-border);
-}
-
-.skill-card:hover .skill-chip {
-  background: var(--surface-container);
 }
 
 /* ═══════ Marquee ═══════ */

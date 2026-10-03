@@ -117,7 +117,7 @@
       </article>
 
       <!-- Rest of the projects: compact, expandable -->
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mt-4 sm:mt-5 items-start">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mt-4 sm:mt-5">
         <article
           v-for="(item, i) in others"
           :key="item.project.title"
@@ -142,7 +142,7 @@
             {{ item.project.problem ?? item.project.description }}
           </p>
 
-          <ul class="flex flex-wrap gap-1.5 mt-4" :aria-label="currentLanguage === 'es' ? 'Tecnologías' : 'Technologies'">
+          <ul class="flex flex-wrap gap-1.5 mt-4 mb-4" :aria-label="currentLanguage === 'es' ? 'Tecnologías' : 'Technologies'">
             <li
               v-for="tech in isOpen(item.index) ? item.project.technologies : item.project.technologies?.slice(0, 3)"
               :key="tech"
@@ -332,7 +332,8 @@ const StatusBadge: FunctionalComponent<{ status?: Project['status']; lang: strin
   gap: 8px;
   width: 100%;
   min-height: 44px;
-  margin-top: 16px;
+  /* Pinned to the bottom so all cards in a row line up */
+  margin-top: auto;
   padding-top: 12px;
   border-top: 1px solid var(--border);
   font-family: 'Plus Jakarta Sans', sans-serif;
