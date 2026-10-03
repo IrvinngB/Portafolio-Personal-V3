@@ -2,383 +2,480 @@
   <section
     id="projects"
     ref="container"
-    class="section py-16 sm:py-20 lg:py-28"
+    class="reveal-section section py-16 sm:py-20 lg:py-28"
     aria-labelledby="projects-heading"
   >
-    <div class="container mx-auto px-4 sm:px-6">
-      <!-- Header -->
-      <div class="mb-14 sm:mb-20 text-center">
-        <span class="text-label-md text-muted block mb-3">
-          {{ currentLanguage === 'es' ? '· Trabajo seleccionado ·' : '· Selected work ·' }}
-        </span>
-        <h2 id="projects-heading" class="text-h1 text-fg">
-          {{ t.featuredProjects }}
-        </h2>
-      </div>
-
-      <!-- Timeline -->
-      <div class="timeline">
-        <article
-          v-for="(project, idx) in projects"
-          :key="project.title"
-          class="timeline-row group cursor-pointer"
-          :class="idx % 2 === 0 ? 'timeline-left' : 'timeline-right'"
-          @click="openModal(project)"
-        >
-          <!-- Card -->
-          <div class="timeline-card">
-            <!-- Giant index watermark -->
-            <span class="timeline-index" aria-hidden="true">
-              {{ String(idx + 1).padStart(2, '0') }}
-            </span>
-
-            <!-- Content -->
-            <div class="relative z-10">
-              <!-- Status + overline -->
-              <div class="flex items-center gap-2 mb-3">
-                <span
-                  class="w-2 h-2 rounded-full"
-                  :class="project.status === 'active' ? 'bg-accent' : 'bg-muted'"
-                ></span>
-                <span class="text-label-md text-muted">
-                  {{ project.status === 'active'
-                    ? (currentLanguage === 'es' ? 'Activo' : 'Active')
-                    : (currentLanguage === 'es' ? 'Completado' : 'Completed') }}
-                </span>
-              </div>
-
-              <!-- Title -->
-              <h3 class="timeline-title">
-                {{ project.title }}
-              </h3>
-
-              <!-- Description -->
-              <p class="text-body-sm text-fg-soft mt-3 line-clamp-2">
-                {{ project.description }}
-              </p>
-
-              <!-- Tags -->
-              <div class="flex flex-wrap gap-1.5 mt-4">
-                <span
-                  v-for="tech in (project.technologies || []).slice(0, 4)"
-                  :key="tech"
-                  class="bg-accent-dim text-accent border border-accent-border rounded-sm px-2 py-0.5 text-label-sm"
-                >
-                  {{ tech }}
-                </span>
-              </div>
-
-              <!-- Read more -->
-              <span class="inline-block mt-4 text-btn text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-fast">
-                {{ currentLanguage === 'es' ? 'Ver más →' : 'Read more →' }}
-              </span>
-            </div>
-          </div>
-
-          <!-- Node on the line -->
-          <div class="timeline-node" :class="idx === 0 ? 'timeline-node-featured' : ''">
-            <span class="timeline-dot"></span>
-          </div>
-        </article>
-      </div>
-    </div>
-
-    <!-- Modal -->
-    <Teleport to="body">
-      <Transition
-        enter-active-class="transition-opacity duration-fast"
-        enter-from-class="opacity-0"
-        enter-to-class="opacity-100"
-        leave-active-class="transition-opacity duration-fast"
-        leave-from-class="opacity-100"
-        leave-to-class="opacity-0"
+    <div class="container mx-auto px-4 sm:px-6 max-w-6xl">
+      <SectionHeader
+        :eyebrow="currentLanguage === 'es' ? 'Trabajo seleccionado' : 'Selected work'"
+        :title="t.featuredProjects"
+        heading-id="projects-heading"
       >
-        <div
-          v-if="isModalOpen && selectedProject"
-          class="fixed inset-0 z-50 flex items-center justify-center p-4"
-          @click.self="closeModal"
+        <a
+          v-if="cvData?.github"
+          :href="cvData.github"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 text-btn text-fg-soft hover:text-accent transition-colors duration-fast min-h-[44px]"
         >
-          <div class="absolute inset-0 bg-black/70"></div>
-          <div class="relative bg-surface rounded-xl sm:rounded-xxl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-card-hover border border-border">
-            <div class="relative p-4 sm:p-6 border-b border-border">
-              <h3 class="text-h2 text-fg pr-10">{{ selectedProject.title }}</h3>
-              <button
-                @click.stop="closeModal"
-                class="absolute top-4 right-4 min-w-[44px] min-h-[44px] bg-surface-high hover:bg-surface-container rounded-full flex items-center justify-center transition-colors duration-fast"
-                aria-label="Close modal"
-              >
-                <X class="w-5 h-5 text-fg-soft" />
-              </button>
+          <Github class="w-4 h-4" aria-hidden="true" />
+          {{ currentLanguage === 'es' ? 'Todos en GitHub' : 'All on GitHub' }}
+          <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
+        </a>
+      </SectionHeader>
+
+      <!-- Featured project -->
+      <article
+        v-if="featured"
+        v-spotlight
+        class="reveal-child featured-card"
+        :aria-labelledby="`project-${featured.index}`"
+      >
+        <div class="grid lg:grid-cols-5 gap-8 lg:gap-12 relative z-10">
+          <!-- Left: story -->
+          <div class="lg:col-span-3 flex flex-col">
+            <div class="flex flex-wrap items-center gap-3 mb-5">
+              <span class="project-icon project-icon-lg">
+                <component :is="categoryIcon(featured.project.category)" class="w-6 h-6" aria-hidden="true" />
+              </span>
+              <span class="text-label-md text-accent">
+                {{ currentLanguage === 'es' ? 'Proyecto destacado' : 'Featured project' }}
+              </span>
+              <StatusBadge :status="featured.project.status" :lang="currentLanguage" />
             </div>
-            <div class="p-4 sm:p-6">
-              <p class="text-body-md text-fg-soft mb-6 leading-relaxed">{{ selectedProject.description }}</p>
-              <div class="mb-6">
-                <h4 class="text-label-md text-muted mb-3">
-                  {{ currentLanguage === 'es' ? 'Tecnologías' : 'Technologies' }}
-                </h4>
-                <div class="flex flex-wrap gap-2">
-                  <span
-                    v-for="tech in selectedProject.technologies"
-                    :key="tech"
-                    class="bg-accent-dim text-accent border border-accent-border rounded-sm px-2 py-1 text-label-sm"
-                  >
-                    {{ tech }}
-                  </span>
-                </div>
-              </div>
-              <div class="flex flex-col sm:flex-row gap-3">
-                <a
-                  v-if="selectedProject.url"
-                  :href="selectedProject.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex-1 bg-accent text-accent-fg rounded-full px-6 py-4 text-btn text-center transition-colors duration-fast hover:bg-surface-high"
+
+            <h3 :id="`project-${featured.index}`" class="featured-title">
+              {{ featured.project.title }}
+            </h3>
+
+            <div v-if="featured.project.problem" class="case-block mt-6">
+              <p class="text-label-md text-muted">{{ currentLanguage === 'es' ? 'El problema' : 'The problem' }}</p>
+              <p class="text-body-lg text-fg mt-1.5">{{ featured.project.problem }}</p>
+            </div>
+            <div class="case-block mt-5">
+              <p class="text-label-md text-muted">{{ currentLanguage === 'es' ? 'La solución' : 'The solution' }}</p>
+              <p class="text-body-md text-fg-soft mt-1.5">{{ featured.project.description }}</p>
+            </div>
+            <div v-if="featured.project.outcome" class="case-block case-block-accent mt-5">
+              <p class="text-label-md text-accent">{{ currentLanguage === 'es' ? 'El resultado' : 'The outcome' }}</p>
+              <p class="text-body-md text-fg mt-1.5">{{ featured.project.outcome }}</p>
+            </div>
+
+            <div class="flex flex-wrap gap-3 mt-auto pt-8">
+              <a
+                v-if="featured.project.url"
+                :href="featured.project.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+              >
+                {{ currentLanguage === 'es' ? 'Ver demo' : 'Live demo' }}
+                <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
+              </a>
+              <a
+                v-if="featured.project.github"
+                :href="featured.project.github"
+                target="_blank"
+                rel="noopener noreferrer"
+                :class="featured.project.url ? 'btn-secondary' : 'btn-primary'"
+              >
+                <Github class="w-4 h-4" aria-hidden="true" />
+                {{ currentLanguage === 'es' ? 'Ver código' : 'View code' }}
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: highlights + stack -->
+          <div class="lg:col-span-2 flex flex-col gap-6">
+            <div v-if="featured.project.highlights?.length">
+              <h4 class="text-label-md text-muted mb-4">
+                {{ currentLanguage === 'es' ? 'Lo que resuelve' : 'What it does' }}
+              </h4>
+              <ul class="space-y-3">
+                <li
+                  v-for="item in featured.project.highlights"
+                  :key="item"
+                  class="flex gap-3 text-body-md text-fg"
                 >
-                  {{ currentLanguage === 'es' ? 'Ver Proyecto' : 'View Project' }}
-                </a>
-                <a
-                  v-if="selectedProject.github"
-                  :href="selectedProject.github"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="border border-accent text-accent rounded-full px-6 py-4 text-btn text-center transition-colors duration-fast hover:bg-accent hover:text-accent-fg"
-                >
-                  GitHub
-                </a>
-              </div>
+                  <Check class="w-4 h-4 mt-0.5 shrink-0 text-accent" aria-hidden="true" />
+                  <span>{{ item }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 class="text-label-md text-muted mb-3">Stack</h4>
+              <ul class="flex flex-wrap gap-2" :aria-label="currentLanguage === 'es' ? 'Tecnologías' : 'Technologies'">
+                <li v-for="tech in featured.project.technologies" :key="tech" class="tech-chip">
+                  {{ tech }}
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-      </Transition>
-    </Teleport>
+
+      </article>
+
+      <!-- Rest of the projects: compact, expandable -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mt-4 sm:mt-5 items-start">
+        <article
+          v-for="(item, i) in others"
+          :key="item.project.title"
+          v-spotlight
+          class="reveal-child project-card"
+          :class="{ 'is-open': isOpen(item.index) }"
+          :style="{ transitionDelay: `${(i + 1) * 80}ms` }"
+          :aria-labelledby="`project-${item.index}`"
+        >
+          <div class="flex items-center gap-3 mb-4">
+            <span class="project-icon">
+              <component :is="categoryIcon(item.project.category)" class="w-5 h-5" aria-hidden="true" />
+            </span>
+            <StatusBadge :status="item.project.status" :lang="currentLanguage" />
+          </div>
+
+          <h3 :id="`project-${item.index}`" class="project-title">
+            {{ item.project.title }}
+          </h3>
+
+          <p class="text-body-md text-fg-soft mt-2">
+            {{ item.project.problem ?? item.project.description }}
+          </p>
+
+          <ul class="flex flex-wrap gap-1.5 mt-4" :aria-label="currentLanguage === 'es' ? 'Tecnologías' : 'Technologies'">
+            <li
+              v-for="tech in isOpen(item.index) ? item.project.technologies : item.project.technologies?.slice(0, 3)"
+              :key="tech"
+              class="tech-chip tech-chip-sm"
+            >
+              {{ tech }}
+            </li>
+            <li
+              v-if="!isOpen(item.index) && (item.project.technologies?.length ?? 0) > 3"
+              class="tech-chip tech-chip-sm"
+            >
+              +{{ (item.project.technologies?.length ?? 0) - 3 }}
+            </li>
+          </ul>
+
+          <!-- Details: animates open with grid-template-rows 0fr -> 1fr -->
+          <div :id="`project-details-${item.index}`" class="details" :inert="!isOpen(item.index) || undefined">
+            <div class="details-inner">
+              <p class="text-label-md text-muted mt-5">{{ currentLanguage === 'es' ? 'La solución' : 'The solution' }}</p>
+              <p class="text-body-md text-fg-soft mt-1.5">{{ item.project.description }}</p>
+
+              <p v-if="item.project.outcome" class="text-body-md text-fg mt-4">
+                <span class="text-accent">→</span> {{ item.project.outcome }}
+              </p>
+
+              <div class="flex flex-wrap gap-x-5 gap-y-1 mt-4">
+                <a
+                  v-if="item.project.github"
+                  :href="item.project.github"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="card-link"
+                  :aria-label="`${currentLanguage === 'es' ? 'Código de' : 'Source code for'} ${item.project.title}`"
+                >
+                  <Github class="w-4 h-4" aria-hidden="true" />
+                  {{ currentLanguage === 'es' ? 'Código' : 'Code' }}
+                </a>
+                <a
+                  v-if="item.project.url"
+                  :href="item.project.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="card-link"
+                  :aria-label="`${t.viewProject}: ${item.project.title}`"
+                >
+                  Demo
+                  <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="toggle"
+            :aria-expanded="isOpen(item.index)"
+            :aria-controls="`project-details-${item.index}`"
+            @click="toggle(item.index)"
+          >
+            {{ isOpen(item.index)
+              ? (currentLanguage === 'es' ? 'Ver menos' : 'Show less')
+              : (currentLanguage === 'es' ? 'Ver detalles' : 'View details') }}
+            <ChevronDown class="toggle-icon w-4 h-4" aria-hidden="true" />
+          </button>
+        </article>
+      </div>
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { X } from 'lucide-vue-next'
-import type { Project } from '../types'
+import { ref, computed, onMounted, h, type FunctionalComponent } from 'vue'
+import { ArrowUpRight, Github, Check, Mountain, BotMessageSquare, Cpu, Globe, ChevronDown } from 'lucide-vue-next'
+import type { Project, ProjectCategory } from '../types'
 import { useLanguage } from '../composables/useLanguage'
 import { useScrollReveal } from '../composables/useScrollReveal'
+import SectionHeader from './SectionHeader.vue'
 
 const { t, cvData, currentLanguage } = useLanguage()
 const container = ref<HTMLElement>()
-const selectedProject = ref<Project | null>(null)
-const isModalOpen = ref(false)
-
 const { observe } = useScrollReveal()
-
-const projects = computed(() => cvData.value?.projects ?? [])
 
 onMounted(() => {
   if (container.value) observe(container.value)
 })
 
-const openModal = (project: Project) => {
-  selectedProject.value = project
-  isModalOpen.value = true
-  document.body.style.overflow = 'hidden'
+// Keep the original index so numbering and ids stay stable across layouts
+const indexed = computed(() =>
+  (cvData.value?.projects ?? []).map((project, index) => ({ project, index }))
+)
+const featured = computed(() => indexed.value.find(p => p.project.featured) ?? indexed.value[0])
+const others = computed(() => indexed.value.filter(p => p !== featured.value))
+
+const openCards = ref(new Set<number>())
+const isOpen = (index: number) => openCards.value.has(index)
+const toggle = (index: number) => {
+  const next = new Set(openCards.value)
+  if (next.has(index)) next.delete(index)
+  else next.add(index)
+  openCards.value = next
 }
 
-const closeModal = () => {
-  isModalOpen.value = false
-  selectedProject.value = null
-  document.body.style.overflow = ''
+const ICONS: Record<ProjectCategory, typeof Globe> = {
+  geo: Mountain,
+  ai: BotMessageSquare,
+  iot: Cpu,
+  web: Globe,
+}
+const categoryIcon = (category?: ProjectCategory) => (category ? ICONS[category] : Globe)
+
+const StatusBadge: FunctionalComponent<{ status?: Project['status']; lang: string }> = ({ status, lang }) => {
+  const active = status === 'active'
+  const label = active
+    ? (lang === 'es' ? 'En desarrollo' : 'In progress')
+    : (lang === 'es' ? 'Completado' : 'Completed')
+  return h('span', { class: ['status-badge', active && 'status-badge-active'] }, [
+    h('span', { class: 'status-dot', 'aria-hidden': 'true' }),
+    label,
+  ])
 }
 </script>
 
 <style scoped>
-/* ═══════ Timeline Structure ═══════ */
-.timeline {
-  position: relative;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-/* Central line — hidden on mobile */
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border);
-  transform: translateX(-50%);
-}
-
-/* ═══════ Timeline Row ═══════ */
-.timeline-row {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 48px;
-  opacity: 0;
-  transform: translateY(16px);
-  transition:
-    opacity var(--duration-slow) var(--ease-out),
-    transform var(--duration-slow) var(--ease-out);
-}
-
-.timeline-row:last-child {
-  margin-bottom: 0;
-}
-
-/* Revealed by scroll observer */
-.is-visible .timeline-row {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Stagger */
-.timeline-row:nth-child(2) { transition-delay: 80ms; }
-.timeline-row:nth-child(3) { transition-delay: 160ms; }
-.timeline-row:nth-child(4) { transition-delay: 240ms; }
-.timeline-row:nth-child(5) { transition-delay: 320ms; }
-
-/* Left: card on left, node in center */
-.timeline-left {
-  flex-direction: row;
-}
-
-/* Right: node in center, card on right */
-.timeline-right {
-  flex-direction: row-reverse;
-}
-
-/* ═══════ Card ═══════ */
-.timeline-card {
-  width: calc(50% - 32px);
+/* ═══════ Featured ═══════ */
+.featured-card {
   position: relative;
   overflow: hidden;
-  background: var(--surface-container);
-  border-radius: var(--radius-xl);
-  padding: 28px 24px;
-  transition:
-    background var(--duration-fast),
-    transform 0.3s var(--ease-out);
+  border-radius: var(--radius-xxl);
+  border: 1px solid var(--accent-border);
+  background:
+    radial-gradient(120% 140% at 100% 0%, var(--accent-dim) 0%, transparent 55%),
+    var(--surface-container);
+  padding: clamp(24px, 4vw, 48px);
 }
 
-.timeline-card:hover {
-  background: var(--surface-high);
-  transform: translateY(-2px);
-}
-
-/* ═══════ Giant Index ═══════ */
-.timeline-index {
-  position: absolute;
-  bottom: -8px;
-  right: 8px;
+.featured-title {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(80px, 10vw, 120px);
-  font-weight: 800;
-  line-height: 0.7;
-  color: var(--muted);
-  opacity: 0.08;
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
-}
-
-/* ═══════ Title ═══════ */
-.timeline-title {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(18px, 2.5vw, 22px);
+  font-size: clamp(24px, 3.5vw, 36px);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.1;
   color: var(--fg);
 }
 
-/* ═══════ Node (dot on the line) ═══════ */
-.timeline-node {
-  flex-shrink: 0;
-  width: 64px;
+/* ═══════ Cards ═══════ */
+.project-card {
   display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 28px;
+  flex-direction: column;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--surface-container);
+  padding: 24px;
 }
 
-.timeline-dot {
-  width: 12px;
-  height: 12px;
+.project-card:hover {
+  background: var(--surface-high);
+  border-color: var(--accent-border);
+}
+
+.case-block {
+  border-left: 2px solid var(--border);
+  padding-left: 16px;
+}
+
+.case-block-accent {
+  border-left-color: var(--accent);
+}
+
+.details {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-normal) var(--ease-out);
+}
+
+.details-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.is-open .details {
+  grid-template-rows: 1fr;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-soft);
+  transition: color var(--duration-fast);
+}
+
+.toggle:hover {
+  color: var(--accent);
+}
+
+.toggle-icon {
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.is-open .toggle-icon {
+  transform: rotate(180deg);
+}
+
+.project-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(18px, 2.2vw, 20px);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--fg);
+}
+
+.project-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
+}
+
+.project-icon-lg {
+  width: 48px;
+  height: 48px;
+}
+
+/* ═══════ Status ═══════ */
+:deep(.status-badge) {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+:deep(.status-dot) {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--muted);
-  border: 2px solid var(--surface);
-  position: relative;
-  z-index: 2;
-  transition:
-    background var(--duration-fast),
-    transform 0.3s var(--ease-out);
 }
 
-.timeline-row:hover .timeline-dot {
+:deep(.status-badge-active) {
+  color: var(--accent);
+}
+
+:deep(.status-badge-active .status-dot) {
   background: var(--accent);
-  transform: scale(1.3);
+  box-shadow: 0 0 0 3px var(--accent-dim);
 }
 
-.timeline-node-featured .timeline-dot {
+/* ═══════ Chips & links ═══════ */
+.tech-chip {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--fg);
+  background: var(--surface-high);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+}
+
+.tech-chip-sm {
+  font-size: 11px;
+  padding: 3px 10px;
+  color: var(--fg-soft);
+}
+
+.project-card:hover .tech-chip-sm {
+  background: var(--surface-container);
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--fg-soft);
+  transition: color var(--duration-fast);
+}
+
+.card-link:hover {
+  color: var(--accent);
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: var(--radius-full);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: background var(--duration-fast), color var(--duration-fast), border-color var(--duration-fast);
+}
+
+.btn-primary {
   background: var(--accent);
-  width: 14px;
-  height: 14px;
+  color: var(--accent-fg);
 }
 
-/* ═══════ Line clamp ═══════ */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.btn-primary:hover {
+  background: var(--accent-alt);
 }
 
-/* ═══════ Mobile — single column, line on left ═══════ */
-@media (max-width: 767px) {
-  .timeline {
-    padding-left: 32px;
-  }
-
-  .timeline::before {
-    left: 16px;
-    transform: none;
-  }
-
-  .timeline-row {
-    flex-direction: row !important;
-    margin-bottom: 36px;
-  }
-
-  .timeline-card {
-    width: 100%;
-    padding: 20px 18px;
-  }
-
-  .timeline-node {
-    position: absolute;
-    left: -32px;
-    width: 32px;
-    padding-top: 20px;
-  }
-
-  .timeline-index {
-    font-size: 80px;
-    right: 4px;
-    bottom: -6px;
-  }
-
-  .timeline-title {
-    font-size: 18px;
-  }
+.btn-secondary {
+  border: 1px solid var(--accent-border);
+  color: var(--accent);
 }
 
-/* ═══════ Reduced motion ═══════ */
-@media (prefers-reduced-motion: reduce) {
-  .timeline-row {
-    opacity: 1;
-    transform: none;
-    transition: none !important;
-  }
-  .timeline-card:hover {
-    transform: none;
-  }
+.btn-secondary:hover {
+  border-color: var(--accent);
+  background: var(--accent-dim);
 }
+
 </style>

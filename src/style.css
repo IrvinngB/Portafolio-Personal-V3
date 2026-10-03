@@ -111,3 +111,63 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
   pointer-events: none;
   z-index: 1000;
 }
+
+/* ===== Scroll reveal (shared by every section) ===== */
+.reveal-section .reveal-child {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.reveal-section.is-visible .reveal-child {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    transform var(--duration-slow) var(--ease-out),
+    background var(--duration-fast),
+    border-color var(--duration-fast);
+}
+
+/* ===== Section eyebrow rule (SectionHeader), draws in on reveal ===== */
+.eyebrow-rule {
+  display: inline-block;
+  width: 32px;
+  height: 1px;
+  background: var(--accent);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.8s var(--ease-out) 0.2s;
+}
+
+.is-visible .eyebrow-rule {
+  transform: scaleX(1);
+}
+
+/* ===== Spotlight: cursor-following glow, driven by v-spotlight ===== */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+
+.spotlight::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), var(--accent-dim), transparent 60%);
+  opacity: 0;
+  transition: opacity var(--duration-normal);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.spotlight:hover::after {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-section .reveal-child {
+    opacity: 1;
+    transform: none;
+  }
+}

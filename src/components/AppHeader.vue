@@ -1,76 +1,90 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { Globe, Menu, X, ChevronRight, Sun, Moon } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useTheme } from '../composables/useTheme'
 
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
-const activeIndex = ref(0)
+const activeHash = ref<string | null>(null)
 
+const route = useRoute()
+const router = useRouter()
 const { theme, toggle } = useTheme()
 const { currentLanguage, toggleLanguage, t, cvData } = useLanguage()
 
 const displayName = computed(() => cvData.value?.name ?? 'Portfolio')
 const displayTitle = computed(() => cvData.value?.title ?? 'Developer')
 
-const navItems = computed(() => [
-  { href: '#experience', label: t.value.experience },
-  { href: '#projects', label: t.value.projects },
-  { href: '#skills', label: t.value.skills },
-  { href: '#education', label: t.value.education },
-  { href: '#contact', label: t.value.contact }
+type NavItem = { label: string; hash?: string; path: string }
+
+const navItems = computed<NavItem[]>(() => [
+  { path: '/', hash: '#projects', label: t.value.projects },
+  { path: '/', hash: '#experience', label: t.value.experience },
+  { path: '/', hash: '#skills', label: t.value.skills },
+  { path: '/', hash: '#education', label: t.value.education },
+  { path: '/', hash: '#contact', label: t.value.contact },
+  { path: '/freelance', label: t.value.freelance },
 ])
 
-const sections = computed(() => ['#experience', '#projects', '#skills', '#education', '#contact'])
+const hrefOf = (item: NavItem) => router.resolve({ path: item.path, hash: item.hash }).href
+
+const isActive = (item: NavItem) =>
+  item.hash ? route.path === '/' && activeHash.value === item.hash : route.path === item.path
+
+const scrollToHash = (hash: string) => {
+  const element = document.querySelector(hash)
+  if (!element) return
+  const offsetPosition = element.getBoundingClientRect().top + window.scrollY - 90
+  window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
+}
+
+const navigate = (event: Event, item: NavItem) => {
+  event.preventDefault()
+  isMobileMenuOpen.value = false
+  if (item.hash && route.path === '/') {
+    scrollToHash(item.hash)
+    history.replaceState(history.state, '', item.hash)
+    return
+  }
+  router.push({ path: item.path, hash: item.hash })
+}
+
+const goHome = () => {
+  isMobileMenuOpen.value = false
+  if (route.path === '/') window.scrollTo({ top: 0, behavior: 'smooth' })
+  else router.push('/')
+}
 
 const toggleMobileMenu = () => {
   isMobileMenuOpen.value = !isMobileMenuOpen.value
 }
 
-const scrollToSection = (event: Event, href?: string) => {
-  event.preventDefault()
-  const targetHref = href || (event.currentTarget as HTMLAnchorElement)?.getAttribute('href')
-  if (targetHref && targetHref.trim()) {
-    const element = document.querySelector(targetHref)
-    if (element) {
-      const headerOffset = 100
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.scrollY - headerOffset
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
-    }
-  }
-}
-
-const handleMobileNavClick = (event: Event) => {
-  scrollToSection(event)
-  isMobileMenuOpen.value = false
-}
-
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
-
+// Scroll spy for the home page sections
 let scrollTimeout: ReturnType<typeof setTimeout> | null = null
 const handleScroll = () => {
   if (scrollTimeout) return
   scrollTimeout = setTimeout(() => {
     scrollTimeout = null
     isScrolled.value = window.scrollY > 50
-    for (let i = sections.value.length - 1; i >= 0; i--) {
-      const selector = sections.value[i]
-      if (!selector) continue
-      const el = document.querySelector(selector) as HTMLElement | null
-      if (!el) continue
-      const rect = el.getBoundingClientRect()
-      if (rect.top <= 120) {
-        activeIndex.value = i
+    if (route.path !== '/') {
+      activeHash.value = null
+      return
+    }
+    const hashes = navItems.value.filter(i => i.hash).map(i => i.hash as string)
+    for (let i = hashes.length - 1; i >= 0; i--) {
+      const el = document.querySelector(hashes[i] as string)
+      if (el && el.getBoundingClientRect().top <= 120) {
+        activeHash.value = hashes[i] as string
         return
       }
     }
-    activeIndex.value = 0
+    activeHash.value = null
   }, 50)
 }
+
+watch(() => route.path, () => handleScroll())
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true })
@@ -105,7 +119,7 @@ onUnmounted(() => {
         <!-- Logo / Brand -->
         <div class="flex items-center">
           <button
-            @click="scrollToTop"
+            @click="goHome"
             class="flex items-center gap-3 group focus:outline-none focus-visible:outline-3 focus-visible:outline-accent rounded"
             aria-label="Go to home"
           >
@@ -113,8 +127,8 @@ onUnmounted(() => {
               <span class="text-label-lg">IB</span>
             </div>
             <div class="hidden sm:block">
-              <h1 class="text-h3 text-fg">{{ displayName }}</h1>
-              <p class="text-caption text-fg-soft -mt-0.5">{{ displayTitle }}</p>
+              <span class="block text-h3 text-fg">{{ displayName }}</span>
+              <p class="text-caption text-fg-soft -mt-0.5 whitespace-nowrap lg:hidden xl:block">{{ displayTitle }}</p>
             </div>
           </button>
         </div>
@@ -123,18 +137,19 @@ onUnmounted(() => {
         <div class="hidden lg:flex items-center">
           <div class="flex items-center gap-1" role="menubar">
             <a
-              v-for="(item, idx) in navItems"
-              :key="item.href"
-              :href="item.href"
-              @click="scrollToSection"
+              v-for="item in navItems"
+              :key="item.label"
+              :href="hrefOf(item)"
+              @click="navigate($event, item)"
               :class="[
                 'px-4 py-2 rounded-full text-label-md transition-colors duration-fast',
                 'focus:outline-none focus-visible:outline-2 focus-visible:outline-accent',
-                activeIndex === idx
+                !item.hash && 'nav-freelance',
+                isActive(item)
                   ? 'text-accent'
                   : 'text-fg-soft hover:text-fg'
               ]"
-              :aria-current="activeIndex === idx ? 'page' : undefined"
+              :aria-current="isActive(item) ? (item.hash ? 'location' : 'page') : undefined"
               role="menuitem"
             >
               {{ item.label }}
@@ -195,14 +210,14 @@ onUnmounted(() => {
         <div v-if="isMobileMenuOpen" class="lg:hidden mt-4 border-t border-border pt-4">
           <nav class="space-y-1" role="navigation" aria-label="Mobile navigation">
             <a
-              v-for="(item, idx) in navItems"
-              :key="item.href"
-              :href="item.href"
-              @click="handleMobileNavClick"
+              v-for="item in navItems"
+              :key="item.label"
+              :href="hrefOf(item)"
+              @click="navigate($event, item)"
               :class="[
                 'flex items-center px-4 py-3 rounded-xl transition-colors duration-fast',
                 'focus:outline-none focus-visible:outline-2 focus-visible:outline-accent',
-                activeIndex === idx
+                isActive(item)
                   ? 'text-accent bg-accent-dim'
                   : 'text-fg-soft hover:text-fg hover:bg-surface-container'
               ]"
@@ -217,3 +232,11 @@ onUnmounted(() => {
     </nav>
   </header>
 </template>
+
+<style scoped>
+/* Freelance is a separate page: give it a subtle pill so it reads as a destination */
+.nav-freelance {
+  border: 1px solid var(--accent-border);
+  margin-left: 6px;
+}
+</style>

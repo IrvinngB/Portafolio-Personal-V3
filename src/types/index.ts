@@ -58,7 +58,16 @@ export interface Project {
   url?: string;
   github?: string;
   status?: 'active' | 'completed' | 'archived';
+  category?: ProjectCategory;
+  /** The problem the project solves, one sentence (case-study framing) */
+  problem?: string;
+  /** Measurable result, only when there is a real one to report */
+  outcome?: string;
+  featured?: boolean;
+  highlights?: string[];
 }
+
+export type ProjectCategory = 'geo' | 'ai' | 'iot' | 'web';
 
 export interface Education {
   degree: string;
@@ -83,4 +92,4 @@ export interface Metric {
   value: string;
   labelEs: string;
   labelEn: string;
-}
+}

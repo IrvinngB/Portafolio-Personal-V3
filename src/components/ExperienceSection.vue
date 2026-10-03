@@ -2,113 +2,211 @@
   <section
     id="experience"
     ref="container"
-    class="reveal-section section py-12 sm:py-16 lg:py-20"
+    class="reveal-section section py-16 sm:py-20 lg:py-28"
     aria-labelledby="experience-heading"
   >
-    <div class="container mx-auto px-4 sm:px-6">
-      <!-- Section Header -->
-      <div class="text-center mb-12 sm:mb-16">
-        <p class="text-label-md text-muted mb-3">
-          {{ currentLanguage === 'es' ? 'Trayectoria' : 'Career' }}
-        </p>
-        <h2 id="experience-heading" class="text-h1 text-fg">
-          {{ t.workExperience }}
-        </h2>
-      </div>
+    <div class="container mx-auto px-4 sm:px-6 max-w-6xl">
+      <SectionHeader
+        :eyebrow="currentLanguage === 'es' ? 'Trayectoria' : 'Career'"
+        :title="t.workExperience"
+        heading-id="experience-heading"
+      />
 
-      <!-- Timeline -->
-      <div class="max-w-4xl mx-auto relative">
-        <!-- Timeline line -->
-        <div
-          class="absolute left-5 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-0.5 bg-border"
-          aria-hidden="true"
-        ></div>
+      <ol ref="listRef" class="timeline" :style="{ '--progress': progress }">
+        <li
+          v-for="(experience, index) in cvData.workExperience"
+          :key="index"
+          class="reveal-child timeline-item"
+          :style="{ transitionDelay: `${index * 100}ms` }"
+        >
+          <!-- Date (left column on desktop) -->
+          <div class="timeline-meta">
+            <time class="text-mono text-fg-soft">{{ experience.duration }}</time>
+            <span v-if="isCurrent(experience.duration)" class="current-badge">
+              {{ currentLanguage === 'es' ? 'Actual' : 'Current' }}
+            </span>
+          </div>
 
-        <div class="space-y-8 sm:space-y-12">
-          <article
-            v-for="(experience, index) in cvData.workExperience"
-            :key="index"
-            class="reveal-child relative"
-            :style="{ transitionDelay: `${index * 80}ms` }"
-          >
-            <!-- Timeline dot -->
-            <div
-              class="timeline-dot absolute left-0 md:left-1/2 md:-translate-x-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-xl border-4 border-bg bg-accent z-10 flex items-center justify-center"
-              :style="{ animationDelay: `${index * 250}ms` }"
-            >
-              <Briefcase class="h-4 w-4 sm:h-5 sm:w-5 text-accent-fg" aria-hidden="true" strokeWidth="2.5" />
-            </div>
+          <!-- Node -->
+          <span class="timeline-node" :class="{ 'timeline-node-current': isCurrent(experience.duration) }" aria-hidden="true"></span>
 
-            <!-- Card -->
-            <div class="ml-14 sm:ml-16 md:ml-0 md:grid md:grid-cols-2 md:gap-8">
-              <div :class="index % 2 === 0 ? 'md:text-right md:pr-10' : 'md:col-start-2 md:pl-10'">
-                <div class="bg-surface-container hover:bg-surface-high transition-colors duration-fast rounded-xl sm:rounded-xxl p-4 sm:p-6 border border-border">
-                  <!-- Role -->
-                  <h3 class="text-h3 text-fg mb-2">{{ experience.position }}</h3>
-                  <!-- Company -->
-                  <div class="flex items-center gap-2 mb-2" :class="index % 2 === 0 ? 'md:justify-end' : ''">
-                    <Building class="h-4 w-4 text-accent flex-shrink-0" aria-hidden="true" />
-                    <span class="text-label-lg text-accent">{{ experience.company }}</span>
-                  </div>
-                  <!-- Duration -->
-                  <div class="flex items-center gap-2 text-muted mb-4" :class="index % 2 === 0 ? 'md:justify-end' : ''">
-                    <Calendar class="h-4 w-4 flex-shrink-0" aria-hidden="true" />
-                    <time class="text-caption">{{ experience.duration }}</time>
-                  </div>
-                  <!-- Description -->
-                  <p class="text-body-md text-fg-soft leading-relaxed">{{ experience.description }}</p>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-      </div>
+          <!-- Content -->
+          <div v-spotlight class="timeline-card">
+            <h3 class="text-h2 text-fg">{{ experience.position }}</h3>
+            <p class="flex items-center gap-2 mt-2 text-label-lg text-accent">
+              <Building2 class="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              {{ experience.company }}
+            </p>
+            <p class="text-body-md text-fg-soft mt-4">{{ experience.description }}</p>
+          </div>
+        </li>
+      </ol>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { Briefcase, Building, Calendar } from 'lucide-vue-next'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { Building2 } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
 import { useScrollReveal } from '../composables/useScrollReveal'
+import SectionHeader from './SectionHeader.vue'
 
 const { t, cvData, currentLanguage } = useLanguage()
 const container = ref<HTMLElement>()
+const listRef = ref<HTMLElement>()
+const progress = ref(0)
 
 const { observe } = useScrollReveal()
 
+const isCurrent = (duration: string) => /presente|present/i.test(duration)
+
+// Fill the timeline line as the list scrolls past the middle of the viewport
+let raf = 0
+const updateProgress = () => {
+  raf = 0
+  const el = listRef.value
+  if (!el) return
+  const rect = el.getBoundingClientRect()
+  const anchor = window.innerHeight * 0.6
+  progress.value = Math.min(Math.max((anchor - rect.top) / rect.height, 0), 1)
+}
+const onScroll = () => {
+  if (!raf) raf = requestAnimationFrame(updateProgress)
+}
+
 onMounted(() => {
   if (container.value) observe(container.value)
+  updateProgress()
+  window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('resize', onScroll, { passive: true })
+})
+
+onBeforeUnmount(() => {
+  cancelAnimationFrame(raf)
+  window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('resize', onScroll)
 })
 </script>
 
 <style scoped>
-.reveal-section .reveal-child {
-  opacity: 0;
-  transform: translateY(16px);
+.timeline {
+  --rail: 11px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
 }
 
-.reveal-section.is-visible .reveal-child {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity var(--duration-slow) var(--ease-out),
-              transform var(--duration-slow) var(--ease-out);
+/* Base rail + filled rail */
+.timeline::before,
+.timeline::after {
+  content: '';
+  position: absolute;
+  left: var(--rail);
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  border-radius: 2px;
 }
 
-/* Sequential dot pulse — heartbeat along the timeline */
-@keyframes dotPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(63, 163, 91, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(63, 163, 91, 0); }
+.timeline::before {
+  background: var(--border);
 }
 
-.is-visible .timeline-dot {
-  animation: dotPulse 1.5s var(--ease-out) forwards;
+.timeline::after {
+  background: linear-gradient(to bottom, var(--accent), var(--accent-alt));
+  transform-origin: top;
+  transform: scaleY(var(--progress, 0));
+}
+
+.timeline-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  padding-left: 40px;
+  gap: 10px;
+}
+
+.timeline-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.timeline-node {
+  position: absolute;
+  left: calc(var(--rail) - 5px);
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+  z-index: 1;
+}
+
+.timeline-node-current {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-dim);
+}
+
+.timeline-card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--surface-container);
+  padding: 20px;
+}
+
+.timeline-card:hover {
+  border-color: var(--accent-border);
+}
+
+.current-badge {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--radius-full);
+  padding: 2px 8px;
+}
+
+/* Desktop: date column | rail | card */
+@media (min-width: 768px) {
+  .timeline {
+    --rail: calc(220px + 31px); /* centered in the 64px gap */
+    gap: 32px;
+  }
+
+  .timeline-item {
+    grid-template-columns: 220px 1fr;
+    gap: 64px;
+    padding-left: 0;
+  }
+
+  .timeline-meta {
+    flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
+    padding-top: 0;
+  }
+
+  .timeline-card {
+    padding: 24px 28px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .timeline-dot {
-    animation: none !important;
+  .timeline::after {
+    transform: scaleY(1);
   }
 }
 </style>

@@ -9,11 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@types/gsap": "^1.20.2",
-    "@vueuse/core": "^14.0.0",
     "gsap": "^3.13.0",
     "lucide-vue-next": "^0.545.0",
-    "vue": "^3.5.22"
+    "simple-icons": "^16.33.0",
+    "vue": "^3.5.22",
+    "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",

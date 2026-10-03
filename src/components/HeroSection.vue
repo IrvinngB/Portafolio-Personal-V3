@@ -9,12 +9,33 @@
       <div class="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-start">
         <!-- Left Column: Content -->
         <div class="text-center lg:text-left pt-8 lg:pt-16">
-          <!-- Name -->
-          <h1 class="text-display text-fg" itemprop="name">Irvin</h1>
-          <h1 class="text-display-italic text-accent-alt">Benitez</h1>
+          <!-- Greeting -->
+          <p class="hero-in text-label-md text-accent mb-4" style="--d: 0ms">
+            {{ currentLanguage === 'es' ? 'Hola, soy' : "Hi, I'm" }}
+          </p>
+
+          <!-- Name: letters rise from a mask, one by one -->
+          <h1 :aria-label="cvData.name" itemprop="name">
+            <span class="name-line text-display text-fg" aria-hidden="true">
+              <span
+                v-for="(ch, i) in firstName"
+                :key="`f${i}`"
+                class="letter"
+                :style="{ '--i': i }"
+              >{{ ch }}</span>
+            </span>
+            <span class="name-line text-display-italic text-accent-alt" aria-hidden="true">
+              <span
+                v-for="(ch, i) in lastName"
+                :key="`l${i}`"
+                class="letter"
+                :style="{ '--i': i + firstName.length + 1 }"
+              >{{ ch }}</span>
+            </span>
+          </h1>
 
           <!-- Subtitle — cycling roles -->
-          <div class="h-[28px] mt-3 overflow-hidden">
+          <div class="hero-in h-[28px] mt-3 overflow-hidden" style="--d: 900ms">
             <Transition name="role" mode="out-in">
               <p class="text-body-lg text-fg-soft" :key="currentRoleIndex">
                 {{ cyclingRoles[currentRoleIndex] }}
@@ -23,17 +44,17 @@
           </div>
 
           <!-- Description -->
-          <p class="text-body-md text-fg-soft mt-4 max-w-lg mx-auto lg:mx-0" itemprop="description">
+          <p class="hero-in text-body-md text-fg-soft mt-4 max-w-lg mx-auto lg:mx-0" style="--d: 1000ms" itemprop="description">
             <span itemprop="jobTitle">{{ cvData.title }}</span>.
             {{ currentLanguage === 'es'
-              ? 'Especializado en Vue.js, Node.js y arquitecturas escalables. Transformo ideas en productos digitales de alto rendimiento.'
-              : 'Specialized in Vue.js, Node.js and scalable architectures. I transform ideas into high-performance digital products.' }}
+              ? 'Construyo aplicaciones web de punta a punta con Vue, Django y PostgreSQL: desde la idea hasta producción.'
+              : 'I build end-to-end web applications with Vue, Django and PostgreSQL: from the first idea to production.' }}
           </p>
 
           <meta itemprop="url" content="https://irvincodes.dev" />
 
           <!-- CTAs -->
-          <div class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mt-6">
+          <div class="hero-in flex flex-col sm:flex-row gap-3 justify-center lg:justify-start mt-6" style="--d: 1100ms">
             <button
               @click="scrollToContact"
               class="bg-accent text-accent-fg rounded-full px-6 py-4 text-btn transition-colors duration-fast hover:bg-surface-high"
@@ -53,7 +74,7 @@
           </div>
 
           <!-- Contact Row -->
-          <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-6 mt-6 justify-center lg:justify-start">
+          <div class="hero-in flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-6 mt-6 justify-center lg:justify-start" style="--d: 1200ms">
             <a
               :href="`mailto:${cvData.email}`"
               class="text-mono text-fg-soft hover:text-accent transition-colors duration-fast py-2"
@@ -77,10 +98,10 @@
         <!-- Right Column: Avatar + Building Now -->
         <div class="flex flex-col items-center lg:items-end gap-8 mt-8 lg:mt-0">
           <!-- SVG Avatar -->
-          <div class="relative">
-            <div 
-              class="w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 border border-border overflow-hidden"
-              style="border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;"
+          <div class="relative avatar-in">
+            <div class="avatar-glow" aria-hidden="true"></div>
+            <div
+              class="avatar-blob relative w-56 sm:w-64 md:w-72 lg:w-80 h-56 sm:h-64 md:h-72 lg:h-80 border border-border overflow-hidden"
             >
               <div class="w-full h-full p-2 bg-surface-container/50">
                   <div
@@ -178,10 +199,13 @@ const scrollFill = ref<HTMLElement | null>(null)
 // Cycling roles subtitle — editorial flair
 const cyclingRoles = computed(() =>
   currentLanguage.value === 'es'
-    ? ['Full Stack Developer', 'Vue.js Specialist', 'Software Architect', 'TypeScript Craftsman']
-    : ['Full Stack Developer', 'Vue.js Specialist', 'Software Architect', 'TypeScript Craftsman']
+    ? ['Desarrollador Full Stack', 'Vue.js · Django · PostgreSQL', 'Disponible para freelance']
+    : ['Full Stack Developer', 'Vue.js · Django · PostgreSQL', 'Available for freelance']
 )
 const currentRoleIndex = ref(0)
+
+const [firstName = '', ...rest] = (cvData.value.name ?? '').split(' ')
+const lastName = rest.join(' ')
 let roleInterval: ReturnType<typeof setInterval> | undefined
 
 const cvPdfUrl = computed(() => {
@@ -264,15 +288,79 @@ const updateScrollFill = () => {
   z-index: 3;
 }
 
+/* ═══════ Welcome entrance ═══════ */
+.name-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.letter {
+  display: inline-block;
+  animation: letterUp 0.9s var(--ease-out) both;
+  animation-delay: calc(150ms + var(--i) * 45ms);
+}
+
+@keyframes letterUp {
+  from { transform: translateY(110%); }
+  to { transform: none; }
+}
+
+.hero-in {
+  animation: heroIn 0.8s var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+.avatar-in {
+  animation: avatarIn 1.2s var(--ease-out) 0.4s both;
+}
+
+@keyframes avatarIn {
+  from { opacity: 0; transform: scale(0.85) rotate(-6deg); }
+  to { opacity: 1; transform: none; }
+}
+
+/* The blob slowly breathes into new shapes */
+.avatar-blob {
+  border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%;
+  animation: morph 14s ease-in-out infinite;
+}
+
+@keyframes morph {
+  0%, 100% { border-radius: 60% 40% 70% 30% / 50% 60% 40% 50%; }
+  33% { border-radius: 40% 60% 40% 60% / 60% 40% 60% 40%; }
+  66% { border-radius: 70% 30% 50% 50% / 40% 55% 45% 60%; }
+}
+
+.avatar-glow {
+  position: absolute;
+  inset: -15%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-dim), transparent 65%);
+  filter: blur(20px);
+  animation: glow 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes glow {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
 /* Name glow on hover */
 .text-display,
 .text-display-italic {
   transition: text-shadow 0.3s ease;
 }
-.text-display:hover {
+.name-line.text-display:hover {
   text-shadow: 0 0 24px rgba(232, 245, 240, 0.3);
 }
-.text-display-italic:hover {
+.name-line.text-display-italic:hover {
   text-shadow: 0 0 24px rgba(180, 211, 51, 0.4);
 }
 </style>

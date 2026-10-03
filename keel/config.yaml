@@ -1,0 +1,18 @@
+schema: spec-driven
+artifact_store: files
+stack: TypeScript Vue 3.5 (Composition API) + Vite 7 + vite-ssg + Tailwind 3.4 (NOT React)
+context: |
+  Personal bilingual (ES/EN) developer portfolio, statically generated with vite-ssg.
+  Single-page sections in src/components, logic in src/composables, content in src/data.
+  GSAP animations, dark/light theme, lucide-vue-next icons, @vueuse/core, @unhead/vue for SEO.
+  No test runner, linter, or CI configured.
+strict_tdd: false
+security_review: false
+testing:
+  full: none
+  focused: none
+  lint: none
+  typecheck: vue-tsc -b
+  build: npm run build
+experts:
+  - none found

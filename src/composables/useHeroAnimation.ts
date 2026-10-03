@@ -7,10 +7,14 @@ let CustomWigglePlugin: any = null
 const initPlugins = async () => {
   if (!isClient || gsapInstance) return
   const gsapModule = await import('gsap')
-  const allPlugins = await import('gsap/all')
+  // Import only the two plugins in use; 'gsap/all' pulls every plugin (~250 KB)
+  const [easeModule, wiggleModule] = await Promise.all([
+    import('gsap/CustomEase'),
+    import('gsap/CustomWiggle'),
+  ])
   gsapInstance = gsapModule.gsap || gsapModule.default
-  CustomEasePlugin = allPlugins.CustomEase
-  CustomWigglePlugin = allPlugins.CustomWiggle
+  CustomEasePlugin = easeModule.CustomEase
+  CustomWigglePlugin = wiggleModule.CustomWiggle
   gsapInstance.registerPlugin(CustomEasePlugin, CustomWigglePlugin)
 }
 

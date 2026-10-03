@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import type {} from 'vite-ssg'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
@@ -13,6 +14,11 @@ export default defineConfig({
 
   optimizeDeps: {
     include: ['gsap', 'vue', 'lucide-vue-next']
+  },
+
+  ssgOptions: {
+    // /freelance/index.html works on any static host without rewrite rules
+    dirStyle: 'nested',
   },
 
   server: {

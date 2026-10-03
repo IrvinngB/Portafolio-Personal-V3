@@ -36,7 +36,17 @@ export const cvDataES: CVData = {
       title: "RiskTrail — Evaluación Dinámica de Riesgo en Senderismo",
       description: "Sistema web de evaluación dinámica de riesgo para senderismo en Panamá. Integra archivos GPX, datos meteorológicos en tiempo real (Open-Meteo) y modelos biomecánicos (Minetti, Tobler-Irmischer, Pandolf) sobre PostgreSQL/PostGIS + pgRouting. Clasifica segmentos en 5 niveles de riesgo según metodología MIDE.",
       technologies: ["FastAPI", "PostGIS", "pgRouting", "Vue.js", "Open-Meteo", "Python"],
+      url: "https://risktrail.irvincodes.dev/",
       github: "https://github.com/IrvinngB/JIC-Geo",
+      problem: "Quien sale a hacer senderismo en Panamá no tiene cómo saber qué tan riesgoso es un sendero según su terreno y el clima de ese día.",
+      category: "geo",
+      featured: true,
+      highlights: [
+        "Ingesta de rutas GPX y análisis espacial con PostGIS + pgRouting",
+        "Clima en tiempo real desde Open-Meteo por segmento",
+        "Modelos biomecánicos Minetti, Tobler-Irmischer y Pandolf",
+        "Clasificación en 5 niveles de riesgo según MIDE"
+      ],
       status: "active"
     },
     {
@@ -45,14 +55,17 @@ export const cvDataES: CVData = {
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
       image: "/proyectos/Chatbot.png",
       github: "https://github.com/IrvinngB/JIC-VentiBot",
+      problem: "Responder por WhatsApp a toda hora le quita a un negocio pequeño tiempo que no tiene.",
+      category: "ai",
       status: "completed"
     },
     {
       title: "Sistema IoT de Alerta para Canaletas",
       description: "Canaleta inteligente IoT con ESP32, sensores de temperatura y ultrasonido para detectar desbordes en edificios residenciales. Envía notificaciones automáticas por WhatsApp cuando detecta niveles críticos de agua.",
       technologies: ["ESP32", "IoT", "MicroPython", "WhatsApp API", "Sensores"],
-      image: "/proyectos/IoT.png",
       github: "https://github.com/IrvinngB/alerta-microcotrolador",
+      problem: "Las canaletas de un edificio se desbordan sin aviso y nadie se entera hasta que ya hay daños.",
+      category: "iot",
       status: "completed"
     },
     {
@@ -60,6 +73,8 @@ export const cvDataES: CVData = {
       description: "Sitio web profesional con sistema de login, gestión de portafolio, panel de administración y contenido dinámico. Landing page moderna optimizada para conversiones.",
       technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
       github: "https://github.com/IrvinngB/Pagina-Aterrizaje",
+      problem: "Una empresa de diseño gráfico necesitaba mostrar su trabajo y captar clientes con un sitio propio que pudiera administrar.",
+      category: "web",
       status: "completed"
     }
   ],
@@ -169,7 +184,17 @@ export const cvDataEN: CVData = {
       title: "RiskTrail — Dynamic Hiking Risk Assessment",
       description: "Web-based dynamic risk assessment system for hiking trails in Panama. Integrates GPX files, real-time weather data (Open-Meteo), and validated biomechanical models (Minetti, Tobler-Irmischer, Pandolf) on PostgreSQL/PostGIS + pgRouting. Classifies trail segments into 5 risk levels per MIDE methodology.",
       technologies: ["FastAPI", "PostGIS", "pgRouting", "Vue.js", "Open-Meteo", "Python"],
+      url: "https://risktrail.irvincodes.dev/",
       github: "https://github.com/IrvinngB/JIC-Geo",
+      problem: "Hikers in Panama have no way to know how risky a trail is given its terrain and that day's weather.",
+      category: "geo",
+      featured: true,
+      highlights: [
+        "GPX ingestion and spatial analysis with PostGIS + pgRouting",
+        "Real-time weather from Open-Meteo per segment",
+        "Minetti, Tobler-Irmischer and Pandolf biomechanical models",
+        "5-level risk classification following MIDE"
+      ],
       status: "active"
     },
     {
@@ -177,6 +202,8 @@ export const cvDataEN: CVData = {
       description: "Custom WhatsApp bot with intelligent responses using Gemini AI. Natural language processing, contextual responses and 24/7 automated customer service.",
       technologies: ["Python", "Gemini AI", "WhatsApp API", "NLP"],
       github: "https://github.com/IrvinngB/JIC-VentiBot",
+      problem: "Answering WhatsApp messages around the clock takes time a small business doesn't have.",
+      category: "ai",
       status: "completed"
     },
     {
@@ -184,6 +211,8 @@ export const cvDataEN: CVData = {
       description: "Smart IoT gutter with ESP32, temperature and ultrasonic sensors to detect overflows in residential buildings. Sends automatic WhatsApp notifications when critical water levels are detected.",
       technologies: ["ESP32", "IoT", "MicroPython", "WhatsApp API", "Sensors"],
       github: "https://github.com/IrvinngB/alerta-microcotrolador",
+      problem: "Building gutters overflow without warning, and nobody notices until there is damage.",
+      category: "iot",
       status: "completed"
     },
     {
@@ -191,6 +220,8 @@ export const cvDataEN: CVData = {
       description: "Professional website with login system, portfolio management, admin panel and dynamic content. Modern landing page optimized for conversions.",
       technologies: ["PHP", "MySQL", "HTML", "CSS", "JavaScript"],
       github: "https://github.com/IrvinngB/Pagina-Aterrizaje",
+      problem: "A graphic design company needed its own site to showcase work and win clients, one it could manage itself.",
+      category: "web",
       status: "completed"
     }
   ],
