@@ -46,7 +46,7 @@
     <section ref="servicesRef" class="reveal-section section py-16 sm:py-20" aria-labelledby="services-heading">
       <div class="container mx-auto px-4 sm:px-6 max-w-6xl">
         <SectionHeader :eyebrow="copy.servicesEyebrow" :title="copy.servicesTitle" heading-id="services-heading" />
-        <div class="grid md:grid-cols-3 gap-4 sm:gap-5">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           <article
             v-for="(service, i) in copy.services"
             :key="service.title"
@@ -76,25 +76,31 @@
         />
         <ul class="case-list">
           <li
-            v-for="(project, i) in proofProjects"
-            :key="project.title"
+            v-for="(client, i) in clients"
+            :key="client.name"
             class="reveal-child case-row"
             :style="{ transitionDelay: `${i * 80}ms` }"
           >
-            <h3 class="case-title">{{ shortTitle(project.title) }}</h3>
-            <p class="text-body-md text-fg-soft">{{ project.problem }}</p>
-            <a
-              :href="project.url ?? project.github"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="case-link"
-              :aria-label="`${project.url ? copy.seeDemo : copy.seeCode}: ${shortTitle(project.title)}`"
-            >
-              {{ project.url ? copy.seeDemo : copy.seeCode }}
-              <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
-            </a>
+            <div>
+              <h3 class="case-title">{{ client.name }}</h3>
+              <p class="text-label-md text-muted mt-1.5">{{ client.kind }}</p>
+            </div>
+            <div>
+              <p class="text-body-md text-fg-soft">{{ client.summary }}</p>
+              <ul class="contributions mt-3" :aria-label="copy.contributionsLabel">
+                <li v-for="item in client.contributions" :key="item">
+                  <Check class="w-4 h-4 text-accent shrink-0" aria-hidden="true" />
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
           </li>
         </ul>
+
+        <RouterLink :to="{ path: '/', hash: '#projects' }" class="reveal-child case-more group">
+          {{ copy.personalProjects }}
+          <ArrowRight class="w-4 h-4 transition-transform duration-fast group-hover:translate-x-1" aria-hidden="true" />
+        </RouterLink>
       </div>
     </section>
 
@@ -140,11 +146,12 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
 import {
+  Check,
   AppWindow,
   ServerCog,
   BotMessageSquare,
+  Wrench,
   ArrowRight,
-  ArrowUpRight,
   Plus,
 } from 'lucide-vue-next'
 import { useLanguage } from '../composables/useLanguage'
@@ -173,9 +180,8 @@ const scrollTo = (hash: string) => {
   window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' })
 }
 
-const shortTitle = (title: string) => title.split(' — ')[0] ?? title
 
-const proofProjects = computed(() => cvData.value.projects.filter(p => p.problem))
+const clients = computed(() => cvData.value.freelanceClients ?? [])
 
 const facts = computed(() => {
   const es = currentLanguage.value === 'es'
@@ -215,13 +221,18 @@ const copy = computed(() => currentLanguage.value === 'es'
           description: 'Chatbots de WhatsApp y flujos automáticos que atienden y responden a tus clientes sin que estés pendiente.',
           stack: ['Python', 'WhatsApp API', 'Gemini AI'],
         },
+        {
+          icon: Wrench,
+          title: 'Mantenimiento y mejoras',
+          description: 'Tu sitio o sistema ya existe: lo actualizo, corrijo errores y le agrego lo que le falta sin empezar de cero.',
+          stack: ['Vue.js', 'Laravel', 'Django'],
+        },
       ],
-      proofEyebrow: 'Casos',
-      proofTitle: 'Problemas que ya resolví',
-      proofDescription: 'Cada servicio tiene detrás un proyecto real. Este es el problema del que partió cada uno.',
-      problemLabel: 'El problema',
-      seeDemo: 'Ver demo',
-      seeCode: 'Ver código',
+      proofEyebrow: 'Clientes',
+      proofTitle: 'Trabajo para clientes',
+      proofDescription: 'Proyectos de terceros en los que participé como freelance: desde mantenimiento hasta módulos nuevos.',
+      contributionsLabel: 'Lo que hice',
+      personalProjects: 'Ver también mis proyectos personales',
       processEyebrow: 'Proceso',
       processTitle: 'Cómo trabajo',
       steps: [
@@ -267,13 +278,18 @@ const copy = computed(() => currentLanguage.value === 'es'
           description: 'WhatsApp chatbots and automated flows that answer your customers without you having to be there.',
           stack: ['Python', 'WhatsApp API', 'Gemini AI'],
         },
+        {
+          icon: Wrench,
+          title: 'Maintenance and improvements',
+          description: 'Your site or system already exists: I update it, fix bugs and add what it is missing without starting over.',
+          stack: ['Vue.js', 'Laravel', 'Django'],
+        },
       ],
-      proofEyebrow: 'Cases',
-      proofTitle: "Problems I've already solved",
-      proofDescription: 'Every service is backed by a real project. This is the problem each one started from.',
-      problemLabel: 'The problem',
-      seeDemo: 'Live demo',
-      seeCode: 'View code',
+      proofEyebrow: 'Clients',
+      proofTitle: 'Client work',
+      proofDescription: 'Third-party projects I worked on as a freelancer: from maintenance to brand-new modules.',
+      contributionsLabel: 'What I did',
+      personalProjects: 'See my personal projects too',
       processEyebrow: 'Process',
       processTitle: 'How I work',
       steps: [
@@ -444,7 +460,7 @@ usePageSeo({
 
 @media (min-width: 768px) {
   .case-row {
-    grid-template-columns: 220px 1fr auto;
+    grid-template-columns: 280px 1fr;
     gap: 32px;
     align-items: baseline;
   }
@@ -458,21 +474,32 @@ usePageSeo({
   color: var(--fg);
 }
 
-.case-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 44px;
+.contributions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 13px;
   font-weight: 500;
-  color: var(--accent);
-  white-space: nowrap;
+  color: var(--fg);
 }
 
-.case-link:hover {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.contributions li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.case-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 20px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
 }
 
 /* ═══════ Process ═══════ */

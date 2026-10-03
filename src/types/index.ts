@@ -13,6 +13,7 @@ export interface CVData {
   workExperience: WorkExperience[];
   projects: Project[];
   education: Education[];
+  freelanceClients?: FreelanceClient[];
   technicalSkills: TechnicalSkills;
   interpersonalSkills: string[];
   aboutMe?: {
@@ -47,6 +48,15 @@ export interface Project {
 }
 
 export type ProjectCategory = 'geo' | 'ai' | 'iot' | 'web';
+
+/** Client work done as a freelancer (projects that belong to the client) */
+export interface FreelanceClient {
+  name: string;
+  /** Short category label, e.g. "WMS" */
+  kind: string;
+  summary: string;
+  contributions: string[];
+}
 
 export interface Education {
   degree: string;

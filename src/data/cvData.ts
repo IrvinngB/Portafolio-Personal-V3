@@ -37,7 +37,6 @@ export const cvDataES: CVData = {
       description: "Sistema web de evaluación dinámica de riesgo para senderismo en Panamá. Integra archivos GPX, datos meteorológicos en tiempo real (Open-Meteo) y modelos biomecánicos (Minetti, Tobler-Irmischer, Pandolf) sobre PostgreSQL/PostGIS + pgRouting. Clasifica segmentos en 5 niveles de riesgo según metodología MIDE.",
       technologies: ["FastAPI", "PostGIS", "pgRouting", "Vue.js", "Open-Meteo", "Python"],
       url: "https://risktrail.irvincodes.dev/",
-      github: "https://github.com/IrvinngB/JIC-Geo",
       problem: "Quien sale a hacer senderismo en Panamá no tiene cómo saber qué tan riesgoso es un sendero según su terreno y el clima de ese día.",
       category: "geo",
       featured: true,
@@ -76,6 +75,32 @@ export const cvDataES: CVData = {
       problem: "Una empresa de diseño gráfico necesitaba mostrar su trabajo y captar clientes con un sitio propio que pudiera administrar.",
       category: "web",
       status: "completed"
+    }
+  ],
+  freelanceClients: [
+    {
+      name: "Jornada de Iniciación Científica (JIC)",
+      kind: "Plataforma de evento · UTP",
+      summary: "Iniciativa de la Universidad Tecnológica de Panamá que desde 2002 fomenta la investigación entre estudiantes de grado. Hoy es el principal evento de investigación juvenil del país.",
+      contributions: ["Mantenimiento de la plataforma", "Nuevos módulos", "Ajustes de seguridad", "Mejoras de trazabilidad"]
+    },
+    {
+      name: "FlexWMS",
+      kind: "Sistema WMS",
+      summary: "Sistema de gestión de bodegas (WMS) para controlar inventario y operaciones de almacén.",
+      contributions: ["Corrección de bugs", "Nuevos módulos generales"]
+    },
+    {
+      name: "LCDM",
+      kind: "WMS personalizado",
+      summary: "Versión personalizada de FlexWMS adaptada a la operación del cliente LCDM.",
+      contributions: ["Módulos exclusivos para el cliente"]
+    },
+    {
+      name: "PGT Logistics",
+      kind: "App de pedidos y delivery",
+      summary: "Aplicación de pedidos y entregas a domicilio.",
+      contributions: ["Mejoras a la app", "Integración de APIs", "Colaboración en el módulo de delivery"]
     }
   ],
   education: [
@@ -151,7 +176,6 @@ export const cvDataEN: CVData = {
       description: "Web-based dynamic risk assessment system for hiking trails in Panama. Integrates GPX files, real-time weather data (Open-Meteo), and validated biomechanical models (Minetti, Tobler-Irmischer, Pandolf) on PostgreSQL/PostGIS + pgRouting. Classifies trail segments into 5 risk levels per MIDE methodology.",
       technologies: ["FastAPI", "PostGIS", "pgRouting", "Vue.js", "Open-Meteo", "Python"],
       url: "https://risktrail.irvincodes.dev/",
-      github: "https://github.com/IrvinngB/JIC-Geo",
       problem: "Hikers in Panama have no way to know how risky a trail is given its terrain and that day's weather.",
       category: "geo",
       featured: true,
@@ -189,6 +213,32 @@ export const cvDataEN: CVData = {
       problem: "A graphic design company needed its own site to showcase work and win clients, one it could manage itself.",
       category: "web",
       status: "completed"
+    }
+  ],
+  freelanceClients: [
+    {
+      name: "Scientific Initiation Conference (JIC)",
+      kind: "Event platform · UTP",
+      summary: "An initiative of the Technological University of Panama that, since 2002, has encouraged research among undergraduate students. Today it is the country's main youth research event.",
+      contributions: ["Platform maintenance", "New modules", "Security hardening", "Traceability improvements"]
+    },
+    {
+      name: "FlexWMS",
+      kind: "WMS",
+      summary: "Warehouse management system (WMS) for inventory and warehouse operations.",
+      contributions: ["Bug fixes", "New general modules"]
+    },
+    {
+      name: "LCDM",
+      kind: "Custom WMS",
+      summary: "A customized version of FlexWMS adapted to the LCDM client's operation.",
+      contributions: ["Client-exclusive modules"]
+    },
+    {
+      name: "PGT Logistics",
+      kind: "Ordering and delivery app",
+      summary: "An app for orders and home delivery.",
+      contributions: ["App improvements", "API integrations", "Contributed to the delivery module"]
     }
   ],
   education: [
