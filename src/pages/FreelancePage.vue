@@ -34,18 +34,13 @@
           <!-- Quick facts -->
           <dl class="lg:col-span-5 facts intro" style="--d: 400ms">
             <div v-for="fact in facts" :key="fact.label" class="fact">
-              <dt class="flex items-center gap-2 text-label-md text-muted">
-                <component :is="fact.icon" class="w-4 h-4 text-accent" aria-hidden="true" />
-                {{ fact.label }}
-              </dt>
+              <dt class="text-label-md text-muted">{{ fact.label }}</dt>
               <dd class="text-body-lg text-fg mt-1">{{ fact.value }}</dd>
             </div>
           </dl>
         </div>
       </div>
     </section>
-
-    <TechIconSprite :names="copy.services.flatMap(s => s.stack)" />
 
     <!-- Services -->
     <section ref="servicesRef" class="reveal-section section py-16 sm:py-20" aria-labelledby="services-heading">
@@ -64,12 +59,7 @@
             </span>
             <h3 class="card-title">{{ service.title }}</h3>
             <p class="text-body-md text-fg-soft mt-2">{{ service.description }}</p>
-            <ul class="flex flex-wrap gap-1.5 mt-auto pt-6">
-              <li v-for="tech in service.stack" :key="tech" class="stack-chip">
-                <TechIcon :name="tech" class="w-3.5 h-3.5" />
-                {{ tech }}
-              </li>
-            </ul>
+            <p class="text-mono text-muted mt-auto pt-6">{{ service.stack.join(' · ') }}</p>
           </article>
         </div>
       </div>
@@ -84,33 +74,27 @@
           heading-id="proof-heading"
           :description="copy.proofDescription"
         />
-        <div class="grid sm:grid-cols-2 gap-4 sm:gap-5">
-          <article
+        <ul class="case-list">
+          <li
             v-for="(project, i) in proofProjects"
             :key="project.title"
-            v-spotlight
-            class="reveal-child card"
+            class="reveal-child case-row"
             :style="{ transitionDelay: `${i * 80}ms` }"
           >
-            <div class="flex items-center gap-3">
-              <span class="icon-box !mb-0">
-                <component :is="categoryIcon(project.category)" class="w-5 h-5" aria-hidden="true" />
-              </span>
-              <h3 class="card-title">{{ shortTitle(project.title) }}</h3>
-            </div>
-            <p class="text-label-md text-muted mt-6">{{ copy.problemLabel }}</p>
-            <p class="text-body-md text-fg mt-2">{{ project.problem }}</p>
+            <h3 class="case-title">{{ shortTitle(project.title) }}</h3>
+            <p class="text-body-md text-fg-soft">{{ project.problem }}</p>
             <a
               :href="project.url ?? project.github"
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-1.5 mt-auto pt-6 min-h-[44px] text-btn text-accent hover:underline underline-offset-4"
+              class="case-link"
+              :aria-label="`${project.url ? copy.seeDemo : copy.seeCode}: ${shortTitle(project.title)}`"
             >
               {{ project.url ? copy.seeDemo : copy.seeCode }}
               <ArrowUpRight class="w-4 h-4" aria-hidden="true" />
             </a>
-          </article>
-        </div>
+          </li>
+        </ul>
       </div>
     </section>
 
@@ -125,7 +109,7 @@
             class="reveal-child process-step"
             :style="{ transitionDelay: `${i * 120}ms` }"
           >
-            <span class="process-number">{{ String(i + 1).padStart(2, '0') }}</span>
+            <span class="process-dot" aria-hidden="true"></span>
             <h3 class="text-h3 text-fg process-title">{{ step.title }}</h3>
             <p class="text-body-md text-fg-soft mt-2">{{ step.description }}</p>
           </li>
@@ -162,20 +146,11 @@ import {
   ArrowRight,
   ArrowUpRight,
   Plus,
-  MapPin,
-  Languages,
-  Laptop,
-  Mountain,
-  Cpu,
-  Globe,
 } from 'lucide-vue-next'
-import type { ProjectCategory } from '../types'
 import { useLanguage } from '../composables/useLanguage'
 import { useScrollReveal } from '../composables/useScrollReveal'
 import { usePageSeo, absoluteUrl } from '../composables/usePageSeo'
 import SectionHeader from '../components/SectionHeader.vue'
-import TechIcon from '../components/TechIcon.vue'
-import TechIconSprite from '../components/TechIconSprite.vue'
 
 const ContactSection = defineAsyncComponent(() => import('../components/ContactSection.vue'))
 
@@ -191,51 +166,6 @@ onMounted(() => {
   ;[servicesRef, proofRef, processRef, faqRef].forEach(r => r.value && observe(r.value))
 })
 
-usePageSeo({
-  path: '/freelance',
-  title: () => currentLanguage.value === 'es'
-    ? 'Desarrollador freelance en Panamá — Irvin Benitez'
-    : 'Freelance developer in Panama — Irvin Benitez',
-  description: () => currentLanguage.value === 'es'
-    ? 'Desarrollo web a medida en Panamá: aplicaciones web, APIs y automatizaciones con IA. Cuéntame tu proyecto y te envío una propuesta clara.'
-    : 'Custom web development from Panama: web apps, APIs and AI automations. Tell me about your project and get a clear proposal.',
-  schema: () => [
-    {
-      '@type': 'ProfessionalService',
-      '@id': absoluteUrl('/freelance#service'),
-      name: 'Irvin Benitez — Desarrollo web freelance',
-      url: absoluteUrl('/freelance'),
-      image: absoluteUrl('/og-image.png'),
-      email: cvData.value.email,
-      founder: { '@id': absoluteUrl('/#person') },
-      address: { '@type': 'PostalAddress', addressLocality: 'Panamá Oeste', addressCountry: 'PA' },
-      areaServed: [{ '@type': 'Country', name: 'Panamá' }, 'Remote'],
-      hasOfferCatalog: {
-        '@type': 'OfferCatalog',
-        name: copy.value.servicesTitle,
-        itemListElement: copy.value.services.map(service => ({
-          '@type': 'Offer',
-          itemOffered: { '@type': 'Service', name: service.title, description: service.description },
-        })),
-      },
-    },
-    {
-      '@type': 'FAQPage',
-      mainEntity: copy.value.faq.map(item => ({
-        '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: { '@type': 'Answer', text: item.a },
-      })),
-    },
-    {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Inicio', item: absoluteUrl('/') },
-        { '@type': 'ListItem', position: 2, name: 'Freelance', item: absoluteUrl('/freelance') },
-      ],
-    },
-  ],
-})
 
 const scrollTo = (hash: string) => {
   const el = document.querySelector(hash)
@@ -243,8 +173,6 @@ const scrollTo = (hash: string) => {
   window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' })
 }
 
-const ICONS: Record<ProjectCategory, typeof Globe> = { geo: Mountain, ai: BotMessageSquare, iot: Cpu, web: Globe }
-const categoryIcon = (category?: ProjectCategory) => (category ? ICONS[category] : Globe)
 const shortTitle = (title: string) => title.split(' — ')[0] ?? title
 
 const proofProjects = computed(() => cvData.value.projects.filter(p => p.problem))
@@ -252,9 +180,9 @@ const proofProjects = computed(() => cvData.value.projects.filter(p => p.problem
 const facts = computed(() => {
   const es = currentLanguage.value === 'es'
   return [
-    { icon: MapPin, label: es ? 'Ubicación' : 'Location', value: `${cvData.value.location} · GMT-5` },
-    { icon: Laptop, label: es ? 'Modalidad' : 'Format', value: es ? 'Remoto' : 'Remote' },
-    { icon: Languages, label: es ? 'Idiomas' : 'Languages', value: cvData.value.technicalSkills.languages.join(' · ') },
+    { label: es ? 'Ubicación' : 'Location', value: `${cvData.value.location} · GMT-5` },
+    { label: es ? 'Modalidad' : 'Format', value: es ? 'Remoto' : 'Remote' },
+    { label: es ? 'Idiomas' : 'Languages', value: cvData.value.technicalSkills.languages.join(' · ') },
   ]
 })
 
@@ -363,6 +291,53 @@ const copy = computed(() => currentLanguage.value === 'es'
         { q: 'What happens after delivery?', a: 'You get the code and documentation. If you need support or improvements after launch, we agree on it in the proposal.' },
       ],
     })
+
+// Must run after `copy` exists: unhead evaluates these getters immediately on the client
+usePageSeo({
+  path: '/freelance',
+  title: () => currentLanguage.value === 'es'
+    ? 'Desarrollador freelance en Panamá — Irvin Benitez'
+    : 'Freelance developer in Panama — Irvin Benitez',
+  description: () => currentLanguage.value === 'es'
+    ? 'Desarrollo web a medida en Panamá: aplicaciones web, APIs y automatizaciones con IA. Cuéntame tu proyecto y te envío una propuesta clara.'
+    : 'Custom web development from Panama: web apps, APIs and AI automations. Tell me about your project and get a clear proposal.',
+  schema: () => [
+    {
+      '@type': 'ProfessionalService',
+      '@id': absoluteUrl('/freelance#service'),
+      name: 'Irvin Benitez — Desarrollo web freelance',
+      url: absoluteUrl('/freelance'),
+      image: absoluteUrl('/og-image.png'),
+      email: cvData.value.email,
+      founder: { '@id': absoluteUrl('/#person') },
+      address: { '@type': 'PostalAddress', addressLocality: 'Panamá Oeste', addressCountry: 'PA' },
+      areaServed: [{ '@type': 'Country', name: 'Panamá' }, 'Remote'],
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: copy.value.servicesTitle,
+        itemListElement: copy.value.services.map(service => ({
+          '@type': 'Offer',
+          itemOffered: { '@type': 'Service', name: service.title, description: service.description },
+        })),
+      },
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: copy.value.faq.map(item => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a },
+      })),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Inicio', item: absoluteUrl('/') },
+        { '@type': 'ListItem', position: 2, name: 'Freelance', item: absoluteUrl('/freelance') },
+      ],
+    },
+  ],
+})
 </script>
 
 <style scoped>
@@ -408,18 +383,15 @@ const copy = computed(() => currentLanguage.value === 'es'
 }
 
 .facts {
-  border-radius: var(--radius-xxl);
-  border: 1px solid var(--border);
-  background: var(--surface-container);
-  padding: 8px 24px;
+  border-top: 1px solid var(--border);
 }
 
 .fact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   padding: 16px 0;
-}
-
-.fact + .fact {
-  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 /* ═══════ Cards ═══════ */
@@ -458,18 +430,49 @@ const copy = computed(() => currentLanguage.value === 'es'
   margin-bottom: 20px;
 }
 
-.stack-chip {
+.case-list {
+  border-top: 1px solid var(--border);
+}
+
+.case-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+@media (min-width: 768px) {
+  .case-row {
+    grid-template-columns: 220px 1fr auto;
+    gap: 32px;
+    align-items: baseline;
+  }
+}
+
+.case-title {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--fg);
+}
+
+.case-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  min-height: 44px;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
-  color: var(--fg-soft);
-  background: var(--surface-high);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-full);
-  padding: 3px 10px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.case-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 /* ═══════ Process ═══════ */
@@ -504,21 +507,15 @@ const copy = computed(() => currentLanguage.value === 'es'
   padding-left: 64px;
 }
 
-.process-number {
+.process-dot {
   position: absolute;
-  left: 0;
-  top: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  left: 14px;
+  top: 14px;
+  width: 13px;
+  height: 13px;
   border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--accent);
-  color: var(--accent);
-  font-family: 'Cascadia Code', 'Fira Code', ui-monospace, monospace;
-  font-size: 12px;
+  background: var(--accent);
+  box-shadow: 0 0 0 5px var(--bg);
   z-index: 1;
 }
 
@@ -532,6 +529,7 @@ const copy = computed(() => currentLanguage.value === 'es'
   }
 
   .process::before {
+    top: 20px;
     right: 20px;
     bottom: auto;
     width: auto;
@@ -549,12 +547,15 @@ const copy = computed(() => currentLanguage.value === 'es'
     padding-left: 0;
   }
 
-  .process-number {
+  .process-dot {
     position: relative;
+    display: block;
+    left: 14px;
+    top: 14px;
   }
 
   .process-title {
-    margin-top: 20px;
+    margin-top: 36px;
   }
 }
 
